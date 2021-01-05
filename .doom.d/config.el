@@ -46,6 +46,8 @@
   '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs checker "  ")))
 
 
+(setq lispy-compat '(edebug cider magit-blame-mode))
+
 ;; If you use `org' and don't want your org ***REMOVED***les in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
