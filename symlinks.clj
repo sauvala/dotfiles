@@ -6,19 +6,28 @@
          '[clojure.string :as str])
 
 ;; Add links here
-(def configs [".doom.d/"
-              ".spacemacs.d/"])
+(def under-home [".doom.d/"
+                 ".spacemacs.d/"])
+(def under-config ["starship.toml"
+                   "kitty/"])
 
 (def home-dir (System/getProperty "user.home"))
+(def config-dir (str/join java.io.File/separator [home-dir ".config"]))
 (def dotfiles-path (-> *file*
                        io/file
                        .getParent))
 
-(doseq [conf configs]
-  (print "linking" conf "... ")
-  (let [link-dir (str/join java.io.File/separator [dotfiles-path conf])
-        {:keys [err out]} (sh "ln" "-snfv" link-dir home-dir)]
-    (if (str/blank? err)
-      (print out)
-      (print err))))
-  
+(defn link [col dest]
+  (doseq [dir col]
+    (print "linking" dir "... ")
+    (let [link-dir (str/join java.io.File/separator [dotfiles-path dir])
+          {:keys [err out]} (sh "ln" "-snfv" link-dir dest)]
+      (if (str/blank? err)
+        (print out)
+        (print err)))))
+
+;; Link directories to home dir
+(link under-home home-dir)
+
+;; Link config files under ~/.config
+(link under-config config-dir)
