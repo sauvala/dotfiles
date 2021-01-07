@@ -9,6 +9,9 @@
 (setq user-full-name "Janne Sauvala"
       user-mail-address "janne.sauvala@gmail.com")
 
+
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
 ;; Doom exposes ***REMOVED***ve (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -45,7 +48,7 @@
   '(bar workspace-name window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info)
   '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs checker "  ")))
 
-
+;; Lipsy combability mode
 (setq lispy-compat '(edebug cider magit-blame-mode))
 
 ;; If you use `org' and don't want your org ***REMOVED***les in the default location below,
