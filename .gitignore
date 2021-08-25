@@ -1,7 +1,3 @@
 # macos
 .DS_Store
 
-# spacemacs
-.spacemacs.d/.spacemacs.env
-.spacemacs.d/recentf
-
