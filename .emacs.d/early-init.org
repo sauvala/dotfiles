@@ -1,0 +1,182 @@
+#+TITLE: Emacs early init con***REMOVED***guration
+#+AUTHOR: Janne Sauvala
+#+PROPERTY: header-args:emacs-lisp :results silent :tangle early-init.el
+
+Taken from Doom Emacs guides:
+https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly
+https://github.com/hlissner/doom-emacs/blob/develop/early-init.el
+And https://github.com/meatcar/emacs.d
+
+* Add lexical binding and read mode
+#+begin_src emacs-lisp
+  ;;; early-init.el -*- lexical-binding: t ; eval: (view-mode -1) -*-
+#+end_src
+
+* Tune GC
+#+begin_src emacs-lisp
+  (defvar js/gc-cons-threshold 16777216) ; 16mb
+  (setq gc-cons-threshold most-positive-***REMOVED***xnum
+          gc-cons-percentage 0.6)
+  
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq gc-cons-threshold js/gc-cons-threshold
+                    gc-cons-percentage 0.1)))
+#+end_src
+
+** Tune for minibuffer
+#+begin_src emacs-lisp
+  (defun js/defer-garbage-collection-h ()
+    (setq gc-cons-threshold most-positive-***REMOVED***xnum))
+  
+  (defun js/restore-garbage-collection-h ()
+    (run-at-time
+     1 nil (lambda () (setq gc-cons-threshold js/gc-cons-threshold))))
+  
+  (add-hook 'minibuffer-setup-hook #'js/defer-garbage-collection-h)
+  (add-hook 'minibuffer-exit-hook #'js/restore-garbage-collection-h)
+#+end_src
+
+* Improve IO
+Read process output max is taken from LSP performance guide. I could modify it only when lsp-mode is activated.
+Check [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Emacs lsp-mode performance]] for tips.
+#+begin_src emacs-lisp
+  (setq read-process-output-max 65536) ; (* 64 1024)
+#+end_src
+
+* Defer compilation
+#+begin_src emacs-lisp
+  (setq comp-deferred-compilation nil
+      native-comp-deferred-compilation nil)
+#+end_src
+
+* Prioritise non-byte-compiled source ***REMOVED***les
+#+begin_src emacs-lisp
+  (setq load-prefer-newer noninteractive)
+#+end_src
+
+* Disable package reading when starting 
+#+begin_src emacs-lisp
+  (setq package-enable-at-startup nil
+        package--init-***REMOVED***le-ensured t)
+#+end_src
+
+* Unset =***REMOVED***le-name-handler-alist= temporarily 
+#+begin_src emacs-lisp
+  (defvar js--***REMOVED***le-name-handler-alist ***REMOVED***le-name-handler-alist)
+  (setq ***REMOVED***le-name-handler-alist nil)
+  (add-hook 'emacs-startup-hook
+    (lambda ()
+      (setq ***REMOVED***le-name-handler-alist js--***REMOVED***le-name-handler-alist)))
+#+end_src
+
+* General UI changes
+#+begin_src emacs-lisp
+  (push '(menu-bar-lines . 0)  default-frame-alist)
+  (push '(tool-bar-lines . 0)  default-frame-alist)
+  (push '(vertical-scroll-bars) default-frame-alist)
+  (setq menu-bar-mode nil
+        tool-bar-mode nil
+        scroll-bar-mode nil)
+  (set-fringe-mode 10)
+  (setq visible-bell t
+        frame-inhibit-implied-resize t
+        initial-major-mode 'fundamental-mode)
+#+end_src
+
+** Titlebar
+#+begin_src emacs-lisp
+  (setq ns-use-proxy-icon nil)
+  (setq frame-title-format nil)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+#+end_src
+
+To remove icons from the title bar run in the command line
+#+begin_src sh
+  defaults write org.gnu.Emacs HideDocumentIcon YES
+#+end_src
+
+* Font
+#+begin_src emacs-lisp
+  (defvar js/default-font-size 150)
+  (defvar js/default-variable-font-size 150)
+  (add-to-list 'default-frame-alist '(font . "JetBrains Mono"))
+  
+  (set-face-attribute 'default nil
+                      :font "JetBrains Mono"
+                      :weight 'light
+                      :height js/default-font-size)
+ 
+  ;; Set the ***REMOVED***xed pitch face
+  (set-face-attribute '***REMOVED***xed-pitch nil
+                      :font "JetBrains Mono"
+                      :weight 'light
+                      :height js/default-font-size)
+ 
+  ;; Set the variable pitch face
+  (set-face-attribute 'variable-pitch nil
+                      :font "Iosevka Aile"
+                      :height js/default-variable-font-size
+                      :weight 'light)
+#+end_src
+
+* Package management
+Con***REMOVED***gure Straight.el
+#+begin_src emacs-lisp
+  (setq straight-use-package-by-default t
+        use-package-always-defer t
+        use-package-always-ensure t
+        straight-cache-autoloads t
+        use-package-verbose t)
+  
+  (defvar bootstrap-version)
+  (let ((bootstrap-***REMOVED***le
+         (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+          (bootstrap-version 5))
+    (unless (***REMOVED***le-exists-p bootstrap-***REMOVED***le)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+      (load bootstrap-***REMOVED***le nil 'nomessage))
+  
+  (straight-use-package 'use-package)
+  
+  ;; Load the helper package for commands like `straight-x-clean-unused-repos'
+  (require 'straight-x)
+#+end_src
+
+* Benchmarking
+** Esup
+#+begin_src emacs-lisp
+  (use-package esup
+    :commands esup)
+#+end_src
+
+** benchmark-init
+#+begin_src emacs-lisp
+  (use-package benchmark-init
+    :demand t
+    :straight (benchmark-init :host github
+                              :repo "nasyxx/benchmark-init-el")
+    :con***REMOVED***g
+    (benchmark-init/activate)
+    :hook
+    (after-init . benchmark-init/deactivate))
+#+end_src
+
+* GC magic hack
+#+begin_src emacs-lisp
+  (use-package gcmh
+    :hook (emacs-startup . gcmh-mode)
+    :con***REMOVED***g
+    (gcmh-mode 1))
+#+end_src
+
+* End =early-init.el=
+#+begin_src emacs-lisp
+  (provide 'early-init)
+#+end_src
