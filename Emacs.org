@@ -716,6 +716,10 @@ Javascript and Typescript
   (use-package go-mode)
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package gotest)
+#+end_src
+
 *** Java
 #+begin_src emacs-lisp
   (use-package lsp-java)

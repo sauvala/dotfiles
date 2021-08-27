@@ -439,6 +439,8 @@ folder, otherwise delete a word"
 
 (use-package go-mode)
 
+(use-package gotest)
+
 (use-package lsp-java)
 
 (use-package yaml-mode)
