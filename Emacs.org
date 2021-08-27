@@ -213,38 +213,8 @@
   
   (use-package evil-collection
     :after evil
-    ;; :init
     :con***REMOVED***g
-    ;; (dolist (mode '(anaconda-mode
-    ;;                 buff-menu
-    ;;                 calc
-    ;;                 comint
-    ;;                 company
-    ;;                 custom
-    ;;                 eldoc
-    ;;                 elisp-mode
-    ;;                 ert
-    ;;                 free-keys
-    ;;                 helm
-    ;;                 indent
-    ;;                 image
-    ;;                 kotlin-mode
-    ;;                 occur
-    ;;                 outline
-    ;;                 package-menu
-    ;;                 python-mode
-    ;;                 go-mode
-    ;;                 simple
-    ;;                 slime
-    ;;                 lispy))
-    ;;   (setq evil-collection-mode-list (delq mode evil-collection-mode-list))
-      (evil-collection-init))
-    ;(evil-collection-outline-bind-tab-p nil)
-    ;:con***REMOVED***g
-    ;(setq evil-collection-mode-list
-    ;      (remove 'lispy evil-collection-mode-list))
-    ;(evil-collection-init)
-    ;; )
+    (evil-collection-init))
 #+end_src
 
 ** which-key
