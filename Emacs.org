@@ -561,7 +561,7 @@ Add icons to ***REMOVED***les names
 
 ** Center content
 #+begin_src emacs-lisp
-  ;; (use-package centered-window)
+  (use-package centered-window)
 #+end_src
 
 ** Sublimity
