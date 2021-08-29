@@ -96,6 +96,7 @@
   - [[#visual-***REMOVED***ll][Visual ***REMOVED***ll]]
   - [[#fonts-and-bullets][Fonts and bullets]]
   - [[#org-roam][Org-roam]]
+- [[#markdown-mode][Markdown mode]]
 - [[#other-tools][Other tools]]
   - [[#speed-typing][Speed typing]]
   - [[#elisp-bug-hunter][Elisp bug hunter]]
@@ -1184,6 +1185,14 @@ Javascript and Typescript
       "ort"  '(org-roam-dailies-capture-today :which-key "capture-today"))
     :con***REMOVED***g
     (org-roam-setup))
+#+end_src
+
+* Markdown mode
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :mode ("README\\.md\\'" . gfm-mode)
+    :init (setq markdown-command "multimarkdown")
+    :custom (markdown-max-image-size '(850 . 900)))
 #+end_src
 
 * Other tools

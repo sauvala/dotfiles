@@ -817,6 +817,11 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (org-roam-setup))
 
+(use-package markdown-mode
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :custom (markdown-max-image-size '(850 . 900)))
+
 (use-package speed-type)
 
 (use-package bug-hunter)
