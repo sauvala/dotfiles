@@ -323,6 +323,8 @@ folder, otherwise delete a word"
 
 (use-package centered-window)
 
+(use-package olivetti)
+
 ;; (use-package sublimity
 ;;   :con***REMOVED***g
 ;;   (require 'sublimity-map)
