@@ -1,6 +1,7 @@
 ;;; init.el -*- lexical-binding: t ; eval: (view-mode -1) -*-
 
-(setq comp-async-report-warnings-errors nil)
+(setq native-comp-async-report-warnings-errors nil)
+(add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory))
 
 (use-package auto-package-update
   :con***REMOVED***g
@@ -206,7 +207,7 @@
 ;; Treat clipboard input as UTF-8 string ***REMOVED***rst; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-(mac-auto-operator-composition-mode t)
+;;(mac-auto-operator-composition-mode t)
 
 (use-package orderless
   :defer 0.1
@@ -827,3 +828,26 @@ folder, otherwise delete a word"
 (use-package speed-type)
 
 (use-package bug-hunter)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init ***REMOVED***le should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values '((org-duration-format . h:mm))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init ***REMOVED***le should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:family "JetBrains Mono" :height 125))))
+ '(mode-line-inactive ((t (:family "JetBrains Mono" :height 125))))
+ '(org-document-title ((t (:weight bold :height 1.3))))
+ '(org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
+ '(org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
+ '(org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
+ '(org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
+ '(org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
+ '(org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
+ '(org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
+ '(org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
+ '(vertico-current ((t (:background "#3c3836")))))

@@ -109,7 +109,8 @@
 
 * Native compilation
 #+begin_src emacs-lisp
-  (setq comp-async-report-warnings-errors nil)
+  (setq native-comp-async-report-warnings-errors nil)
+  (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory))
 #+end_src
 
 * Auto update packages
@@ -389,8 +390,9 @@ https://www.masteringemacs.org/article/working-coding-systems-unicode-emacs
 #+end_src
 
 ** Enable font ligatures
+Needed only in emacs-mac but not in emacs-plus
 #+begin_src emacs-lisp
-  (mac-auto-operator-composition-mode t)
+  ;;(mac-auto-operator-composition-mode t)
 #+end_src
 
 * Completion
