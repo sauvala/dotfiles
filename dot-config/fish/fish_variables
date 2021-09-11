@@ -1,0 +1,34 @@
+# This ***REMOVED***le contains ***REMOVED***sh universal variable de***REMOVED***nitions.
+# VERSION: 3.0
+SETUVAR __***REMOVED***sh_initialized:3100
+SETUVAR _***REMOVED***sher_jomik_2F_***REMOVED***sh_2D_gruvbox_***REMOVED***les:/Users/janne/\x2econ***REMOVED***g/***REMOVED***sh/functions/theme_gruvbox\x2e***REMOVED***sh
+SETUVAR _***REMOVED***sher_jorgebucaran_2F_***REMOVED***sher_***REMOVED***les:/Users/janne/\x2econ***REMOVED***g/***REMOVED***sh/functions/***REMOVED***sher\x2e***REMOVED***sh\x1e/Users/janne/\x2econ***REMOVED***g/***REMOVED***sh/completions/***REMOVED***sher\x2e***REMOVED***sh
+SETUVAR _***REMOVED***sher_plugins:jorgebucaran/***REMOVED***sher\x1ejomik/***REMOVED***sh\x2dgruvbox
+SETUVAR ***REMOVED***sh_color_autosuggestion:FFC473
+SETUVAR ***REMOVED***sh_color_cancel:\x2dr
+SETUVAR ***REMOVED***sh_color_command:FF9400
+SETUVAR ***REMOVED***sh_color_comment:A63100
+SETUVAR ***REMOVED***sh_color_cwd:green
+SETUVAR ***REMOVED***sh_color_cwd_root:red
+SETUVAR ***REMOVED***sh_color_end:FF4C00
+SETUVAR ***REMOVED***sh_color_error:FFDD73
+SETUVAR ***REMOVED***sh_color_escape:00a6b2
+SETUVAR ***REMOVED***sh_color_history_current:\x2d\x2dbold
+SETUVAR ***REMOVED***sh_color_host:normal
+SETUVAR ***REMOVED***sh_color_host_remote:yellow
+SETUVAR ***REMOVED***sh_color_match:\x2d\x2dbackground\x3dbrblue
+SETUVAR ***REMOVED***sh_color_normal:normal
+SETUVAR ***REMOVED***sh_color_operator:00a6b2
+SETUVAR ***REMOVED***sh_color_param:FFC000
+SETUVAR ***REMOVED***sh_color_quote:BF9C30
+SETUVAR ***REMOVED***sh_color_redirection:BF5B30
+SETUVAR ***REMOVED***sh_color_search_match:bryellow\x1e\x2d\x2dbackground\x3dbrblack
+SETUVAR ***REMOVED***sh_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrblack
+SETUVAR ***REMOVED***sh_color_status:red
+SETUVAR ***REMOVED***sh_color_user:brgreen
+SETUVAR ***REMOVED***sh_color_valid_path:\x2d\x2dunderline
+SETUVAR ***REMOVED***sh_key_bindings:***REMOVED***sh_default_key_bindings
+SETUVAR ***REMOVED***sh_pager_color_completion:normal
+SETUVAR ***REMOVED***sh_pager_color_description:B3A06D\x1eyellow
+SETUVAR ***REMOVED***sh_pager_color_pre***REMOVED***x:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
+SETUVAR ***REMOVED***sh_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan

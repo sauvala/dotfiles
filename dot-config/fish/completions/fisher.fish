@@ -1,0 +1,7 @@
+complete --command ***REMOVED***sher --exclusive --long help --description "Print help"
+complete --command ***REMOVED***sher --exclusive --long version --description "Print version"
+complete --command ***REMOVED***sher --exclusive --condition __***REMOVED***sh_use_subcommand --arguments install --description "Install plugins"
+complete --command ***REMOVED***sher --exclusive --condition __***REMOVED***sh_use_subcommand --arguments update --description "Update installed plugins"
+complete --command ***REMOVED***sher --exclusive --condition __***REMOVED***sh_use_subcommand --arguments remove --description "Remove installed plugins"
+complete --command ***REMOVED***sher --exclusive --condition __***REMOVED***sh_use_subcommand --arguments list --description "List installed plugins matching regex"
+complete --command ***REMOVED***sher --exclusive --condition "__***REMOVED***sh_seen_subcommand_from update remove" --arguments "(***REMOVED***sher list)"

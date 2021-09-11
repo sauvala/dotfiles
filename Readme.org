@@ -1,0 +1,2 @@
+# To create symlinks:
+stow -v --dot***REMOVED***les .
