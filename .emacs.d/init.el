@@ -614,6 +614,79 @@ folder, otherwise delete a word"
 
 (use-package bufler)
 
+(use-package all-the-icons-dired) 
+
+(use-package dired
+  :ensure nil
+  :after evil-collection
+  :straight nil
+  :defer 1
+  :commands (dired dired-jump)
+  :con***REMOVED***g
+  (setq dired-listing-switches "-agho --group-directories-***REMOVED***rst"
+        dired-omit-***REMOVED***les "^\\.[^.].*"
+        dired-omit-verbose nil
+        dired-hide-details-hide-symlink-targets nil
+        delete-by-moving-to-trash t)
+
+  (autoload 'dired-omit-mode "dired-x")
+
+  (add-hook 'dired-load-hook
+            (lambda ()
+              (interactive)
+              (dired-collapse)))
+
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (interactive)
+              (dired-omit-mode 1)
+              (dired-hide-details-mode 1)
+              (unless (or dw/is-termux
+                          (s-equals? "/gnu/store/" (expand-***REMOVED***le-name default-directory)))
+                (all-the-icons-dired-mode 1))
+              (hl-line-mode 1)))
+
+  (use-package dired-rainbow
+    :defer 2
+    :con***REMOVED***g
+    (dired-rainbow-de***REMOVED***ne-chmod directory "#6cb2eb" "d.*")
+    (dired-rainbow-de***REMOVED***ne html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+    (dired-rainbow-de***REMOVED***ne xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+    (dired-rainbow-de***REMOVED***ne document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+    (dired-rainbow-de***REMOVED***ne markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "text***REMOVED***le" "txt"))
+    (dired-rainbow-de***REMOVED***ne database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+    (dired-rainbow-de***REMOVED***ne media "#de751f" ("mp3" "mp4" "mkv" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
+    (dired-rainbow-de***REMOVED***ne image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+    (dired-rainbow-de***REMOVED***ne log "#c17d11" ("log"))
+    (dired-rainbow-de***REMOVED***ne shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+    (dired-rainbow-de***REMOVED***ne interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+    (dired-rainbow-de***REMOVED***ne compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+    (dired-rainbow-de***REMOVED***ne executable "#8cc4ff" ("exe" "msi"))
+    (dired-rainbow-de***REMOVED***ne compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+    (dired-rainbow-de***REMOVED***ne packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+    (dired-rainbow-de***REMOVED***ne encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+    (dired-rainbow-de***REMOVED***ne fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+    (dired-rainbow-de***REMOVED***ne partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+    (dired-rainbow-de***REMOVED***ne vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+    (dired-rainbow-de***REMOVED***ne-chmod executable-unix "#38c172" "-.*x.*"))
+
+  (use-package dired-single
+    :defer t)
+
+  (use-package dired-ranger
+    :defer t)
+
+  (use-package dired-collapse
+    :defer t)
+
+  (evil-collection-de***REMOVED***ne-key 'normal 'dired-mode-map
+                              "h" 'dired-single-up-directory
+                              "H" 'dired-omit-mode
+                              "l" 'dired-single-buffer
+                              "y" 'dired-ranger-copy
+                              "X" 'dired-ranger-move
+                              "p" 'dired-ranger-paste))
+
 ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
   (defun js/org-mode-setup ()
                (org-indent-mode)
@@ -825,29 +898,8 @@ folder, otherwise delete a word"
   :init (setq markdown-command "multimarkdown")
   :custom (markdown-max-image-size '(850 . 900)))
 
+(use-package transmission)
+
 (use-package speed-type)
 
 (use-package bug-hunter)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init ***REMOVED***le should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values '((org-duration-format . h:mm))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init ***REMOVED***le should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(mode-line ((t (:family "JetBrains Mono" :height 125))))
- '(mode-line-inactive ((t (:family "JetBrains Mono" :height 125))))
- '(org-document-title ((t (:weight bold :height 1.3))))
- '(org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
- '(org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
- '(org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
- '(org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
- '(org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
- '(org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
- '(org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
- '(org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
- '(vertico-current ((t (:background "#3c3836")))))
