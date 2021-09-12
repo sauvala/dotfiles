@@ -33,4 +33,5 @@ set -x LC_CTYPE en_US.UTF-8
 source ~/.iterm2_shell_integration.(basename $SHELL)
 
 # Fish gruvbox theme
-theme_grubox dark medium
+base16-gruvbox-dark-medium
+
