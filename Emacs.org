@@ -793,8 +793,8 @@ Javascript and Typescript
   (use-package lsp-pyright
     :after lsp-mode
     :hook (python-mode . (lambda ()
-                        (require 'lsp-pyright)
-                        (lsp-deferred))))
+                           (require 'lsp-pyright)
+                           (lsp-deferred))))
 #+end_src
 
 **** dap-mode

@@ -497,8 +497,8 @@ folder, otherwise delete a word"
 (use-package lsp-pyright
   :after lsp-mode
   :hook (python-mode . (lambda ()
-                      (require 'lsp-pyright)
-                      (lsp-deferred))))
+                         (require 'lsp-pyright)
+                         (lsp-deferred))))
 
 (use-package dap-mode
   ;; Uncomment the con***REMOVED***g below if you want all UI panes to be hidden by default!
