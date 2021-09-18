@@ -98,27 +98,34 @@ To remove icons from the title bar run in the command line
 #+end_src
 
 * Font
+Fonts to try out:
+- [[https://typeof.net/Iosevka/][JetBrains Mono]]
+- [[https://typeof.net/Iosevka/][Iosevka]]
+- [[https://github.com/i-tu/Hasklig][Hasklig]]
+- [[Dejavu Sans Mono][Dejavu Sans Mono]]
+- [[https://design.ubuntu.com/font/][Ubuntu and Ubuntu Monospace]]
+- [[https://mozilla.github.io/Fira/][Fira Mono]]
 #+begin_src emacs-lisp
-  (defvar js/default-font-size 150)
-  (defvar js/default-variable-font-size 150)
-  (add-to-list 'default-frame-alist '(font . "JetBrains Mono"))
+  (defvar js/default-font-size 170)
+  (defvar js/default-variable-font-size 170)
+  (add-to-list 'default-frame-alist '(font . "Iosevka SS14"))
   
   (set-face-attribute 'default nil
-                      :font "JetBrains Mono"
+                      :font "Iosevka SS14"
                       :weight 'light
                       :height js/default-font-size)
- 
+  
   ;; Set the ***REMOVED***xed pitch face
   (set-face-attribute '***REMOVED***xed-pitch nil
-                      :font "JetBrains Mono"
+                      :font "Iosevka SS14"
                       :weight 'light
                       :height js/default-font-size)
- 
+  
   ;; Set the variable pitch face
   (set-face-attribute 'variable-pitch nil
-                      :font "Iosevka Aile"
-                      :height js/default-variable-font-size
-                      :weight 'light)
+                      :font "Iosevka SS14"
+                      :weight 'light
+                      :height js/default-variable-font-size)
 #+end_src
 
 * Package management

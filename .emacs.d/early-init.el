@@ -51,26 +51,26 @@
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 
-(defvar js/default-font-size 150)
-(defvar js/default-variable-font-size 150)
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono"))
+(defvar js/default-font-size 170)
+(defvar js/default-variable-font-size 170)
+(add-to-list 'default-frame-alist '(font . "Iosevka SS14"))
 
 (set-face-attribute 'default nil
-                    :font "JetBrains Mono"
+                    :font "Iosevka SS14"
                     :weight 'light
                     :height js/default-font-size)
 
 ;; Set the ***REMOVED***xed pitch face
 (set-face-attribute '***REMOVED***xed-pitch nil
-                    :font "JetBrains Mono"
+                    :font "Iosevka SS14"
                     :weight 'light
                     :height js/default-font-size)
 
 ;; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil
-                    :font "Iosevka Aile"
-                    :height js/default-variable-font-size
-                    :weight 'light)
+                    :font "Iosevka SS14"
+                    :weight 'light
+                    :height js/default-variable-font-size)
 
 (setq straight-use-package-by-default t
       use-package-always-defer t
