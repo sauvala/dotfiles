@@ -30,8 +30,11 @@ set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
 
 # iTerm2 ***REMOVED***sh integration
-source ~/.iterm2_shell_integration.(basename $SHELL)
+source ~/.iterm2_shell_integration.***REMOVED***sh
 
 # Fish gruvbox theme
 base16-gruvbox-dark-medium
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/janne.sauvala/Downloads/google-cloud-sdk 2/path.***REMOVED***sh.inc' ]; . '/Users/janne.sauvala/Downloads/google-cloud-sdk 2/path.***REMOVED***sh.inc'; end
