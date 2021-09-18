@@ -150,7 +150,7 @@
 * Setup path from shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
-    :con***REMOVED***g
+    :init
     (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize)))
 #+end_src
