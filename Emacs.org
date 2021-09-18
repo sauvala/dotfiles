@@ -82,6 +82,7 @@
   - [[#flycheck][Flycheck]]
   - [[#avy][Avy]]
   - [[#ace-window][Ace-window]]
+  - [[#transpose-frame][Transpose frame]]
   - [[#expand-region][Expand region]]
   - [[#commenting-lines][Commenting lines]]
   - [[#winner-mode][Winner mode]]
@@ -907,6 +908,11 @@ Javascript and Typescript
     ;(aw-background t)
     :con***REMOVED***g
     (ace-window-display-mode 1))
+#+end_src
+
+*** Transpose frame
+#+begin_src emacs-lisp
+  (use-package transpose-frame)
 #+end_src
 
 *** Expand region
