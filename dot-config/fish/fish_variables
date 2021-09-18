@@ -48,7 +48,7 @@ SETUVAR ***REMOVED***sh_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackgro
 SETUVAR ***REMOVED***sh_color_status:red
 SETUVAR ***REMOVED***sh_color_user:brgreen
 SETUVAR ***REMOVED***sh_color_valid_path:\x2d\x2dunderline
-SETUVAR ***REMOVED***sh_key_bindings:***REMOVED***sh_default_key_bindings
+SETUVAR ***REMOVED***sh_key_bindings:***REMOVED***sh_vi_key_bindings
 SETUVAR ***REMOVED***sh_pager_color_completion:normal
 SETUVAR ***REMOVED***sh_pager_color_description:yellow\x1e\x2d\x2ddim
 SETUVAR ***REMOVED***sh_pager_color_pre***REMOVED***x:white\x1e\x2d\x2dbold
