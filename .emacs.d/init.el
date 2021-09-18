@@ -873,6 +873,28 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (org-roam-setup))
 
+(use-package org-brain
+  :init
+  (setq org-brain-path "/Volumes/GoogleDrive/My Drive/Org/org-brain")
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+  :con***REMOVED***g
+  (bind-key "C-c b" 'org-brain-pre***REMOVED***x-map org-mode-map)
+  (setq org-id-track-globally t)
+  (setq org-id-locations-***REMOVED***le "~/.emacs.d/.org-id-locations")
+  (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+  (push '("b" "Brain" plain (function org-brain-goto-end)
+          "* %i%?" :empty-lines 1)
+        org-capture-templates)
+  (setq org-brain-visualize-default-choices 'all)
+  (setq org-brain-title-max-length 12)
+  (setq org-brain-include-***REMOVED***le-entries nil
+        org-brain-***REMOVED***le-entries-use-title nil))
+
+(use-package polymode
+  :con***REMOVED***g
+  (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode))
+
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown")
