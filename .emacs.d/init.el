@@ -668,148 +668,80 @@ folder, otherwise delete a word"
 (use-package dired-collapse)
 
 ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
-  (defun js/org-mode-setup ()
-               (org-indent-mode)
-               ;(variable-pitch-mode 1) ;; Causes table columns not be aligned
-               (auto-***REMOVED***ll-mode 0)
-               (visual-line-mode 1)
-               (setq evil-auto-indent nil)
-               (diminish org-indent-mode))
-;; Make sure org-indent face is available
-;(require 'org-indent)
+(defun js/org-mode-setup ()
+  (org-indent-mode)
+ ;; (variable-pitch-mode 1) ;; Causes table columns not be aligned
+  (auto-***REMOVED***ll-mode 0)
+  (visual-line-mode 1)
+  (setq evil-auto-indent nil)
+  (diminish org-indent-mode))
 
-    ;; Ensure that anything that should be ***REMOVED***xed-pitch in Org ***REMOVED***les appears that way
-    ;(set-face-attribute 'org-block nil :foreground nil :inherit '***REMOVED***xed-pitch)
-    ;(set-face-attribute 'org-table nil  :inherit '***REMOVED***xed-pitch)
-    ;(set-face-attribute 'org-formula nil  :inherit '***REMOVED***xed-pitch)
-    ;(set-face-attribute 'org-code nil   :inherit '(shadow ***REMOVED***xed-pitch))
-    ;(set-face-attribute 'org-indent nil :inherit '(org-hide ***REMOVED***xed-pitch))
-    ;(set-face-attribute 'org-verbatim nil :inherit '(shadow ***REMOVED***xed-pitch))
-    ;(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face ***REMOVED***xed-pitch))
-    ;(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face ***REMOVED***xed-pitch))
-    ;(set-face-attribute 'org-checkbox nil :inherit '***REMOVED***xed-pitch)
-  (use-package org ;;org-mode
-    ;; :straight (:host github
-                   ;; Install cutting-edge version of org-mode, and from a mirror,
-                   ;; because code.orgmode.org runs on a potato.
-                   ;; :repo "emacs-straight/org-mode"
-                   ;; :***REMOVED***les ("*.el" "lisp/*.el" "contrib/lisp/*.el" "contrib/scripts")
-                   ;; HACK A necessary hack because org requires a compilation step
-                   ;;      after being cloned, and during that compilation a
-                   ;;      org-version.el is generated with these two functions, which
-                   ;;      return the output of a 'git describe ...'  call in the repo's
-                   ;;      root. Of course, this command won't work in a sparse clone,
-                   ;;      and more than that, initiating these compilation step is a
-                   ;;      hassle, so...
-                   ;; :pre-build
-                   ;; (with-temp-***REMOVED***le (expand-***REMOVED***le-name "org-version.el" (straight--repos-dir "org")) 
-                   ;;   (insert "(fset 'org-release (lambda () \"9.5\"))\n"
-                   ;;           "(fset 'org-git-version #'ignore)\n"
-                   ;;           "(provide 'org-version)\n"))
-                   ;; Prevents built-in Org from sneaking into the byte-compilation of
-                   ;; `org-plus-contrib', and inform other packages that `org-mode'
-                   ;; satis***REMOVED***es the `org' dependency: raxod502/straight.el#352
-                   ;;:includes (org org-plus-contrib))
-    :preface
-    (setq org-modules
-          '(;; ol-w3m
-            ;; ol-bbdb
-            ol-bibtex
-            ;; org-tempo
-            ;; org-crypt
-            ;; org-habit
-            org-bookmark
-            org-eshell
-            org-irc
-            ;;org-indent
-            ;; ol-docview
-            ;; ol-gnus
-        ;; ol-info
-        ;; ol-irc
-        ;; ol-mhe
-        ;; ol-rmail
-        ;; ol-eww
-        ))
-    :hook (org-mode . js/org-mode-setup)
-    :general
-    (js/leader-key-def
-      "o"   '(:ignore t :which-key "org")
-      "ot"  '(org-babel-tangle :which-key "tangle")
-      "oe"  '(org-ctrl-c-ctrl-c :which-key "eval"))
-    :custom
-    (org-ellipsis " ▾")
-    (org-hide-emphasis-markers t)
-    (org-src-fontify-natively t)
-    (org-fontify-quote-and-verse-blocks t)
-    (org-src-tab-acts-natively t)
-    (org-edit-src-content-indentation 2)
-    (org-hide-block-startup nil)
-    (org-src-preserve-indentation nil)
-    (org-startup-folded 'content)
-    (org-cycle-separator-lines 2)
-    (org-structure-template-alist '(("a" . "export ascii")
-                                    ("c" . "center")
-                                    ("C" . "comment")
-                                    ("e" . "example")
-                                    ("E" . "export")
-                                    ("h" . "export html")
-                                    ("l" . "export latex")
-                                    ("q" . "quote")
-                                    ("s" . "src")
-                                    ("v" . "verse")
-                                    ("el" . "src emacs-lisp")
-                                    ("py" . "src python")
-                                    ("json" . "src json")
-                                    ("yaml" . "src yaml")
-                                    ("sh" . "src sh")
-                                    ("go" . "src go")
-                                    ("clj" . "src clojure")))
-    :custom-face
-    (org-document-title ((t (:weight bold :height 1.3))))
-    (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
-    (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
-    (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
-    (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
-    (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
-    (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
-    (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-    (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
-    ;:con***REMOVED***g
-    ;(set-face-attribute 'org-document-title nil :font "JetBrains Mono" :weight 'bold :height 1.3)
-    ;(setq org-modules
-    ;      '(org-crypt
-    ;        org-habit
-    ;        org-bookmark
-    ;        org-eshell
-    ;        org-irc))
-
-    ;(setq org-re***REMOVED***le-targets '((nil :maxlevel . 1)
-    ;                           (org-agenda-***REMOVED***les :maxlevel . 1)))
-
-    ;(setq org-outline-path-complete-in-steps nil)
-    ;(setq org-re***REMOVED***le-use-outline-path t)
-
-    ;(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "C-j") 'org-next-visible-heading)
-    ;(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "C-k") 'org-previous-visible-heading)
-
-    ;(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "M-j") 'org-metadown)
-    ;(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "M-k") 'org-metaup)
-
-  ;; ;; Make sure org-
-    ;; indent face is available
-  ;(require 'org-indent)
-
-      ;; Ensure that anything that should be ***REMOVED***xed-pitch in Org ***REMOVED***les appears that way
-      ;; (set-face-attribute 'org-block nil :foreground nil :inherit '***REMOVED***xed-pitch)
-      ;; (set-face-attribute 'org-table nil  :inherit '***REMOVED***xed-pitch)
-      ;; (set-face-attribute 'org-formula nil  :inherit '***REMOVED***xed-pitch)
-      ;(set-face-attribute 'org-code nil   :inherit '(shadow ***REMOVED***xed-pitch))
-      ;(set-face-attribute 'org-indent nil :inherit '(org-hide ***REMOVED***xed-pitch))
-      ;(set-face-attribute 'org-verbatim nil :inherit '(shadow ***REMOVED***xed-pitch))
-      ;(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face ***REMOVED***xed-pitch))
-      ;(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face ***REMOVED***xed-pitch))
-      ;(set-face-attribute 'org-checkbox nil :inherit '***REMOVED***xed-pitch)
-    )
+(use-package org 
+  :preface
+  (setq org-modules
+        '(;; ol-w3m
+          ;; ol-bbdb
+          ol-bibtex
+          ;; org-tempo
+          ;; org-crypt
+          ;; org-habit
+          org-bookmark
+          org-eshell
+          org-irc
+          org-indent
+          ;; ol-docview
+          ;; ol-gnus
+          ;; ol-info
+          ;; ol-irc
+          ;; ol-mhe
+          ;; ol-rmail
+          ;; ol-eww
+          ))
+  :hook (org-mode . js/org-mode-setup)
+  :general
+  (js/leader-key-def
+    "o"   '(:ignore t :which-key "org")
+    "ot"  '(org-babel-tangle :which-key "tangle")
+    "oe"  '(org-ctrl-c-ctrl-c :which-key "eval"))
+  :custom
+  (org-ellipsis " ▾")
+  (org-hide-emphasis-markers t)
+  (org-src-fontify-natively t)
+  (org-fontify-quote-and-verse-blocks t)
+  (org-src-tab-acts-natively t)
+  (org-edit-src-content-indentation 2)
+  (org-hide-block-startup nil)
+  (org-src-preserve-indentation nil)
+  (org-startup-folded 'content)
+  (org-cycle-separator-lines 2)
+  (org-structure-template-alist '(("a" . "export ascii")
+                                  ("c" . "center")
+                                  ("C" . "comment")
+                                  ("e" . "example")
+                                  ("E" . "export")
+                                  ("h" . "export html")
+                                  ("l" . "export latex")
+                                  ("q" . "quote")
+                                  ("s" . "src")
+                                  ("v" . "verse")
+                                  ("el" . "src emacs-lisp")
+                                  ("py" . "src python")
+                                  ("json" . "src json")
+                                  ("yaml" . "src yaml")
+                                  ("sh" . "src sh")
+                                  ("go" . "src go")
+                                  ("clj" . "src clojure")))
+  :custom-face
+  (org-document-title ((t (:weight bold :height 1.3))))
+  (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
+  (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
+  (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
+  (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
+  (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
+  (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
+  (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
+  (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
+  )
 
 (use-package org-pomodoro
   ;:after org-mode
