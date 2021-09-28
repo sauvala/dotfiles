@@ -17,12 +17,16 @@ if test -n "$EMACS"
   set -x TERM eterm-color
 end
 
+# Disable theme and starship in dumb terminals
+if [ "$TERM" != "dumb" ]
+  base16-gruvbox-dark-medium
+  starship init ***REMOVED***sh | source
+end
+
 # emacs: this function may be required
 function ***REMOVED***sh_title
   true
 end
-
-starship init ***REMOVED***sh | source
 
 set PATH ~/.emacs.d/bin/ $PATH
 
@@ -31,10 +35,6 @@ set -x LC_CTYPE en_US.UTF-8
 
 # iTerm2 ***REMOVED***sh integration
 source ~/.iterm2_shell_integration.***REMOVED***sh
-
-# Fish gruvbox theme
-base16-gruvbox-dark-medium
-
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/janne.sauvala/Downloads/google-cloud-sdk 2/path.***REMOVED***sh.inc' ]; . '/Users/janne.sauvala/Downloads/google-cloud-sdk 2/path.***REMOVED***sh.inc'; end
