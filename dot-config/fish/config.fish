@@ -48,3 +48,5 @@ function ***REMOVED***sh_user_key_bindings
   bind Y ***REMOVED***sh_clipboard_copy
   bind p ***REMOVED***sh_clipboard_paste
 end
+
+set ***REMOVED***sh_greeting
