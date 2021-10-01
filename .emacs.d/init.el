@@ -3,13 +3,6 @@
 (setq native-comp-async-report-warnings-errors nil)
 (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory))
 
-(use-package auto-package-update
-  :con***REMOVED***g
-  (setq auto-package-update-delete-old-versions t
-        auto-package-update-hide-results t
-        auto-package-update-prompt-before-update t)
-  (auto-package-update-maybe))
-
 ;; Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
 (setq user-emacs-directory (expand-***REMOVED***le-name "~/.cache/emacs/")
     url-history-***REMOVED***le (expand-***REMOVED***le-name "url/history" user-emacs-directory))
@@ -670,7 +663,7 @@ folder, otherwise delete a word"
 ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
 (defun js/org-mode-setup ()
   (org-indent-mode)
- ;; (variable-pitch-mode 1) ;; Causes table columns not be aligned
+  ;; (variable-pitch-mode 1) ;; Causes table columns not be aligned
   (auto-***REMOVED***ll-mode 0)
   (visual-line-mode 1)
   (setq evil-auto-indent nil)

@@ -9,7 +9,6 @@
 :CONTENTS:
 - [[#add-lexical-binding-to-generated-***REMOVED***le][Add lexical binding to generated ***REMOVED***le]]
 - [[#native-compilation][Native compilation]]
-- [[#auto-update-packages][Auto update packages]]
 - [[#keep-emacsd-clean][Keep .emacs.d clean]]
 - [[#server-mode][Server mode]]
 - [[#setup-path-from-shell][Setup path from shell]]
@@ -116,16 +115,6 @@
 #+begin_src emacs-lisp
   (setq native-comp-async-report-warnings-errors nil)
   (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory))
-#+end_src
-
-* Auto update packages
-#+begin_src emacs-lisp
-  (use-package auto-package-update
-    :con***REMOVED***g
-    (setq auto-package-update-delete-old-versions t
-          auto-package-update-hide-results t
-          auto-package-update-prompt-before-update t)
-    (auto-package-update-maybe))
 #+end_src
 
 * Keep .emacs.d clean
