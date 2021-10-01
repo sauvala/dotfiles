@@ -80,6 +80,11 @@
   :con***REMOVED***g
   (evil-collection-init))
 
+(use-package evil-surround
+  :after evil
+  :con***REMOVED***g
+  (global-evil-surround-mode 1))
+
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode

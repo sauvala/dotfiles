@@ -175,15 +175,15 @@
                     sauron-mode
                     term-mode))
       (add-to-list 'evil-emacs-state-modes mode)))
-  
+
   (defun js/dont-arrow-me-bro ()
     (interactive)
     (message "Arrow keys are bad, you know?"))
-  
+
   (use-package undo-tree
     :init
     (global-undo-tree-mode 1))
-  
+
   (use-package evil
     :defer 0.1
     :init
@@ -200,17 +200,22 @@
     (de***REMOVED***ne-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
     (de***REMOVED***ne-key evil-normal-state-map (kbd "s-i") 'evil-jump-forward)
     (de***REMOVED***ne-key evil-normal-state-map (kbd "s-o") 'evil-jump-backward)
-  
+
     ;; Use visual line motions even outside of visual-line-mode buffers
     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
     (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
     (evil-set-initial-state 'messages-buffer-mode 'normal)
     (evil-set-initial-state 'dashboard-mode 'normal))
-  
+
   (use-package evil-collection
     :after evil
     :con***REMOVED***g
     (evil-collection-init))
+
+  (use-package evil-surround
+    :after evil
+    :con***REMOVED***g
+    (global-evil-surround-mode 1))
 #+end_src
 
 ** which-key
