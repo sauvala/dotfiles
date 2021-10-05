@@ -101,6 +101,7 @@
   - [[#polymode][Polymode]]
 - [[#markdown-mode][Markdown mode]]
 - [[#torrent][Torrent]]
+- [[#plantuml][PlantUML]]
 - [[#other-tools][Other tools]]
   - [[#speed-typing][Speed typing]]
   - [[#elisp-bug-hunter][Elisp bug hunter]]
@@ -1222,6 +1223,14 @@ Allows you to edit entries directly from org-brain-visualize
 * Torrent
 #+begin_src emacs-lisp
   (use-package transmission)
+#+end_src
+
+* PlantUML
+#+begin_src emacs-lisp
+  (use-package plantuml-mode
+    :con***REMOVED***g
+    (setq plantuml-executable-path "/usr/local/bin/plantuml")
+    (setq plantuml-default-exec-mode 'executable))
 #+end_src
 
 * Other tools

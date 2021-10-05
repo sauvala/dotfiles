@@ -832,6 +832,11 @@ folder, otherwise delete a word"
 
 (use-package transmission)
 
+(use-package plantuml-mode
+  :con***REMOVED***g
+  (setq plantuml-executable-path "/usr/local/bin/plantuml")
+  (setq plantuml-default-exec-mode 'executable))
+
 (use-package speed-type)
 
 (use-package bug-hunter)
