@@ -370,6 +370,7 @@ Change modeline font size to match modeline's height
       "q"   '(:ignore t :which-key "quit")
       "qq"  '(save-buffers-kill-emacs :which-key "quit emacs")
       "qR"  'restart-emacs
+      "qc"  '(delete-frame :which-key "close emacsclient")
       "qr"  '(js/reload-init :which-key "reload confs")))
 #+end_src
 

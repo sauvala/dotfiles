@@ -190,6 +190,7 @@
     "q"   '(:ignore t :which-key "quit")
     "qq"  '(save-buffers-kill-emacs :which-key "quit emacs")
     "qR"  'restart-emacs
+    "qc"  '(delete-frame :which-key "close emacsclient")
     "qr"  '(js/reload-init :which-key "reload confs")))
 
 (prefer-coding-system 'utf-8)
