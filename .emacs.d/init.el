@@ -570,10 +570,10 @@ folder, otherwise delete a word"
   :bind
   (("M-o" . ace-window))
   :custom
-  (aw-scope 'frame)
+  (aw-scope 'global)
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (aw-minibuffer-flag t)
-  ;(aw-background t)
+  (aw-background nil)
   :con***REMOVED***g
   (ace-window-display-mode 1))
 
