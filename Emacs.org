@@ -89,6 +89,7 @@
   - [[#highlight-uncommitted-changes][Highlight uncommitted changes]]
   - [[#alerts][Alerts]]
   - [[#buflerel][Bufler.el]]
+  - [[#emacs-everywhere][Emacs everywhere]]
 - [[#dired][Dired]]
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
@@ -967,6 +968,11 @@ Javascript and Typescript
 *** Bufler.el
 #+begin_src emacs-lisp
   (use-package bufler)
+#+end_src
+
+*** Emacs everywhere
+#+begin_src emacs-lisp
+  (use-package emacs-everywhere)
 #+end_src
 
 * Dired

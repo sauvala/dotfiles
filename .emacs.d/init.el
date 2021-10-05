@@ -614,6 +614,8 @@ folder, otherwise delete a word"
 
 (use-package bufler)
 
+(use-package emacs-everywhere)
+
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode)) 
 
