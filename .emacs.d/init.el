@@ -835,9 +835,11 @@ folder, otherwise delete a word"
   (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode))
 
 (use-package markdown-mode
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown")
-  :custom (markdown-max-image-size '(850 . 900)))
+  :mode
+  ("README\\.md\\'" . gfm-mode)
+  :custom
+  (markdown-command "marked")
+  (markdown-max-image-size '(850 . 900)))
 
 (use-package transmission)
 
