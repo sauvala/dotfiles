@@ -85,6 +85,10 @@
   :con***REMOVED***g
   (global-evil-surround-mode 1))
 
+(use-package evil-snipe
+  :con***REMOVED***g
+  (evil-snipe-mode +1))
+
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
