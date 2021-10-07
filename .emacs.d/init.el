@@ -561,6 +561,7 @@ folder, otherwise delete a word"
   (("M-g c" . 'avy-goto-char)
    ("M-g 2" . 'avy-goto-char-2)
    ("M-g t" . 'avy-goto-char-timer)
+   ("H-s"   . 'avy-goto-char-timer)
    ("M-g h" . 'avy-org-goto-heading-timer)
    ("M-g l" . 'avy-goto-line))
   :general
