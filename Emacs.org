@@ -90,6 +90,7 @@
   - [[#alerts][Alerts]]
   - [[#buflerel][Bufler.el]]
   - [[#emacs-everywhere][Emacs everywhere]]
+  - [[#silver-searcher---ag][Silver searcher - ag]]
 - [[#dired][Dired]]
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
@@ -978,6 +979,11 @@ Javascript and Typescript
 *** Emacs everywhere
 #+begin_src emacs-lisp
   (use-package emacs-everywhere)
+#+end_src
+
+*** Silver searcher - ag
+#+begin_src emacs-lisp
+  (use-package ag)
 #+end_src
 
 * Dired
