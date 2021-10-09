@@ -212,6 +212,8 @@
 
 ;;(mac-auto-operator-composition-mode t)
 
+(setq frame-resize-pixelwise t)
+
 (use-package orderless
   :defer 0.1
   :init

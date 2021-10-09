@@ -33,6 +33,7 @@
   - [[#restarting-and-quitting-emacs][Restarting and quitting Emacs]]
   - [[#default-encoding][Default encoding]]
   - [[#enable-font-ligatures][Enable font ligatures]]
+  - [[#***REMOVED***x-cap-between-other-windows][Fix cap between other windows]]
 - [[#completion][Completion]]
   - [[#improve-completions][Improve completions]]
     - [[#orderless][Orderless]]
@@ -400,6 +401,12 @@ https://www.masteringemacs.org/article/working-coding-systems-unicode-emacs
 Needed only in emacs-mac but not in emacs-plus
 #+begin_src emacs-lisp
   ;;(mac-auto-operator-composition-mode t)
+#+end_src
+
+** Fix cap between other windows
+[[https://github.com/d12frosted/homebrew-emacs-plus#no-titlebar][Tip from emacs-plus]]
+#+begin_src emacs-lisp
+  (setq frame-resize-pixelwise t)
 #+end_src
 
 * Completion
