@@ -24,6 +24,7 @@
   - [[#improve-scrolling][Improve scrolling]]
   - [[#line-numbers][Line numbers]]
   - [[#theme][Theme]]
+  - [[#startup-splash-image][Startup splash image]]
   - [[#emojis-in-buffers][Emojis in buffers]]
   - [[#modeline][Modeline]]
     - [[#doom-modeline][Doom-modeline]]
@@ -296,6 +297,12 @@
     :hook (emacs-startup . (lambda () (load-theme 'doom-gruvbox t)))
     :con***REMOVED***g
     (doom-themes-visual-bell-con***REMOVED***g))
+#+end_src
+
+** Startup splash image
+Image found from https://github.com/tecosaur/emacs-con***REMOVED***g/blob/master/misc/splash-images/emacs-e.svg
+#+begin_src emacs-lisp
+  (setq fancy-splash-image "/Users/janne/.emacs.d/img/emacs-e-orange-darker.svg")
 #+end_src
 
 ** Emojis in buffers

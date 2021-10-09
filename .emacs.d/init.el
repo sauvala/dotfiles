@@ -139,6 +139,8 @@
   :con***REMOVED***g
   (doom-themes-visual-bell-con***REMOVED***g))
 
+(setq fancy-splash-image "/Users/janne/.emacs.d/img/emacs-e-orange-darker.svg")
+
 (use-package emojify
   :hook (erc-mode . emojify-mode)
   :commands emojify-mode)
