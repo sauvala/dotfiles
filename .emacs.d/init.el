@@ -137,7 +137,8 @@
 (use-package doom-themes
   :hook (emacs-startup . (lambda () (load-theme 'doom-gruvbox t)))
   :con***REMOVED***g
-  (doom-themes-visual-bell-con***REMOVED***g))
+  (doom-themes-visual-bell-con***REMOVED***g)
+  (doom-themes-org-con***REMOVED***g))
 
 (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 
@@ -752,8 +753,7 @@ folder, otherwise delete a word"
   (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
   (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
   (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-  (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
-  )
+  (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
 
 (use-package org-pomodoro
   ;:after org-mode
