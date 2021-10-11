@@ -302,7 +302,7 @@
 ** Startup splash image
 Image found from https://github.com/tecosaur/emacs-con***REMOVED***g/blob/master/misc/splash-images/emacs-e.svg
 #+begin_src emacs-lisp
-  (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-orange-darker.svg"))
+  (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 #+end_src
 
 ** Emojis in buffers
