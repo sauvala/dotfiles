@@ -225,18 +225,28 @@
         completion-category-overrides '((***REMOVED***le (styles . (partial-completion))))))
 
 (defun js/get-project-root ()
-  (when (fboundp 'projectile-project-root)
-    (projectile-project-root)))
+  (when-let (project (project-current))
+    (car (project-roots project))))
 
 (use-package consult
   :bind (("C-s" . consult-line)
-	 ("C-M-l" . consult-imenu)
-	 ("M-p" . consult-yank-from-kill-ring)
-	 :map minibuffer-local-map
-	 ("C-r" . consult-history))
+   ("C-M-l" . consult-imenu)
+   ("M-p" . consult-yank-from-kill-ring)
+   :map minibuffer-local-map
+   ("C-r" . consult-history))
   :custom
   (consult-project-root-function #'js/get-project-root)
   (completion-in-region-function #'consult-completion-in-region))
+
+(use-package consult-dir
+  :bind (("C-x C-d" . consult-dir)
+         :map vertico-map 
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-***REMOVED***le)))
+
+(use-package consult-lsp
+  :after (consult lsp-mode)
+  :commands consult-lsp-symbols)
 
 (use-package embark
   :bind (("C-S-a" . embark-act)
@@ -362,28 +372,16 @@ folder, otherwise delete a word"
   "gF"  'magit-fetch-all
   "gr"  'magit-rebase)
 
-(use-package projectile
-  :diminish projectile-mode
-  :bind ("C-M-p" . projectile-***REMOVED***nd-***REMOVED***le)
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :con***REMOVED***g
-  (projectile-mode)
-  :custom
-  (projectile-auto-discover nil)
-  (projectile-ignored-projects '("~/")))
-
-(use-package consult-projectile
-  :straight (consult-projectile :type git :host gitlab :repo "OlMon/consult-projectile" :branch "master"))
-
-(js/leader-key-def
-  "p"   '(:ignore t :which-key "project")
-  "pf"  'projectile-***REMOVED***nd-***REMOVED***le
-  "ps"  'projectile-switch-project
-  "pF"  'consult-ripgrep
-  "pp"  'projectile-***REMOVED***nd-***REMOVED***le
-  "pc"  'projectile-compile-project
-  "pd"  'projectile-dired)
+(use-package project
+  :general
+  (js/leader-key-def
+    "p"   '(:ignore t :which-key "project")
+    "pf"  'project-***REMOVED***nd-***REMOVED***le
+    "ps"  'project-switch-project
+    "pF"  'consult-ripgrep
+    "pp"  'project-***REMOVED***nd-***REMOVED***le
+    "pc"  'project-compile
+    "pd"  'project-dired))
 
 (use-package treemacs
   :defer 1.5
@@ -394,9 +392,6 @@ folder, otherwise delete a word"
   (setq treemacs-follow-mode t))
 
 (use-package treemacs-evil
-  :after treemacs)
-
-(use-package treemacs-projectile
   :after treemacs)
 
 (use-package vterm)

@@ -39,6 +39,8 @@
   - [[#improve-completions][Improve completions]]
     - [[#orderless][Orderless]]
     - [[#consult][Consult]]
+    - [[#consult-dir][Consult-dir]]
+    - [[#consult-lsp][Consult-lsp]]
     - [[#embark][Embark]]
   - [[#vertico][Vertico]]
   - [[#completion-metadata][Completion metadata]]
@@ -58,7 +60,7 @@
   - [[#minimap][Minimap]]
 - [[#development][Development]]
   - [[#magit][Magit]]
-  - [[#projectile][Projectile]]
+  - [[#projectel][Project.el]]
   - [[#treemacs][Treemacs]]
   - [[#terminal][Terminal]]
   - [[#languages][Languages]]
@@ -439,18 +441,34 @@ https://github.com/oantolin/orderless
 https://github.com/minad/consult
 #+begin_src emacs-lisp
   (defun js/get-project-root ()
-    (when (fboundp 'projectile-project-root)
-      (projectile-project-root)))
+    (when-let (project (project-current))
+      (car (project-roots project))))
 
   (use-package consult
     :bind (("C-s" . consult-line)
-	   ("C-M-l" . consult-imenu)
-	   ("M-p" . consult-yank-from-kill-ring)
-	   :map minibuffer-local-map
-	   ("C-r" . consult-history))
+     ("C-M-l" . consult-imenu)
+     ("M-p" . consult-yank-from-kill-ring)
+     :map minibuffer-local-map
+     ("C-r" . consult-history))
     :custom
     (consult-project-root-function #'js/get-project-root)
     (completion-in-region-function #'consult-completion-in-region))
+#+end_src
+
+*** Consult-dir
+#+begin_src emacs-lisp
+  (use-package consult-dir
+    :bind (("C-x C-d" . consult-dir)
+           :map vertico-map 
+           ("C-x C-d" . consult-dir)
+           ("C-x C-j" . consult-dir-jump-***REMOVED***le)))
+#+end_src
+
+*** Consult-lsp
+#+begin_src emacs-lisp
+  (use-package consult-lsp
+    :after (consult lsp-mode)
+    :commands consult-lsp-symbols)
 #+end_src
 
 *** Embark
@@ -630,30 +648,18 @@ Add icons to ***REMOVED***les names
     "gr"  'magit-rebase)
 #+end_src
 
-** Projectile
+** Project.el
 #+begin_src emacs-lisp
-  (use-package projectile
-    :diminish projectile-mode
-    :bind ("C-M-p" . projectile-***REMOVED***nd-***REMOVED***le)
-    :bind-keymap
-    ("C-c p" . projectile-command-map)
-    :con***REMOVED***g
-    (projectile-mode)
-    :custom
-    (projectile-auto-discover nil)
-    (projectile-ignored-projects '("~/")))
-  
-  (use-package consult-projectile
-    :straight (consult-projectile :type git :host gitlab :repo "OlMon/consult-projectile" :branch "master"))
-  
-  (js/leader-key-def
-    "p"   '(:ignore t :which-key "project")
-    "pf"  'projectile-***REMOVED***nd-***REMOVED***le
-    "ps"  'projectile-switch-project
-    "pF"  'consult-ripgrep
-    "pp"  'projectile-***REMOVED***nd-***REMOVED***le
-    "pc"  'projectile-compile-project
-    "pd"  'projectile-dired)
+  (use-package project
+    :general
+    (js/leader-key-def
+      "p"   '(:ignore t :which-key "project")
+      "pf"  'project-***REMOVED***nd-***REMOVED***le
+      "ps"  'project-switch-project
+      "pF"  'consult-ripgrep
+      "pp"  'project-***REMOVED***nd-***REMOVED***le
+      "pc"  'project-compile
+      "pd"  'project-dired))
 #+end_src
 
 ** Treemacs
@@ -667,9 +673,6 @@ Add icons to ***REMOVED***les names
     (setq treemacs-follow-mode t))
   
   (use-package treemacs-evil
-    :after treemacs)
-  
-  (use-package treemacs-projectile
     :after treemacs)
 #+end_src
 
