@@ -381,7 +381,8 @@ folder, otherwise delete a word"
     "pF"  'consult-ripgrep
     "pp"  'project-***REMOVED***nd-***REMOVED***le
     "pc"  'project-compile
-    "pd"  'project-dired))
+    "pd"  'project-dired
+    "pb"  'project-switch-to-buffer))
 
 (use-package treemacs
   :defer 1.5
