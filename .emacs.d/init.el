@@ -539,7 +539,7 @@ folder, otherwise delete a word"
   :ensure t
   :general
   (js/leader-key-def
-    "d" 'docker))
+    "c" 'docker))
 
 (use-package terraform-mode)
 
@@ -634,6 +634,20 @@ folder, otherwise delete a word"
 (use-package emacs-everywhere)
 
 (use-package ag)
+
+(use-package dogears
+  :straight (:host github :type git :repo "alphapapa/dogears.el")
+  :defer 3
+  :con***REMOVED***g
+  (dogears-mode)
+  :general
+  (js/leader-key-def
+    "d"   '(:ignore t :which-key "dogears")
+    "dg"  '(dogears-go :which-key "go")
+    "db"  '(dogears-back :which-key "back")
+    "df"  '(dogears-forward :which-key "forward")
+    "dl"  '(dogears-list :which-key "list")
+    "ds"  '(dogears-sidebar :which-key "sidebar")))
 
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode)) 

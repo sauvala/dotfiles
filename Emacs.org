@@ -97,6 +97,7 @@
   - [[#buflerel][Bufler.el]]
   - [[#emacs-everywhere][Emacs everywhere]]
   - [[#silver-searcher---ag][Silver searcher - ag]]
+  - [[#dogearsel][Dogears.el]]
 - [[#dired][Dired]]
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
@@ -872,7 +873,7 @@ Javascript and Typescript
     :ensure t
     :general
     (js/leader-key-def
-      "d" 'docker))
+      "c" 'docker))
 #+end_src
 
 *** Terraform
@@ -1024,6 +1025,23 @@ Javascript and Typescript
   (use-package ag)
 #+end_src
 
+*** Dogears.el
+#+begin_src emacs-lisp
+  (use-package dogears
+    :straight (:host github :type git :repo "alphapapa/dogears.el")
+    :defer 3
+    :con***REMOVED***g
+    (dogears-mode)
+    :general
+    (js/leader-key-def
+      "d"   '(:ignore t :which-key "dogears")
+      "dg"  '(dogears-go :which-key "go")
+      "db"  '(dogears-back :which-key "back")
+      "df"  '(dogears-forward :which-key "forward")
+      "dl"  '(dogears-list :which-key "list")
+      "ds"  '(dogears-sidebar :which-key "sidebar")))
+#+end_src
+
 * Dired
 #+begin_src emacs-lisp
   (use-package all-the-icons-dired
@@ -1081,7 +1099,7 @@ Javascript and Typescript
 * Org mode
 ** Org con***REMOVED***g
 #+begin_src emacs-lisp
-  
+
   ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
   (defun js/org-mode-setup ()
     (org-indent-mode)
@@ -1090,7 +1108,7 @@ Javascript and Typescript
     (visual-line-mode 1)
     (setq evil-auto-indent nil)
     (diminish org-indent-mode))
-  
+
   (use-package org 
     :preface
     (setq org-modules
