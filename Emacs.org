@@ -64,6 +64,7 @@
   - [[#projectel][Project.el]]
   - [[#treemacs][Treemacs]]
   - [[#terminal][Terminal]]
+  - [[#prismel][Prism.el]]
   - [[#languages][Languages]]
     - [[#clojure][Clojure]]
       - [[#cider][Cider]]
@@ -689,6 +690,12 @@ Add icons to ***REMOVED***les names
 ** Terminal
 #+begin_src emacs-lisp
   (use-package vterm)
+#+end_src
+
+** Prism.el
+#+begin_src emacs-lisp
+  (use-package prism
+    :straight (:host github :type git :repo "alphapapa/prism.el"))
 #+end_src
 
 ** Languages

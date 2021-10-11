@@ -402,6 +402,9 @@ folder, otherwise delete a word"
 
 (use-package vterm)
 
+(use-package prism
+  :straight (:host github :type git :repo "alphapapa/prism.el"))
+
 ;(use-package cider)
 
 (use-package inf-clojure
