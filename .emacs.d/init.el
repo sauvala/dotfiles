@@ -376,6 +376,8 @@ folder, otherwise delete a word"
   "gr"  'magit-rebase)
 
 (use-package project
+  :con***REMOVED***g
+  (add-to-list 'project-switch-commands '(magit-status "Magit status" ?m))
   :general
   (js/leader-key-def
     "p"   '(:ignore t :which-key "project")

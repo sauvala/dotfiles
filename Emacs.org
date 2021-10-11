@@ -658,6 +658,8 @@ Add icons to ***REMOVED***les names
 ** Project.el
 #+begin_src emacs-lisp
   (use-package project
+    :con***REMOVED***g
+    (add-to-list 'project-switch-commands '(magit-status "Magit status" ?m))
     :general
     (js/leader-key-def
       "p"   '(:ignore t :which-key "project")
