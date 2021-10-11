@@ -622,7 +622,9 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (setq alert-default-style 'noti***REMOVED***cations))
 
-(use-package bufler)
+(use-package bufler
+ :con***REMOVED***g
+ (bufler-mode))
 
 (use-package emacs-everywhere)
 

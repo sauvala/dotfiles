@@ -58,6 +58,7 @@
   - [[#center-content][Center content]]
   - [[#sublimity][Sublimity]]
   - [[#minimap][Minimap]]
+  - [[#burlyel][Burly.el]]
 - [[#development][Development]]
   - [[#magit][Magit]]
   - [[#projectel][Project.el]]
@@ -999,7 +1000,9 @@ Javascript and Typescript
 
 *** Bufler.el
 #+begin_src emacs-lisp
-  (use-package bufler)
+  (use-package bufler
+   :con***REMOVED***g
+   (bufler-mode))
 #+end_src
 
 *** Emacs everywhere
