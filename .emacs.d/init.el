@@ -351,6 +351,9 @@ folder, otherwise delete a word"
 
 (use-package minimap)
 
+(use-package burly
+  :straight (:host github :type git :repo "alphapapa/burly.el"))
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)

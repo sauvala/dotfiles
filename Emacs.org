@@ -623,6 +623,12 @@ Add icons to ***REMOVED***les names
   (use-package minimap)
 #+end_src
 
+** Burly.el
+#+begin_src emacs-lisp
+  (use-package burly
+    :straight (:host github :type git :repo "alphapapa/burly.el"))
+#+end_src
+
 * Development
 ** Magit
 #+begin_src emacs-lisp
