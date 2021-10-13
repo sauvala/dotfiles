@@ -452,6 +452,20 @@ folder, otherwise delete a word"
   :hook ((js2-mode . prettier-js-mode)
           (typescript-mode . prettier-js-mode)))
 
+(use-package js2-refactor
+  :hook (js2-mode . js2-refactor-mode))
+
+(use-package xref-js2
+  :hook (js2-mode . (lambda ()
+                      (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+(add-hook 'js2-mode-hook (lambda ()
+                         (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+(use-package tide
+  :hook ((js2-mode . tide-setup)
+         (js2-mode . tide-hl-identi***REMOVED***er-mode)
+         (before-save . tide-format-before-save)))
+
 (use-package go-mode)
 
 (use-package gotest)
@@ -463,7 +477,7 @@ folder, otherwise delete a word"
 (use-package lsp-mode
   :commands lsp
   :hook
-  (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode) . lsp)
+  (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode) . lsp)
    (go-mode . js/lsp-go-install-save-hooks))
   :bind
   (:map lsp-mode-map ("TAB" . completion-at-point))

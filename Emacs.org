@@ -725,12 +725,12 @@ Javascript and Typescript
     :mode "\\.ts\\'"
     :con***REMOVED***g
     (setq typescript-indent-level 2))
-  
+
   (defun js/set-js-indentation ()
     (setq js-indent-level 2)
     (setq evil-shift-width js-indent-level)
     (setq-default tab-width 2))
-  
+
   (use-package js2-mode
     :mode
     (("\\.js\\'" . js2-mode))
@@ -747,18 +747,33 @@ Javascript and Typescript
     (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
     ;; Don't use built-in syntax checking
     ; (setq js2-mode-show-strict-warnings nil)
-  
+
     ;; Set up proper indentation in JavaScript and JSON ***REMOVED***les
     (add-hook 'js2-mode-hook #'js/set-js-indentation)
     (add-hook 'json-mode-hook #'js/set-js-indentation))
-  
+
   (use-package apheleia
     :con***REMOVED***g
     (apheleia-global-mode +1))
-  
+
   (use-package prettier-js
     :hook ((js2-mode . prettier-js-mode)
             (typescript-mode . prettier-js-mode)))
+
+  (use-package js2-refactor
+    :hook (js2-mode . js2-refactor-mode))
+
+  (use-package xref-js2
+    :hook (js2-mode . (lambda ()
+                        (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+  (add-hook 'js2-mode-hook (lambda ()
+                           (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+  (use-package tide
+    :hook ((js2-mode . tide-setup)
+           (js2-mode . tide-hl-identi***REMOVED***er-mode)
+           (before-save . tide-format-before-save)))
+
 #+end_src
 
 *** Go
@@ -785,7 +800,7 @@ Javascript and Typescript
   (use-package lsp-mode
     :commands lsp
     :hook
-    (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode) . lsp)
+    (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode) . lsp)
      (go-mode . js/lsp-go-install-save-hooks))
     :bind
     (:map lsp-mode-map ("TAB" . completion-at-point))
