@@ -46,10 +46,6 @@
                   term-mode))
     (add-to-list 'evil-emacs-state-modes mode)))
 
-(defun js/dont-arrow-me-bro ()
-  (interactive)
-  (message "Arrow keys are bad, you know?"))
-
 (use-package undo-tree
   :init
   (global-undo-tree-mode 1))
@@ -63,6 +59,10 @@
   (setq evil-want-C-i-jump nil)
   (setq evil-respect-visual-line-mode t)
   (setq evil-undo-system 'undo-tree)
+  (setq evil-want-***REMOVED***ne-undo t)
+  (setq evil-visual-state-cursor 'hollow)
+  :custom
+  (evil-want-minibuffer t)
   :con***REMOVED***g
   (add-hook 'evil-mode-hook 'js/evil-hook)
   (evil-mode 1)
@@ -284,6 +284,8 @@ folder, otherwise delete a word"
   :bind (:map vertico-map
          ("C-j" . vertico-next)
          ("C-k" . vertico-previous)
+         ("H-j" . vertico-next)
+         ("H-k" . vertico-previous)
          ("C-f" . vertico-exit)
          :map minibuffer-local-map
          ("M-h" . js/minibuffer-backward-kill))
@@ -292,8 +294,34 @@ folder, otherwise delete a word"
   :custom-face
   ;; for doom-one use #3a3f5a 
   (vertico-current ((t (:background "#3c3836"))))
+  ;; :con***REMOVED***g
+  ;; (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous) 
   :init
   (vertico-mode))
+
+(use-package savehist
+  :init
+  (savehist-mode))
+
+(use-package emacs
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; Alternatively try `consult-completing-read-multiple'.
+  (defun crm-indicator (args)
+    (cons (concat "[CRM] " (car args)) (cdr args)))
+  (advice-add #'consult-read-multiple :***REMOVED***lter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+  ;; Vertico commands are hidden in normal buffers.
+  (setq read-extended-command-predicate #'command-completion-default-include-p)
+
+  ;; Enable recursive minibuffers
+  (setq enable-recursive-minibuffers t))
 
 (use-package all-the-icons)
 
@@ -302,6 +330,7 @@ folder, otherwise delete a word"
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
 
 (use-package marginalia
+  :after vertico
   :custom
   (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :hook (emacs-startup . marginalia-mode))
@@ -310,8 +339,11 @@ folder, otherwise delete a word"
   :after orderless
   :bind
   (:map corfu-map
-        ("TAB" . corfu-next)
-        ("S-TAB" . corfu-previous))
+        ("C-j" . corfu-next)
+        ("C-k" . corfu-previous)
+        ("H-j" . corfu-next)
+        ("H-k" . corfu-previous)
+        ("TAB" . corfu-insert))
   :custom
   (corfu-cycle t)
   (corfu-quit-at-boundary t)
@@ -719,7 +751,7 @@ folder, otherwise delete a word"
 ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
 (defun js/org-mode-setup ()
   (org-indent-mode)
-  ;; (variable-pitch-mode 1) ;; Causes table columns not be aligned
+  ;; (variable-pitch-mode 1) ;; Causes table columns to be unaligned
   (auto-***REMOVED***ll-mode 0)
   (visual-line-mode 1)
   (setq evil-auto-indent nil)
@@ -752,6 +784,9 @@ folder, otherwise delete a word"
     "o"   '(:ignore t :which-key "org")
     "ot"  '(org-babel-tangle :which-key "tangle")
     "oe"  '(org-ctrl-c-ctrl-c :which-key "eval"))
+  :con***REMOVED***g
+  (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-j") 'org-next-visible-heading)
+  (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-k") 'org-previous-visible-heading)
   :custom
   (org-ellipsis " ▾")
   (org-hide-emphasis-markers t)
