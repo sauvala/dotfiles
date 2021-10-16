@@ -32,6 +32,8 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
+(global-set-key (kbd "C-M-u") 'universal-argument)
+
 (defun js/evil-hook ()
   (dolist (mode '(custom-mode
                   eshell-mode

@@ -15,6 +15,7 @@
 - [[#keyboard-bindings][Keyboard bindings]]
   - [[#mac-keyboard--***REMOVED***nnish-layout][Mac keyboard + Finnish layout]]
   - [[#esc-cancels-all][ESC cancels all]]
+  - [[#rebind-c-u][Rebind C-u]]
   - [[#evil][Evil]]
   - [[#which-key][which-key]]
   - [[#leader-bindings-with-generalel][Leader bindings with general.el]]
@@ -170,6 +171,12 @@
 ** ESC cancels all
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+** Rebind C-u
+=evil-mode= takes over =C-u= for buffer scrolling so we need to rebind it to something else for universal argument.
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-M-u") 'universal-argument)
 #+end_src
 
 ** Evil
