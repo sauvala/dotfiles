@@ -600,6 +600,12 @@ folder, otherwise delete a word"
 (use-package aggressive-indent-mode
   :hook (emacs-lisp-mode-hook clojure-mode org))
 
+(use-package company
+  :hook (emacs-startup . global-company-mode)
+  :bind ("H-SPC" . company-complete)
+  :con***REMOVED***g
+  (setq company-idle-delay 0.2))
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 

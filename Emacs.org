@@ -84,6 +84,7 @@
     - [[#terraform][Terraform]]
   - [[#arduino-with-platformio][Arduino with PlatformIO]]
   - [[#aggressive-indent-mode][Aggressive indent mode]]
+  - [[#company][Company]]
 - [[#productivity][Productivity]]
   - [[#rainbow-delimiter][Rainbow delimiter]]
   - [[#rainbow-mode][Rainbow mode]]
@@ -961,6 +962,14 @@ Javascript and Typescript
     :hook (emacs-lisp-mode-hook clojure-mode org))
 #+end_src
 
+** Company
+#+begin_src emacs-lisp
+  (use-package company
+    :hook (emacs-startup . global-company-mode)
+    :bind ("H-SPC" . company-complete)
+    :con***REMOVED***g
+    (setq company-idle-delay 0.2))
+#+end_src
 * Productivity
 *** Rainbow delimiter
 #+begin_src emacs-lisp
