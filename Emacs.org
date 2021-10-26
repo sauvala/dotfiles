@@ -1,6 +1,7 @@
 #+TITLE: Emacs con***REMOVED***guration
 #+AUTHOR: Janne Sauvala
 #+PROPERTY: header-args:emacs-lisp :results silent :tangle .emacs.d/init.el
+#+STARTUP: overview
 
 * Table of contents
 :PROPERTIES:
