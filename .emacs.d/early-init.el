@@ -40,7 +40,12 @@
 (push '(vertical-scroll-bars) default-frame-alist)
 (setq menu-bar-mode nil
       tool-bar-mode nil
-      scroll-bar-mode nil)
+      scroll-bar-mode nil
+      inhibit-startup-screen t
+      inhibit-startup-message t
+      inhibit-startup-echo-area-message "janne"
+      inhibit-startup-buffer-menu t
+      initial-scratch-message nil)
 (set-fringe-mode 10)
 (setq visible-bell t
       frame-inhibit-implied-resize t
@@ -75,7 +80,8 @@
       use-package-always-defer t
       use-package-always-ensure t
       straight-cache-autoloads t
-      use-package-verbose t)
+      ;; use-package-verbose t
+      )
 
 (defvar bootstrap-version)
 (let ((bootstrap-***REMOVED***le
@@ -96,7 +102,9 @@
 (require 'straight-x)
 
 (use-package esup
-  :commands esup)
+  :commands esup
+  :con***REMOVED***g
+  (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
 
 (use-package benchmark-init
   :demand t

@@ -77,7 +77,12 @@ Check [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Emacs lsp-mode p
   (push '(vertical-scroll-bars) default-frame-alist)
   (setq menu-bar-mode nil
         tool-bar-mode nil
-        scroll-bar-mode nil)
+        scroll-bar-mode nil
+        inhibit-startup-screen t
+        inhibit-startup-message t
+        inhibit-startup-echo-area-message "janne"
+        inhibit-startup-buffer-menu t
+        initial-scratch-message nil)
   (set-fringe-mode 10)
   (setq visible-bell t
         frame-inhibit-implied-resize t
@@ -140,8 +145,9 @@ Con***REMOVED***gure Straight.el
         use-package-always-defer t
         use-package-always-ensure t
         straight-cache-autoloads t
-        use-package-verbose t)
-  
+        ;; use-package-verbose t
+        )
+
   (defvar bootstrap-version)
   (let ((bootstrap-***REMOVED***le
          (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -154,9 +160,9 @@ Con***REMOVED***gure Straight.el
         (goto-char (point-max))
         (eval-print-last-sexp)))
       (load bootstrap-***REMOVED***le nil 'nomessage))
-  
+
   (straight-use-package 'use-package)
-  
+
   ;; Load the helper package for commands like `straight-x-clean-unused-repos'
   (require 'straight-x)
 #+end_src
@@ -165,7 +171,9 @@ Con***REMOVED***gure Straight.el
 ** Esup
 #+begin_src emacs-lisp
   (use-package esup
-    :commands esup)
+    :commands esup
+    :con***REMOVED***g
+    (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
 #+end_src
 
 ** benchmark-init

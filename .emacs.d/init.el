@@ -17,11 +17,13 @@
 ;    (expand-***REMOVED***le-name (format "emacs-custom-%s.el" (user-uid)) temporary-***REMOVED***le-directory)))
 ;(load custom-***REMOVED***le t)
 
-(server-start)
+;; (server-start)
 
 (use-package exec-path-from-shell
-  :init
+  :defer 1
+  :con***REMOVED***g
   (when (memq window-system '(mac ns x))
+    ;; (setq exec-path-from-shell-arguments nil)
     (exec-path-from-shell-initialize)))
 
 (setq mac-right-option-modi***REMOVED***er 'nil
@@ -51,7 +53,7 @@
   (global-undo-tree-mode 1))
 
 (use-package evil
-  :defer 0.1
+  :defer 1
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
@@ -92,8 +94,9 @@
   (evil-snipe-mode +1))
 
 (use-package which-key
-  :init (which-key-mode)
+  ;; :init 
   :diminish which-key-mode
+  :hook (emacs-startup . (lambda () (which-key-mode)))
   :con***REMOVED***g
   (setq which-key-idle-delay 0.3))
 
@@ -136,8 +139,119 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(setq visible-bell nil)
+(use-package modus-themes
+  :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
+  :con***REMOVED***g
+  ;; Add all your customizations prior to loading the themes
+  ;;   (setq modus-themes-italic-constructs t
+  ;;         modus-themes-bold-constructs nil
+  ;;         modus-themes-region '(bg-only no-extend))
+
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-mixed-fonts t
+        modus-themes-subtle-line-numbers t
+        modus-themes-intense-markup nil
+        modus-themes-success-deuteranopia nil
+        modus-themes-tabs-accented nil
+        modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
+
+        modus-themes-fringes nil ; {nil,'subtle,'intense}
+
+        ;; Options for `modus-themes-lang-checkers' are either nil (the
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `straight-underline', `text-also', `background',
+        ;; `intense' OR `faint'.
+        modus-themes-lang-checkers nil
+
+        ;; Options for `modus-themes-mode-line' are either nil, or a
+        ;; list that can combine any of `3d' OR `moody', `borderless',
+        ;; `accented', `padded'.
+        modus-themes-mode-line 'moody ; For Moody, also check `prot-moody'
+
+        ;; This one only works when `modus-themes-mode-line' (above) has
+        ;; the `padded' property.  It takes a positive integer.
+        modus-themes-mode-line-padding 2
+
+        ;; Options for `modus-themes-syntax' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
+        modus-themes-syntax nil
+
+        ;; Options for `modus-themes-hl-line' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `accented', `underline', `intense'
+        modus-themes-hl-line '(underline accented intense)
+
+        ;; Options for `modus-themes-paren-match' are either nil (the
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `bold', `intense', `underline'
+        modus-themes-paren-match '(bold)
+
+        ;; Options for `modus-themes-links' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
+        ;; `bold', `italic', `background'
+        modus-themes-links nil
+
+        ;; Options for `modus-themes-prompts' are either nil (the
+        ;; default), or a list of properties that may include any of
+        ;; those symbols: `background', `bold', `gray', `intense',
+        ;; `italic'
+        modus-themes-prompts '(bold italic)
+
+        modus-themes-completions 'opinionated ; {nil,'moderate,'opinionated}
+
+        modus-themes-mail-citations 'faint ; {nil,'faint,'monochrome}
+
+        ;; Options for `modus-themes-region' are either nil (the default),
+        ;; or a list of properties that may include any of those symbols:
+        ;; `no-extend', `bg-only', `accented'
+        modus-themes-region '(no-extend accented)
+
+        ;; Options for `modus-themes-diffs': nil, 'desaturated,
+        ;; 'bg-only, 'deuteranopia, 'fg-only-deuteranopia
+        modus-themes-diffs 'desaturated
+
+        modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background} (also read doc string)
+
+        ;; This is an alist: read the manual or its doc string.
+        modus-themes-org-agenda
+        '((header-block . (variable-pitch scale-title))
+          (header-date . (bold-today scale-heading ))
+          (event . (accented italic))
+          (scheduled . uniform)
+          (habit . traf***REMOVED***c-light-deuteranopia))
+
+        ;; This is an alist: read the manual or its doc string.
+        modus-themes-headings nil
+        ;; '((1 . (overline))
+        ;;   (2 . (overline))
+        ;;   (3 . (rainbow overline))
+        ;;   (t . (rainbow no-bold overline)))
+        ;;
+        ;; '((t . (no-bold background overline)))
+
+        modus-themes-variable-pitch-ui nil
+        modus-themes-variable-pitch-headings nil
+        modus-themes-scale-headings nil
+        modus-themes-scale-1 1.1
+        modus-themes-scale-2 1.15
+        modus-themes-scale-3 1.21
+        modus-themes-scale-4 1.27
+        modus-themes-scale-title 1.33
+        modus-themes-scale-small 0.9)
+
+  ;; Load the theme ***REMOVED***les before enabling a theme
+  (modus-themes-load-themes)
+  (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
+  ;; :con***REMOVED***g
+  ;; Load the theme of your choice:
+  )
+
 (use-package doom-themes
-  :hook (emacs-startup . (lambda () (load-theme 'doom-gruvbox t)))
+  :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
   :con***REMOVED***g
   (doom-themes-visual-bell-con***REMOVED***g)
   (doom-themes-org-con***REMOVED***g))
@@ -148,32 +262,14 @@
   :hook (erc-mode . emojify-mode)
   :commands emojify-mode)
 
-(use-package doom-modeline
-  :init
-  (unless after-init-time
-    ;; prevent flash of unstyled modeline at startup
-    (setq-default mode-line-format nil))
-  :custom-face
-  (mode-line ((t (:family "JetBrains Mono" :height 125))))
-  (mode-line-inactive ((t (:family "JetBrains Mono" :height 125))))
-  :custom
-  (doom-modeline-height 25)
-  (doom-modeline-bar-width 4)
-  (doom-modeline-lsp t)
-  (doom-modeline-github nil)
-  (doom-modeline-mu4e nil)
-  (doom-modeline-irc nil)
-  (doom-modeline-minor-modes t)
-  (doom-modeline-persp-name nil)
-  (doom-modeline-buffer-***REMOVED***le-name-style 'truncate-except-project)
-  (doom-modeline-major-mode-icon nil)
-  :hook (emacs-startup . (lambda () (doom-modeline-mode 1))))
+(use-package mood-line
+  :hook (after-init . mood-line-mode))
 
-;; (defun js/doom-modeline--font-height ()
-;;   "Calculate the actual char height of the mode-line."
-;;   (+ (frame-char-height) 2))
+(defun js/doom-modeline--font-height ()
+  "Calculate the actual char height of the mode-line."
+  (+ (frame-char-height) 2))
 
-;; (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
+(advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
 
 (use-package minions
   :after doom-modeline
@@ -218,6 +314,8 @@
 ;;(mac-auto-operator-composition-mode t)
 
 (setq frame-resize-pixelwise t)
+
+(setq vc-follow-symlinks t)
 
 (use-package orderless
   :defer 0.1
@@ -264,7 +362,7 @@
 	embark-become-indicator embark-action-indicator))
 
 (use-package embark-consult
-  :after (embark consult)
+  :after embark
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
@@ -300,8 +398,10 @@ folder, otherwise delete a word"
   (vertico-mode))
 
 (use-package savehist
-  :init
-  (savehist-mode))
+  :hook (emacs-startup . (lambda () (savehist-mode)))
+  ;; :init
+  ;; (savehist-mode)
+  )
 
 (use-package emacs
   :init
@@ -432,7 +532,12 @@ folder, otherwise delete a word"
   (setq treemacs-follow-mode t))
 
 (use-package treemacs-evil
-  :after treemacs)
+  :after treemacs evil)
+
+(use-package treemacs-all-the-icons
+  :after treemacs
+  :con***REMOVED***g
+  (treemacs-load-theme "all-the-icons"))
 
 (use-package vterm)
 
@@ -554,11 +659,17 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (setq lsp-ui-doc-position 'bottom))
 
-(use-package lsp-pyright
-  :after lsp-mode
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-deferred))))
+;; (use-package lsp-pyright
+  ;;   :after lsp-mode
+  ;;   :hook (python-mode . (lambda ()
+  ;;                          (require 'lsp-pyright)
+  ;;                          (lsp-deferred))))
+;; (use-package lsp-python-ms
+;;   :ensure t
+;;   :init (setq lsp-python-ms-auto-install-server t)
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-python-ms)
+;;                           (lsp))))  ; or lsp-deferred
 
 (use-package dap-mode
   ;; Uncomment the con***REMOVED***g below if you want all UI panes to be hidden by default!
@@ -590,6 +701,8 @@ folder, otherwise delete a word"
     "c" 'docker))
 
 (use-package terraform-mode)
+
+(use-package eglot)
 
 (use-package platformio-mode
   :hook
@@ -772,9 +885,9 @@ folder, otherwise delete a word"
           ;; org-tempo
           ;; org-crypt
           ;; org-habit
-          org-bookmark
-          org-eshell
-          org-irc
+          ;; org-bookmark
+          ;; org-eshell
+          ;; org-irc
           org-indent
           ;; ol-docview
           ;; ol-gnus

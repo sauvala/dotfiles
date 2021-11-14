@@ -29,7 +29,6 @@
   - [[#startup-splash-image][Startup splash image]]
   - [[#emojis-in-buffers][Emojis in buffers]]
   - [[#modeline][Modeline]]
-    - [[#doom-modeline][Doom-modeline]]
     - [[#minions][Minions]]
     - [[#mode-diminishing][Mode diminishing]]
   - [[#recent-***REMOVED***les][Recent ***REMOVED***les]]
@@ -37,6 +36,7 @@
   - [[#default-encoding][Default encoding]]
   - [[#enable-font-ligatures][Enable font ligatures]]
   - [[#***REMOVED***x-cap-between-other-windows][Fix cap between other windows]]
+  - [[#follow-symblinked-***REMOVED***les][Follow symblinked ***REMOVED***les]]
 - [[#completion][Completion]]
   - [[#improve-completions][Improve completions]]
     - [[#orderless][Orderless]]
@@ -83,6 +83,7 @@
       - [[#lsp-treemacs][lsp-treemacs]]
     - [[#docker][Docker]]
     - [[#terraform][Terraform]]
+    - [[#eglot][Eglot]]
   - [[#arduino-with-platformio][Arduino with PlatformIO]]
   - [[#aggressive-indent-mode][Aggressive indent mode]]
   - [[#company][Company]]
@@ -151,14 +152,16 @@
 
 * Server mode
 #+begin_src emacs-lisp
-  (server-start)
+  ;; (server-start)
 #+end_src
 
 * Setup path from shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
-    :init
+    :defer 1
+    :con***REMOVED***g
     (when (memq window-system '(mac ns x))
+      ;; (setq exec-path-from-shell-arguments nil)
       (exec-path-from-shell-initialize)))
 #+end_src
 
@@ -203,7 +206,7 @@
     (global-undo-tree-mode 1))
 
   (use-package evil
-    :defer 0.1
+    :defer 1
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
@@ -247,8 +250,9 @@
 ** which-key
 #+begin_src emacs-lisp
   (use-package which-key
-    :init (which-key-mode)
+    ;; :init 
     :diminish which-key-mode
+    :hook (emacs-startup . (lambda () (which-key-mode)))
     :con***REMOVED***g
     (setq which-key-idle-delay 0.3))
 #+end_src
@@ -310,8 +314,121 @@
   
 ** Theme
 #+begin_src emacs-lisp
+  (setq visible-bell nil)
+  (use-package modus-themes
+    :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
+    :con***REMOVED***g
+    ;; Add all your customizations prior to loading the themes
+    ;;   (setq modus-themes-italic-constructs t
+    ;;         modus-themes-bold-constructs nil
+    ;;         modus-themes-region '(bg-only no-extend))
+
+    (setq modus-themes-italic-constructs t
+          modus-themes-bold-constructs t
+          modus-themes-mixed-fonts t
+          modus-themes-subtle-line-numbers t
+          modus-themes-intense-markup nil
+          modus-themes-success-deuteranopia nil
+          modus-themes-tabs-accented nil
+          modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
+
+          modus-themes-fringes nil ; {nil,'subtle,'intense}
+
+          ;; Options for `modus-themes-lang-checkers' are either nil (the
+          ;; default), or a list of properties that may include any of those
+          ;; symbols: `straight-underline', `text-also', `background',
+          ;; `intense' OR `faint'.
+          modus-themes-lang-checkers nil
+
+          ;; Options for `modus-themes-mode-line' are either nil, or a
+          ;; list that can combine any of `3d' OR `moody', `borderless',
+          ;; `accented', `padded'.
+          modus-themes-mode-line 'moody ; For Moody, also check `prot-moody'
+
+          ;; This one only works when `modus-themes-mode-line' (above) has
+          ;; the `padded' property.  It takes a positive integer.
+          modus-themes-mode-line-padding 2
+
+          ;; Options for `modus-themes-syntax' are either nil (the default),
+          ;; or a list of properties that may include any of those symbols:
+          ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
+          modus-themes-syntax nil
+
+          ;; Options for `modus-themes-hl-line' are either nil (the default),
+          ;; or a list of properties that may include any of those symbols:
+          ;; `accented', `underline', `intense'
+          modus-themes-hl-line '(underline accented intense)
+
+          ;; Options for `modus-themes-paren-match' are either nil (the
+          ;; default), or a list of properties that may include any of those
+          ;; symbols: `bold', `intense', `underline'
+          modus-themes-paren-match '(bold)
+
+          ;; Options for `modus-themes-links' are either nil (the default),
+          ;; or a list of properties that may include any of those symbols:
+          ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
+          ;; `bold', `italic', `background'
+          modus-themes-links nil
+
+          ;; Options for `modus-themes-prompts' are either nil (the
+          ;; default), or a list of properties that may include any of
+          ;; those symbols: `background', `bold', `gray', `intense',
+          ;; `italic'
+          modus-themes-prompts '(bold italic)
+
+          modus-themes-completions 'opinionated ; {nil,'moderate,'opinionated}
+
+          modus-themes-mail-citations 'faint ; {nil,'faint,'monochrome}
+
+          ;; Options for `modus-themes-region' are either nil (the default),
+          ;; or a list of properties that may include any of those symbols:
+          ;; `no-extend', `bg-only', `accented'
+          modus-themes-region '(no-extend accented)
+
+          ;; Options for `modus-themes-diffs': nil, 'desaturated,
+          ;; 'bg-only, 'deuteranopia, 'fg-only-deuteranopia
+          modus-themes-diffs 'desaturated
+
+          modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background} (also read doc string)
+
+          ;; This is an alist: read the manual or its doc string.
+          modus-themes-org-agenda
+          '((header-block . (variable-pitch scale-title))
+            (header-date . (bold-today scale-heading ))
+            (event . (accented italic))
+            (scheduled . uniform)
+            (habit . traf***REMOVED***c-light-deuteranopia))
+
+          ;; This is an alist: read the manual or its doc string.
+          modus-themes-headings nil
+          ;; '((1 . (overline))
+          ;;   (2 . (overline))
+          ;;   (3 . (rainbow overline))
+          ;;   (t . (rainbow no-bold overline)))
+          ;;
+          ;; '((t . (no-bold background overline)))
+
+          modus-themes-variable-pitch-ui nil
+          modus-themes-variable-pitch-headings nil
+          modus-themes-scale-headings nil
+          modus-themes-scale-1 1.1
+          modus-themes-scale-2 1.15
+          modus-themes-scale-3 1.21
+          modus-themes-scale-4 1.27
+          modus-themes-scale-title 1.33
+          modus-themes-scale-small 0.9)
+
+    ;; Load the theme ***REMOVED***les before enabling a theme
+    (modus-themes-load-themes)
+    (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
+    ;; :con***REMOVED***g
+    ;; Load the theme of your choice:
+    )
+#+end_src
+
+#+begin_src emacs-lisp
   (use-package doom-themes
-    :hook (emacs-startup . (lambda () (load-theme 'doom-gruvbox t)))
+    :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
     :con***REMOVED***g
     (doom-themes-visual-bell-con***REMOVED***g)
     (doom-themes-org-con***REMOVED***g))
@@ -331,39 +448,20 @@ Image found from https://github.com/tecosaur/emacs-con***REMOVED***g/blob/master
 #+end_src
 
 ** Modeline
-*** Doom-modeline
 Run =all-the-icons-install-fonts= after installing this package
 #+begin_src emacs-lisp
-  (use-package doom-modeline
-    :init
-    (unless after-init-time
-      ;; prevent flash of unstyled modeline at startup
-      (setq-default mode-line-format nil))
-    :custom-face
-    (mode-line ((t (:family "JetBrains Mono" :height 125))))
-    (mode-line-inactive ((t (:family "JetBrains Mono" :height 125))))
-    :custom
-    (doom-modeline-height 25)
-    (doom-modeline-bar-width 4)
-    (doom-modeline-lsp t)
-    (doom-modeline-github nil)
-    (doom-modeline-mu4e nil)
-    (doom-modeline-irc nil)
-    (doom-modeline-minor-modes t)
-    (doom-modeline-persp-name nil)
-    (doom-modeline-buffer-***REMOVED***le-name-style 'truncate-except-project)
-    (doom-modeline-major-mode-icon nil)
-    :hook (emacs-startup . (lambda () (doom-modeline-mode 1))))
+  (use-package mood-line
+    :hook (after-init . mood-line-mode))
 #+end_src
 
 Change modeline font size to match modeline's height
 [[https://github.com/seagle0128/doom-modeline/issues/187#issuecomment-806448361]]
 #+begin_src emacs-lisp
-  ;; (defun js/doom-modeline--font-height ()
-  ;;   "Calculate the actual char height of the mode-line."
-  ;;   (+ (frame-char-height) 2))
+  (defun js/doom-modeline--font-height ()
+    "Calculate the actual char height of the mode-line."
+    (+ (frame-char-height) 2))
   
-  ;; (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
+  (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
 #+end_src
 
 *** Minions
@@ -434,6 +532,10 @@ Needed only in emacs-mac but not in emacs-plus
   (setq frame-resize-pixelwise t)
 #+end_src
 
+** Follow symblinked ***REMOVED***les
+#+begin_src emacs-lisp
+  (setq vc-follow-symlinks t)
+#+end_src
 * Completion
 Many of the settings here are taken from daviwil.
 https://github.com/daviwil/dot***REMOVED***les/blob/master/Emacs.org#completion-system
@@ -504,7 +606,7 @@ https://github.com/oantolin/embark
 	  embark-become-indicator embark-action-indicator))
 
   (use-package embark-consult
-    :after (embark consult)
+    :after embark
     :hook
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
@@ -547,8 +649,10 @@ https://github.com/oantolin/embark
 Persist history over Emacs restarts. Vertico sorts by history position.
 #+begin_src emacs-lisp
   (use-package savehist
-    :init
-    (savehist-mode))
+    :hook (emacs-startup . (lambda () (savehist-mode)))
+    ;; :init
+    ;; (savehist-mode)
+    )
 #+end_src
 
 *** Extra con***REMOVED***gs for Vertico
@@ -737,7 +841,12 @@ Add icons to ***REMOVED***les names
     (setq treemacs-follow-mode t))
 
   (use-package treemacs-evil
-    :after treemacs)
+    :after treemacs evil)
+
+  (use-package treemacs-all-the-icons
+    :after treemacs
+    :con***REMOVED***g
+    (treemacs-load-theme "all-the-icons"))
 #+end_src
 
 ** Terminal
@@ -863,7 +972,7 @@ Javascript and Typescript
     (lsp-idle-delay 0.500)
     :con***REMOVED***g
     (setq read-process-output-max 1048576) ; (* 1024 1024)
-  
+
     ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
     ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
     (lsp-register-client
@@ -877,7 +986,7 @@ Javascript and Typescript
     (lsp-register-custom-settings
      '(("gopls.completeUnimported" t t)
        ("gopls.staticcheck" t t)))) 
-  
+
   (js/leader-key-def
     "l"  '(:ignore t :which-key "lsp")
     "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
@@ -888,7 +997,7 @@ Javascript and Typescript
     "le" 'lsp-ui-flycheck-list
     "lS" 'lsp-ui-sideline-mode
     "lX" 'lsp-execute-code-action)
-  
+
   (use-package lsp-ui
     :after lsp-mode
     :hook (lsp-mode . lsp-ui-mode)
@@ -898,11 +1007,17 @@ Javascript and Typescript
 
 **** Python
 #+begin_src emacs-lisp
-  (use-package lsp-pyright
-    :after lsp-mode
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-pyright)
-                           (lsp-deferred))))
+    ;; (use-package lsp-pyright
+    ;;   :after lsp-mode
+    ;;   :hook (python-mode . (lambda ()
+    ;;                          (require 'lsp-pyright)
+    ;;                          (lsp-deferred))))
+  ;; (use-package lsp-python-ms
+  ;;   :ensure t
+  ;;   :init (setq lsp-python-ms-auto-install-server t)
+  ;;   :hook (python-mode . (lambda ()
+  ;;                           (require 'lsp-python-ms)
+  ;;                           (lsp))))  ; or lsp-deferred
 #+end_src
 
 **** dap-mode
@@ -948,6 +1063,10 @@ Javascript and Typescript
   (use-package terraform-mode)
 #+end_src
 
+*** Eglot
+#+begin_src emacs-lisp
+  (use-package eglot)
+#+end_src
 ** Arduino with PlatformIO
 #+begin_src emacs-lisp
   (use-package platformio-mode
@@ -971,6 +1090,7 @@ Javascript and Typescript
     :con***REMOVED***g
     (setq company-idle-delay 0.2))
 #+end_src
+
 * Productivity
 *** Rainbow delimiter
 #+begin_src emacs-lisp
@@ -1193,9 +1313,9 @@ Javascript and Typescript
             ;; org-tempo
             ;; org-crypt
             ;; org-habit
-            org-bookmark
-            org-eshell
-            org-irc
+            ;; org-bookmark
+            ;; org-eshell
+            ;; org-irc
             org-indent
             ;; ol-docview
             ;; ol-gnus
