@@ -105,6 +105,7 @@
   - [[#emacs-everywhere][Emacs everywhere]]
   - [[#silver-searcher---ag][Silver searcher - ag]]
   - [[#dogearsel][Dogears.el]]
+  - [[#pomm][Pomm]]
 - [[#dired][Dired]]
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
@@ -588,7 +589,9 @@ https://github.com/minad/consult
 #+begin_src emacs-lisp
   (use-package consult-lsp
     :after (consult lsp-mode)
-    :commands consult-lsp-symbols)
+    :commands consult-lsp-symbols
+    :con***REMOVED***g
+    (consult-lsp-marginalia-mode))
 #+end_src
 
 ** Embark
@@ -934,9 +937,14 @@ Javascript and Typescript
     :con***REMOVED***g
     (apheleia-global-mode +1))
 
-  (use-package prettier-js
-    :hook ((js2-mode . prettier-js-mode)
-            (typescript-mode . prettier-js-mode)))
+  ;; (use-package prettier-js
+  ;;   :con***REMOVED***g
+  ;;   (setq prettier-js-args '(
+  ;;                            "--single-quote" "true"
+  ;;                            ))
+
+  ;;   :hook ((js2-mode . prettier-js-mode)
+  ;e          (typescript-mode . prettier-js-mode)))
 
   (use-package js2-refactor
     :hook (js2-mode . js2-refactor-mode))
@@ -974,52 +982,57 @@ Javascript and Typescript
 #+end_src
 
 *** LSP
+For Javacsript and Typescript, install the language server https://github.com/typescript-language-server/typescript-language-server
 #+begin_src emacs-lisp
-  (use-package lsp-mode
-    :commands lsp
-    :hook
-    (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode) . lsp)
-     (go-mode . js/lsp-go-install-save-hooks))
-    :bind
-    (:map lsp-mode-map ("TAB" . completion-at-point))
-    :custom
-    (lsp-headerline-breadcrumb-enable nil)
-    (lsp-modeline-code-actions-enable nil)
-    (lsp-lens-enable t)
-    (lsp-idle-delay 0.500)
-    :con***REMOVED***g
-    (setq read-process-output-max 1048576) ; (* 1024 1024)
+    (use-package lsp-mode
+      :commands lsp
+      :hook
+      (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode) . lsp)
+       (go-mode . js/lsp-go-install-save-hooks))
+      :bind
+      (:map lsp-mode-map ("TAB" . completion-at-point))
+      :custom
+      (lsp-headerline-breadcrumb-enable nil)
+      (lsp-modeline-code-actions-enable nil)
+      (lsp-lens-enable t)
+      (lsp-idle-delay 0.500)
+      :con***REMOVED***g
+      (setq read-process-output-max 1048576) ; (* 1024 1024)
 
-    ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
-    ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
-    (lsp-register-client
-     (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-                      :major-modes '(terraform-mode)
-                      :server-id 'terraform-ls))
-    ;; gopls
-    (defun js/lsp-go-install-save-hooks ()
-      (add-hook 'before-save-hook #'lsp-format-buffer t t)
-      (add-hook 'before-save-hook #'lsp-organize-imports t t))
-    (lsp-register-custom-settings
-     '(("gopls.completeUnimported" t t)
-       ("gopls.staticcheck" t t)))) 
+      ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
+      ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
+      (lsp-register-client
+       (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
+                        :major-modes '(terraform-mode)
+                        :server-id 'terraform-ls))
 
-  (js/leader-key-def
-    "l"  '(:ignore t :which-key "lsp")
-    "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
-    "lr" 'xref-***REMOVED***nd-references
-    "ln" 'lsp-ui-***REMOVED***nd-next-reference
-    "lp" 'lsp-ui-***REMOVED***nd-prev-reference
-    "ls" 'counsel-imenu
-    "le" 'lsp-ui-flycheck-list
-    "lS" 'lsp-ui-sideline-mode
-    "lX" 'lsp-execute-code-action)
+      (setq lsp-eslint-format nil
+            lsp-eslint-enable nil) 
 
-  (use-package lsp-ui
-    :after lsp-mode
-    :hook (lsp-mode . lsp-ui-mode)
-    :con***REMOVED***g
-    (setq lsp-ui-doc-position 'bottom))
+      ;; gopls
+      (defun js/lsp-go-install-save-hooks ()
+        (add-hook 'before-save-hook #'lsp-format-buffer t t)
+        (add-hook 'before-save-hook #'lsp-organize-imports t t))
+      (lsp-register-custom-settings
+       '(("gopls.completeUnimported" t t)
+         ("gopls.staticcheck" t t)))) 
+
+    (js/leader-key-def
+      "l"  '(:ignore t :which-key "lsp")
+      "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
+      "lr" 'xref-***REMOVED***nd-references
+      "ln" 'lsp-ui-***REMOVED***nd-next-reference
+      "lp" 'lsp-ui-***REMOVED***nd-prev-reference
+      "ls" 'counsel-imenu
+      "le" 'lsp-ui-flycheck-list
+      "lS" 'lsp-ui-sideline-mode
+      "lX" 'lsp-execute-code-action)
+
+    (use-package lsp-ui
+      :after lsp-mode
+      :hook (lsp-mode . lsp-ui-mode)
+      :con***REMOVED***g
+      (setq lsp-ui-doc-position 'bottom))
 #+end_src
 
 **** Python
@@ -1106,6 +1119,9 @@ Javascript and Typescript
     :bind ("H-SPC" . company-complete)
     :con***REMOVED***g
     (setq company-idle-delay 0.2))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 #+end_src
 
 * Productivity

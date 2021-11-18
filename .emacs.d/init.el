@@ -348,7 +348,9 @@
 
 (use-package consult-lsp
   :after (consult lsp-mode)
-  :commands consult-lsp-symbols)
+  :commands consult-lsp-symbols
+  :con***REMOVED***g
+  (consult-lsp-marginalia-mode))
 
 (use-package embark
   :bind (("C-S-a" . embark-act)
@@ -601,9 +603,14 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (apheleia-global-mode +1))
 
-(use-package prettier-js
-  :hook ((js2-mode . prettier-js-mode)
-          (typescript-mode . prettier-js-mode)))
+;; (use-package prettier-js
+;;   :con***REMOVED***g
+;;   (setq prettier-js-args '(
+;;                            "--single-quote" "true"
+;;                            ))
+
+;;   :hook ((js2-mode . prettier-js-mode)
+;e          (typescript-mode . prettier-js-mode)))
 
 (use-package js2-refactor
   :hook (js2-mode . js2-refactor-mode))
@@ -648,6 +655,10 @@ folder, otherwise delete a word"
    (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
                     :major-modes '(terraform-mode)
                     :server-id 'terraform-ls))
+
+  (setq lsp-eslint-format nil
+        lsp-eslint-enable nil) 
+
   ;; gopls
   (defun js/lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
@@ -732,6 +743,9 @@ folder, otherwise delete a word"
   :bind ("H-SPC" . company-complete)
   :con***REMOVED***g
   (setq company-idle-delay 0.2))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
