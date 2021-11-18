@@ -60,13 +60,13 @@
 (defvar js/default-variable-font-size 150)
 
 (set-face-attribute 'default nil
-                    :font "Iosevka ss08"
+                    :font "JetBrains Mono"
                     :weight 'normal
                     :height js/default-font-size)
 
 ;; Set the ***REMOVED***xed pitch face
 (set-face-attribute '***REMOVED***xed-pitch nil
-                    :font "Iosevka ss08"
+                    :font "JetBrains Mono"
                     :weight 'light
                     :height js/default-font-size)
 
