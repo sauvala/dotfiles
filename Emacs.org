@@ -65,6 +65,7 @@
   - [[#burlyel][Burly.el]]
 - [[#development][Development]]
   - [[#magit][Magit]]
+  - [[#blamer][Blamer]]
   - [[#projectel][Project.el]]
   - [[#treemacs][Treemacs]]
   - [[#terminal][Terminal]]
@@ -815,6 +816,20 @@ Add icons to ***REMOVED***les names
     "gr"  'magit-rebase)
 #+end_src
 
+** Blamer
+#+begin_src emacs-lisp
+  (use-package blamer
+    :custom
+    (blamer-idle-time 0.3)
+    (blamer-min-offset 70)
+    :custom-face
+    (blamer-face ((t :foreground "#7a88cf"
+                      :background nil
+                      :height 140
+                      :italic t)))
+    :con***REMOVED***g
+    (global-blamer-mode 1))
+#+end_src
 ** Project.el
 #+begin_src emacs-lisp
   (use-package project
@@ -1237,6 +1252,14 @@ Javascript and Typescript
       "df"  '(dogears-forward :which-key "forward")
       "dl"  '(dogears-list :which-key "list")
       "ds"  '(dogears-sidebar :which-key "sidebar")))
+#+end_src
+
+*** Pomm
+#+begin_src emacs-lisp
+  (use-package pomm
+    :con***REMOVED***g
+    (setq pomm-audio-enabled t)
+    :commands (pomm))
 #+end_src
 
 * Dired

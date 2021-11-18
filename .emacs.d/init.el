@@ -511,6 +511,18 @@ folder, otherwise delete a word"
   "gF"  'magit-fetch-all
   "gr"  'magit-rebase)
 
+(use-package blamer
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 140
+                    :italic t)))
+  :con***REMOVED***g
+  (global-blamer-mode 1))
+
 (use-package project
   :con***REMOVED***g
   (add-to-list 'project-switch-commands '(magit-status "Magit status" ?m))
@@ -817,6 +829,11 @@ folder, otherwise delete a word"
     "df"  '(dogears-forward :which-key "forward")
     "dl"  '(dogears-list :which-key "list")
     "ds"  '(dogears-sidebar :which-key "sidebar")))
+
+(use-package pomm
+  :con***REMOVED***g
+  (setq pomm-audio-enabled t)
+  :commands (pomm))
 
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode)) 
