@@ -71,7 +71,9 @@
   (de***REMOVED***ne-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
   (de***REMOVED***ne-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
   (de***REMOVED***ne-key evil-normal-state-map (kbd "H-i") 'evil-jump-forward)
+  (de***REMOVED***ne-key evil-normal-state-map (kbd "C-M-s-i") 'evil-jump-forward)
   (de***REMOVED***ne-key evil-normal-state-map (kbd "H-o") 'evil-jump-backward)
+  (de***REMOVED***ne-key evil-normal-state-map (kbd "C-M-s-o") 'evil-jump-backward)
 
   ;; Use visual line motions even outside of visual-line-mode buffers
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
