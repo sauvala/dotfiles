@@ -37,6 +37,7 @@
   - [[#enable-font-ligatures][Enable font ligatures]]
   - [[#***REMOVED***x-cap-between-other-windows][Fix cap between other windows]]
   - [[#follow-symblinked-***REMOVED***les][Follow symblinked ***REMOVED***les]]
+  - [[#store-backup-***REMOVED***les-separately][Store backup ***REMOVED***les separately]]
 - [[#completion][Completion]]
   - [[#improve-completions][Improve completions]]
     - [[#orderless][Orderless]]
@@ -540,6 +541,17 @@ Needed only in emacs-mac but not in emacs-plus
 #+begin_src emacs-lisp
   (setq vc-follow-symlinks t)
 #+end_src
+
+** Store backup ***REMOVED***les separately
+#+begin_src emacs-lisp
+  (setq backup-directory-alist `(("." . "~/.cache/emacs/saves"))
+        backup-by-copying t
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)
+#+end_src
+
 * Completion
 Many of the settings here are taken from daviwil.
 https://github.com/daviwil/dot***REMOVED***les/blob/master/Emacs.org#completion-system
