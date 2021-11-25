@@ -22,9 +22,8 @@
 (use-package exec-path-from-shell
   :defer 1
   :con***REMOVED***g
-  (when (memq window-system '(mac ns x))
-    ;; (setq exec-path-from-shell-arguments nil)
-    (exec-path-from-shell-initialize)))
+  (cond ((daemonp) (exec-path-from-shell-initialize))
+        ((memq window-system '(mac ns x)) (exec-path-from-shell-initialize))))
 
 (setq mac-right-option-modi***REMOVED***er 'nil
       mac-option-modi***REMOVED***er 'super
