@@ -51,11 +51,18 @@
   :init
   (global-undo-tree-mode 1))
 
+(use-package evil-snipe
+  :defer 0.5
+  :con***REMOVED***g
+  (evil-snipe-mode +1))
+
 (use-package evil
   :defer 1
   :init
+  ;; these two needs to be set for evil-collection
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
+
   (setq evil-want-C-u-scroll t)
   (setq evil-want-C-i-jump nil)
   (setq evil-respect-visual-line-mode t)
@@ -82,6 +89,7 @@
 
 (use-package evil-collection
   :after evil
+  :custom (evil-collection-setup-minibuffer t) 
   :con***REMOVED***g
   (evil-collection-init))
 
@@ -89,10 +97,6 @@
   :after evil
   :con***REMOVED***g
   (global-evil-surround-mode 1))
-
-(use-package evil-snipe
-  :con***REMOVED***g
-  (evil-snipe-mode +1))
 
 (use-package which-key
   ;; :init 
