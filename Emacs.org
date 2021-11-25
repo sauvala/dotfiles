@@ -848,6 +848,7 @@ Add icons to ***REMOVED***les names
     :con***REMOVED***g
     (global-blamer-mode 1))
 #+end_src
+
 ** Project.el
 #+begin_src emacs-lisp
   (use-package project
@@ -1112,6 +1113,7 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 #+begin_src emacs-lisp
   (use-package eglot)
 #+end_src
+
 ** Arduino with PlatformIO
 #+begin_src emacs-lisp
   (use-package platformio-mode
