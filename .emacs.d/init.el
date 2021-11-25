@@ -781,7 +781,7 @@ folder, otherwise delete a word"
   :general
   (js/leader-key-def
     "j"   '(:ignore t :which-key "jump")
-    "jt"  '(avy-goto-char-timer :which-key "time"))
+    "jt"  '(avy-goto-char-timer :which-key "timer"))
   :con***REMOVED***g
   (avy-setup-default))
 

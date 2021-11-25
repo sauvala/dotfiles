@@ -1175,7 +1175,7 @@ For Javacsript and Typescript, install the language server https://github.com/ty
     :general
     (js/leader-key-def
       "j"   '(:ignore t :which-key "jump")
-      "jt"  '(avy-goto-char-timer :which-key "time"))
+      "jt"  '(avy-goto-char-timer :which-key "timer"))
     :con***REMOVED***g
     (avy-setup-default))
 #+end_src
