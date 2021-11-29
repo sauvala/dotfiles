@@ -44,6 +44,8 @@
     - [[#consult][Consult]]
     - [[#consult-dir][Consult-dir]]
     - [[#consult-lsp][Consult-lsp]]
+  - [[#company-lsp][Company-lsp]]
+  - [[#yasnippet][Yasnippet]]
   - [[#embark][Embark]]
   - [[#vertico][Vertico]]
     - [[#savehist][Savehist]]
@@ -292,7 +294,10 @@
         "ff"  '(***REMOVED***nd-***REMOVED***le :which-key "open ***REMOVED***le")
         "fs"  'save-buffer
         "fr"  '(consult-recent-***REMOVED***le :which-key "recent ***REMOVED***les")
-        "fR"  '(revert-buffer :which-key "revert ***REMOVED***le"))
+        "fR"  '(revert-buffer :which-key "revert ***REMOVED***le")
+        "b"   '(:ignore t :which-key "buffers")
+        "bb"  '(consult-buffer :which-key "list buffers")
+        "bl"  '(consult-buffer :which-key "list buffers"))
 #+end_src
 
 * General con***REMOVED***guration
@@ -609,6 +614,33 @@ https://github.com/minad/consult
     (consult-lsp-marginalia-mode))
 #+end_src
 
+** Company-lsp
+#+begin_src emacs-lisp
+  (use-package company-lsp
+    :after (lsp-mode company)
+    :con***REMOVED***g
+    (push 'company-lsp company-backend))
+    #+end_src
+ 
+** Yasnippet
+#+begin_src emacs-lisp
+  (use-package yasnippet-snippets
+    :after yasnippet)
+
+  (use-package yasnippet
+    :con***REMOVED***g
+    (yas-global-mode t)
+    (de***REMOVED***ne-key yas-minor-mode-map (kbd "<tab>") nil)
+    (de***REMOVED***ne-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
+    (add-to-list #'yas-snippet-dirs "my-personal-snippets")
+    (yas-reload-all)
+    (setq yas-prompt-functions '(yas-ido-prompt))
+    (defun help/yas-after-exit-snippet-hook-fn ()
+      (prettify-symbols-mode)
+      (prettify-symbols-mode))
+    (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
+    :diminish yas-minor-mode)
+#+end_src
 ** Embark
 "This package provides a sort of right-click contextual menu for Emacs, accessed through the embark-act command (which you should bind to a convenient key), offering you relevant actions to use on a target determined by the context."
 https://github.com/oantolin/embark

@@ -124,7 +124,10 @@
       "ff"  '(***REMOVED***nd-***REMOVED***le :which-key "open ***REMOVED***le")
       "fs"  'save-buffer
       "fr"  '(consult-recent-***REMOVED***le :which-key "recent ***REMOVED***les")
-      "fR"  '(revert-buffer :which-key "revert ***REMOVED***le"))
+      "fR"  '(revert-buffer :which-key "revert ***REMOVED***le")
+      "b"   '(:ignore t :which-key "buffers")
+      "bb"  '(consult-buffer :which-key "list buffers")
+      "bl"  '(consult-buffer :which-key "list buffers"))
 
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
@@ -361,6 +364,28 @@
   :commands consult-lsp-symbols
   :con***REMOVED***g
   (consult-lsp-marginalia-mode))
+
+(use-package company-lsp
+  :after (lsp-mode company)
+  :con***REMOVED***g
+  (push 'company-lsp company-backend))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
+
+(use-package yasnippet
+  :con***REMOVED***g
+  (yas-global-mode t)
+  (de***REMOVED***ne-key yas-minor-mode-map (kbd "<tab>") nil)
+  (de***REMOVED***ne-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
+  (add-to-list #'yas-snippet-dirs "my-personal-snippets")
+  (yas-reload-all)
+  (setq yas-prompt-functions '(yas-ido-prompt))
+  (defun help/yas-after-exit-snippet-hook-fn ()
+    (prettify-symbols-mode)
+    (prettify-symbols-mode))
+  (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
+  :diminish yas-minor-mode)
 
 (use-package embark
   :bind (("C-S-a" . embark-act)
