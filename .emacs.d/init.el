@@ -176,7 +176,7 @@
         ;; Options for `modus-themes-mode-line' are either nil, or a
         ;; list that can combine any of `3d' OR `moody', `borderless',
         ;; `accented', `padded'.
-        modus-themes-mode-line 'moody ; For Moody, also check `prot-moody'
+        modus-themes-mode-line '(borderless padded) ; For Moody, also check `prot-moody'
 
         ;; This one only works when `modus-themes-mode-line' (above) has
         ;; the `padded' property.  It takes a positive integer.
@@ -185,12 +185,12 @@
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-        modus-themes-syntax nil
+        modus-themes-syntax '(faint)
 
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `accented', `underline', `intense'
-        modus-themes-hl-line '(underline accented intense)
+        modus-themes-hl-line nil ;;'(accented)
 
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
@@ -233,7 +233,7 @@
           (habit . traf***REMOVED***c-light-deuteranopia))
 
         ;; This is an alist: read the manual or its doc string.
-        modus-themes-headings nil
+        ;; modus-themes-headings nil
         ;; '((1 . (overline))
         ;;   (2 . (overline))
         ;;   (3 . (rainbow overline))
@@ -241,28 +241,29 @@
         ;;
         ;; '((t . (no-bold background overline)))
 
-        modus-themes-variable-pitch-ui nil
-        modus-themes-variable-pitch-headings nil
-        modus-themes-scale-headings nil
-        modus-themes-scale-1 1.1
-        modus-themes-scale-2 1.15
-        modus-themes-scale-3 1.21
-        modus-themes-scale-4 1.27
-        modus-themes-scale-title 1.33
-        modus-themes-scale-small 0.9)
+        ;; modus-themes-variable-pitch-ui nil
+        ;; modus-themes-variable-pitch-headings nil
+        ;; modus-themes-scale-headings nil
+        ;; modus-themes-scale-1 1.1
+        ;; modus-themes-scale-2 1.15
+        ;; modus-themes-scale-3 1.21
+        ;; modus-themes-scale-4 1.27
+        ;; modus-themes-scale-title 1.33
+        ;; modus-themes-scale-small 0.9
+        )
 
   ;; Load the theme ***REMOVED***les before enabling a theme
   (modus-themes-load-themes)
-  (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
+  ;; (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
   ;; :con***REMOVED***g
   ;; Load the theme of your choice:
   )
 
-(use-package doom-themes
-  :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
-  :con***REMOVED***g
-  (doom-themes-visual-bell-con***REMOVED***g)
-  (doom-themes-org-con***REMOVED***g))
+;; (use-package doom-themes
+;;   :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
+;;   :con***REMOVED***g
+;;   (doom-themes-visual-bell-con***REMOVED***g)
+;;   (doom-themes-org-con***REMOVED***g))
 
 (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 
@@ -1063,7 +1064,7 @@ folder, otherwise delete a word"
 
 (use-package org-roam
   :custom
-  (org-roam-directory (***REMOVED***le-truename "~/Google Drive/org/org-roam/"))
+  (org-roam-directory (***REMOVED***le-truename "/Volumes/GoogleDrive/My Drive/Org/org-roam"))
   :general
   (js/leader-key-def
     "or"    '(:ignore t :which-key "org-roam")
@@ -1074,6 +1075,7 @@ folder, otherwise delete a word"
     "orc"   '(org-roam-capture :which-key "capture")
     "ort"  '(org-roam-dailies-capture-today :which-key "capture-today"))
   :con***REMOVED***g
+  (setq org-roam-v2-ack t)
   (org-roam-setup))
 
 (use-package org-brain
@@ -1115,3 +1117,25 @@ folder, otherwise delete a word"
 (use-package speed-type)
 
 (use-package bug-hunter)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init ***REMOVED***le should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values '((org-duration-format . h:mm))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init ***REMOVED***le should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blamer-face ((t :foreground "#7a88cf" :background nil :height 140 :italic t)))
+ '(org-document-title ((t (:weight bold :height 1.3))))
+ '(org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
+ '(org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
+ '(org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
+ '(org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
+ '(org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
+ '(org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
+ '(org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
+ '(org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
+ '(vertico-current ((t (:background "#3c3836")))))

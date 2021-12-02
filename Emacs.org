@@ -356,7 +356,7 @@
           ;; Options for `modus-themes-mode-line' are either nil, or a
           ;; list that can combine any of `3d' OR `moody', `borderless',
           ;; `accented', `padded'.
-          modus-themes-mode-line 'moody ; For Moody, also check `prot-moody'
+          modus-themes-mode-line '(borderless padded) ; For Moody, also check `prot-moody'
 
           ;; This one only works when `modus-themes-mode-line' (above) has
           ;; the `padded' property.  It takes a positive integer.
@@ -365,12 +365,12 @@
           ;; Options for `modus-themes-syntax' are either nil (the default),
           ;; or a list of properties that may include any of those symbols:
           ;; `faint', `yellow-comments', `green-strings', `alt-syntax'
-          modus-themes-syntax nil
+          modus-themes-syntax '(faint)
 
           ;; Options for `modus-themes-hl-line' are either nil (the default),
           ;; or a list of properties that may include any of those symbols:
           ;; `accented', `underline', `intense'
-          modus-themes-hl-line '(underline accented intense)
+          modus-themes-hl-line nil ;;'(accented)
 
           ;; Options for `modus-themes-paren-match' are either nil (the
           ;; default), or a list of properties that may include any of those
@@ -413,7 +413,7 @@
             (habit . traf***REMOVED***c-light-deuteranopia))
 
           ;; This is an alist: read the manual or its doc string.
-          modus-themes-headings nil
+          ;; modus-themes-headings nil
           ;; '((1 . (overline))
           ;;   (2 . (overline))
           ;;   (3 . (rainbow overline))
@@ -421,30 +421,31 @@
           ;;
           ;; '((t . (no-bold background overline)))
 
-          modus-themes-variable-pitch-ui nil
-          modus-themes-variable-pitch-headings nil
-          modus-themes-scale-headings nil
-          modus-themes-scale-1 1.1
-          modus-themes-scale-2 1.15
-          modus-themes-scale-3 1.21
-          modus-themes-scale-4 1.27
-          modus-themes-scale-title 1.33
-          modus-themes-scale-small 0.9)
+          ;; modus-themes-variable-pitch-ui nil
+          ;; modus-themes-variable-pitch-headings nil
+          ;; modus-themes-scale-headings nil
+          ;; modus-themes-scale-1 1.1
+          ;; modus-themes-scale-2 1.15
+          ;; modus-themes-scale-3 1.21
+          ;; modus-themes-scale-4 1.27
+          ;; modus-themes-scale-title 1.33
+          ;; modus-themes-scale-small 0.9
+          )
 
     ;; Load the theme ***REMOVED***les before enabling a theme
     (modus-themes-load-themes)
-    (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
+    ;; (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
     ;; :con***REMOVED***g
     ;; Load the theme of your choice:
     )
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package doom-themes
-    :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
-    :con***REMOVED***g
-    (doom-themes-visual-bell-con***REMOVED***g)
-    (doom-themes-org-con***REMOVED***g))
+  ;; (use-package doom-themes
+  ;;   :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
+  ;;   :con***REMOVED***g
+  ;;   (doom-themes-visual-bell-con***REMOVED***g)
+  ;;   (doom-themes-org-con***REMOVED***g))
 #+end_src
 
 ** Startup splash image
@@ -1347,7 +1348,7 @@ For Javacsript and Typescript, install the language server https://github.com/ty
     (setq dired-omit-verbose nil
           dired-hide-details-hide-symlink-targets nil
           delete-by-moving-to-trash t))
- 
+
   (use-package dired-rainbow
     :defer 2
     :con***REMOVED***g
@@ -1530,7 +1531,7 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 #+begin_src emacs-lisp
   (use-package org-roam
     :custom
-    (org-roam-directory (***REMOVED***le-truename "~/Google Drive/org/org-roam/"))
+    (org-roam-directory (***REMOVED***le-truename "/Volumes/GoogleDrive/My Drive/Org/org-roam"))
     :general
     (js/leader-key-def
       "or"    '(:ignore t :which-key "org-roam")
@@ -1541,6 +1542,7 @@ For Javacsript and Typescript, install the language server https://github.com/ty
       "orc"   '(org-roam-capture :which-key "capture")
       "ort"  '(org-roam-dailies-capture-today :which-key "capture-today"))
     :con***REMOVED***g
+    (setq org-roam-v2-ack t)
     (org-roam-setup))
 #+end_src
 
