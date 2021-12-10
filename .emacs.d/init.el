@@ -259,13 +259,23 @@
   ;; Load the theme of your choice:
   )
 
-;; (use-package doom-themes
-;;   :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
-;;   :con***REMOVED***g
-;;   (doom-themes-visual-bell-con***REMOVED***g)
-;;   (doom-themes-org-con***REMOVED***g))
+(use-package doom-themes
+  :con***REMOVED***g
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
 
-(setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-con***REMOVED***g)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-con***REMOVED***g)
+  ;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
+  (doom-themes-org-con***REMOVED***g))
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1))
 
 (use-package emojify
   :hook (erc-mode . emojify-mode)
@@ -1117,25 +1127,3 @@ folder, otherwise delete a word"
 (use-package speed-type)
 
 (use-package bug-hunter)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init ***REMOVED***le should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values '((org-duration-format . h:mm))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init ***REMOVED***le should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(blamer-face ((t :foreground "#7a88cf" :background nil :height 140 :italic t)))
- '(org-document-title ((t (:weight bold :height 1.3))))
- '(org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
- '(org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
- '(org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
- '(org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
- '(org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
- '(org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
- '(org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
- '(org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
- '(vertico-current ((t (:background "#3c3836")))))
