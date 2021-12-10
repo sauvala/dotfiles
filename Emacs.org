@@ -26,6 +26,9 @@
   - [[#improve-scrolling][Improve scrolling]]
   - [[#line-numbers][Line numbers]]
   - [[#theme][Theme]]
+    - [[#modus-theme][Modus theme]]
+    - [[#doom-theme][Doom theme]]
+    - [[#doom-modeline][Doom modeline]]
   - [[#startup-splash-image][Startup splash image]]
   - [[#emojis-in-buffers][Emojis in buffers]]
   - [[#modeline][Modeline]]
@@ -326,6 +329,7 @@
   #+end_src
   
 ** Theme
+*** Modus theme
 #+begin_src emacs-lisp
   (setq visible-bell nil)
   (use-package modus-themes
@@ -440,14 +444,28 @@
     )
 #+end_src
 
+*** Doom theme
 #+begin_src emacs-lisp
-  ;; (use-package doom-themes
-  ;;   :hook (emacs-startup . (lambda () (load-theme 'modus-vivendi t)))
-  ;;   :con***REMOVED***g
-  ;;   (doom-themes-visual-bell-con***REMOVED***g)
-  ;;   (doom-themes-org-con***REMOVED***g))
+(use-package doom-themes
+  :con***REMOVED***g
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-con***REMOVED***g)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-con***REMOVED***g)
+  ;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
+  (doom-themes-org-con***REMOVED***g))
 #+end_src
 
+*** Doom modeline
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
 ** Startup splash image
 Image found from https://github.com/tecosaur/emacs-con***REMOVED***g/blob/master/misc/splash-images/emacs-e.svg
 #+begin_src emacs-lisp
