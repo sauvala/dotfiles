@@ -275,6 +275,8 @@
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
 
+(setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
+
 (use-package emojify
   :hook (erc-mode . emojify-mode)
   :commands emojify-mode)
