@@ -661,6 +661,7 @@ https://github.com/minad/consult
     (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
     :diminish yas-minor-mode)
 #+end_src
+
 ** Embark
 "This package provides a sort of right-click contextual menu for Emacs, accessed through the embark-act command (which you should bind to a convenient key), offering you relevant actions to use on a target determined by the context."
 https://github.com/oantolin/embark
