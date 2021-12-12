@@ -459,7 +459,9 @@
 *** Doom modeline
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :init (doom-modeline-mode 1)
+    :init (doom-modeline-mode 1))
+#+end_src
+
 ** Startup splash image
 Image found from https://github.com/tecosaur/emacs-con***REMOVED***g/blob/master/misc/splash-images/emacs-e.svg
 #+begin_src emacs-lisp
