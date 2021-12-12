@@ -59,7 +59,6 @@
     - [[#marginalia][Marginalia]]
   - [[#auto-complete][Auto complete]]
     - [[#corfu][Corfu]]
-    - [[#emacs-con***REMOVED***gs-for-corfu][Emacs con***REMOVED***gs for Corfu]]
     - [[#dabbrev][Dabbrev]]
   - [[#save-minibuffer-history][Save minibuffer history]]
 - [[#editor-con***REMOVED***guration][Editor con***REMOVED***guration]]
@@ -156,11 +155,6 @@
   ;        (expand-***REMOVED***le-name "custom.el" server-socket-dir)
   ;    (expand-***REMOVED***le-name (format "emacs-custom-%s.el" (user-uid)) temporary-***REMOVED***le-directory)))
   ;(load custom-***REMOVED***le t)
-#+end_src
-
-* Server mode
-#+begin_src emacs-lisp
-  ;; (server-start)
 #+end_src
 
 * Setup path from shell
@@ -798,15 +792,6 @@ Add icons to ***REMOVED***les names
     (corfu-global-mode))
 #+end_src
 
-*** Emacs con***REMOVED***gs for Corfu
-#+begin_src emacs-lisp
-  (use-package emacs
-    :init
-    (setq read-extended-command-predicate 'command-completion-default-include-p)
-    ;(setq tab-always-indent 'complete)
-    )
-#+end_src
-
 *** Dabbrev
 #+begin_src emacs-lisp
   (use-package dabbrev
@@ -885,6 +870,11 @@ Add icons to ***REMOVED***les names
     "gf"  'magit-fetch
     "gF"  'magit-fetch-all
     "gr"  'magit-rebase)
+#+end_src
+
+** Code review
+#+begin_src emacs-lisp
+  (use-package code-review)
 #+end_src
 
 ** Blamer

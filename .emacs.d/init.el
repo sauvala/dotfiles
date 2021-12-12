@@ -17,8 +17,6 @@
 ;    (expand-***REMOVED***le-name (format "emacs-custom-%s.el" (user-uid)) temporary-***REMOVED***le-directory)))
 ;(load custom-***REMOVED***le t)
 
-;; (server-start)
-
 (use-package exec-path-from-shell
   :defer 1
   :con***REMOVED***g
@@ -502,12 +500,6 @@ folder, otherwise delete a word"
   :init
   (corfu-global-mode))
 
-(use-package emacs
-  :init
-  (setq read-extended-command-predicate 'command-completion-default-include-p)
-  ;(setq tab-always-indent 'complete)
-  )
-
 (use-package dabbrev
   :bind
   (("C-SPC" . dabbrev-completion)))
@@ -559,6 +551,8 @@ folder, otherwise delete a word"
   "gf"  'magit-fetch
   "gF"  'magit-fetch-all
   "gr"  'magit-rebase)
+
+(use-package code-review)
 
 (use-package blamer
   :custom
