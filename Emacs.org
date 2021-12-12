@@ -636,7 +636,7 @@ https://github.com/minad/consult
     :after (lsp-mode company)
     :con***REMOVED***g
     (push 'company-lsp company-backend))
-    #+end_src
+#+end_src
  
 ** Yasnippet
 #+begin_src emacs-lisp
