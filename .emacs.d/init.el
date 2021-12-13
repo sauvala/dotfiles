@@ -623,6 +623,9 @@ folder, otherwise delete a word"
 (use-package treemacs-evil
   :after treemacs evil)
 
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
+
 (use-package treemacs-all-the-icons
   :after treemacs
   :con***REMOVED***g
