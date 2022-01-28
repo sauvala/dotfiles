@@ -19,9 +19,8 @@
 
 (use-package exec-path-from-shell
   :defer 1
-  :con***REMOVED***g
-  (cond ((daemonp) (exec-path-from-shell-initialize))
-        ((memq window-system '(mac ns x)) (exec-path-from-shell-initialize))))
+  :con***REMOVED***g (cond ((daemonp) (exec-path-from-shell-initialize))
+                ((memq window-system '(mac ns x)) (exec-path-from-shell-initialize))))
 
 (setq mac-right-option-modi***REMOVED***er 'nil
       mac-option-modi***REMOVED***er 'super
@@ -53,6 +52,10 @@
   :defer 0.5
   :con***REMOVED***g
   (evil-snipe-mode +1))
+
+(use-package evil-mc
+  :con***REMOVED***g
+  (evil-mc-mode 1))
 
 (use-package evil
   :defer 1
@@ -147,7 +150,7 @@
 
 (setq visible-bell nil)
 (use-package modus-themes
-  :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
+  ;; :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
   :con***REMOVED***g
   ;; Add all your customizations prior to loading the themes
   ;;   (setq modus-themes-italic-constructs t
@@ -251,18 +254,18 @@
         )
 
   ;; Load the theme ***REMOVED***les before enabling a theme
-  (modus-themes-load-themes)
+  ;; (modus-themes-load-themes)
   ;; (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
   ;; :con***REMOVED***g
   ;; Load the theme of your choice:
   )
 
 (use-package doom-themes
+  :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
   :con***REMOVED***g
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-con***REMOVED***g)
@@ -273,7 +276,7 @@
   (doom-themes-org-con***REMOVED***g))
 
 (use-package doom-modeline
-  :init (doom-modeline-mode 1))
+  :hook (emacs-startup . (lambda () (doom-modeline-mode 1))))
 
 (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 
@@ -284,11 +287,11 @@
 (use-package mood-line
   :hook (after-init . mood-line-mode))
 
-(defun js/doom-modeline--font-height ()
-  "Calculate the actual char height of the mode-line."
-  (+ (frame-char-height) 2))
+;; (defun js/doom-modeline--font-height ()
+;;   "Calculate the actual char height of the mode-line."
+;;   (+ (frame-char-height) 2))
 
-(advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
+;; (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
 
 (use-package minions
   :after doom-modeline
@@ -390,7 +393,7 @@
   (yas-global-mode t)
   (de***REMOVED***ne-key yas-minor-mode-map (kbd "<tab>") nil)
   (de***REMOVED***ne-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
-  (add-to-list #'yas-snippet-dirs "my-personal-snippets")
+  ;; (add-to-list #'yas-snippet-dirs "~/.emacs.d/my-yas-snippets")
   (yas-reload-all)
   (setq yas-prompt-functions '(yas-ido-prompt))
   (defun help/yas-after-exit-snippet-hook-fn ()
@@ -679,14 +682,11 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (apheleia-global-mode +1))
 
-;; (use-package prettier-js
-;;   :con***REMOVED***g
-;;   (setq prettier-js-args '(
-;;                            "--single-quote" "true"
-;;                            ))
-
-;;   :hook ((js2-mode . prettier-js-mode)
-;e          (typescript-mode . prettier-js-mode)))
+ (use-package prettier-js
+   :con***REMOVED***g
+   (setq prettier-js-args '("--single-quote" "true"))
+   :hook ((js2-mode . prettier-js-mode)
+          (typescript-mode . prettier-js-mode)))
 
 (use-package js2-refactor
   :hook (js2-mode . js2-refactor-mode))
@@ -805,6 +805,10 @@ folder, otherwise delete a word"
 
 (use-package eglot)
 
+(use-package groovy-mode)
+
+(use-package csv-mode)
+
 (use-package platformio-mode
   :hook
   (c++-mode-hook . (lambda ()
@@ -822,6 +826,10 @@ folder, otherwise delete a word"
 
 (use-package company-box
   :hook (company-mode . company-box-mode))
+
+(use-package tree-sitter)
+
+;; (use-package tree-sitter-langs)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -883,6 +891,8 @@ folder, otherwise delete a word"
   :diminish super-save-mode
   :con***REMOVED***g
   (super-save-mode +1)
+  (setq super-save-exclude '(".go"))
+  (setq auto-save-default nil)
   :custom
   (super-save-auto-save-when-idle t))
 
@@ -975,6 +985,8 @@ folder, otherwise delete a word"
 (use-package dired-single)
 (use-package dired-ranger)
 (use-package dired-collapse)
+
+(use-package dirvish)
 
 ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
 (defun js/org-mode-setup ()
@@ -1156,3 +1168,6 @@ folder, otherwise delete a word"
 (use-package speed-type)
 
 (use-package bug-hunter)
+
+(use-package esh-autosuggest
+:hook (eshell-mode . esh-autosuggest-mode))

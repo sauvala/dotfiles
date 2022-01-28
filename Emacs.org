@@ -91,9 +91,12 @@
     - [[#docker][Docker]]
     - [[#terraform][Terraform]]
     - [[#eglot][Eglot]]
+    - [[#groovy][Groovy]]
+    - [[#csv][CSV]]
   - [[#arduino-with-platformio][Arduino with PlatformIO]]
   - [[#aggressive-indent-mode][Aggressive indent mode]]
   - [[#company][Company]]
+  - [[#tree-sitter][tree-sitter]]
 - [[#productivity][Productivity]]
   - [[#rainbow-delimiter][Rainbow delimiter]]
   - [[#rainbow-mode][Rainbow mode]]
@@ -128,6 +131,7 @@
 - [[#other-tools][Other tools]]
   - [[#speed-typing][Speed typing]]
   - [[#elisp-bug-hunter][Elisp bug hunter]]
+  - [[#eshell-autosuggest][eshell autosuggest]]
 :END:
 
 * Add lexical binding to generated ***REMOVED***le
@@ -162,9 +166,8 @@
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :defer 1
-    :con***REMOVED***g
-    (cond ((daemonp) (exec-path-from-shell-initialize))
-          ((memq window-system '(mac ns x)) (exec-path-from-shell-initialize))))
+    :con***REMOVED***g (cond ((daemonp) (exec-path-from-shell-initialize))
+                  ((memq window-system '(mac ns x)) (exec-path-from-shell-initialize))))
 #+end_src
 
 * Keyboard bindings
@@ -212,6 +215,10 @@
     :con***REMOVED***g
     (evil-snipe-mode +1))
 
+  (use-package evil-mc
+    :con***REMOVED***g
+    (evil-mc-mode 1))
+
   (use-package evil
     :defer 1
     :init
@@ -253,7 +260,7 @@
     :after evil
     :con***REMOVED***g
     (global-evil-surround-mode 1))
-#+end_src
+    #+end_src
 
 ** which-key
 #+begin_src emacs-lisp
@@ -328,7 +335,7 @@
 #+begin_src emacs-lisp
   (setq visible-bell nil)
   (use-package modus-themes
-    :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
+    ;; :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
     :con***REMOVED***g
     ;; Add all your customizations prior to loading the themes
     ;;   (setq modus-themes-italic-constructs t
@@ -432,7 +439,7 @@
           )
 
     ;; Load the theme ***REMOVED***les before enabling a theme
-    (modus-themes-load-themes)
+    ;; (modus-themes-load-themes)
     ;; (modus-themes-load-vivendi) ;; OR (modus-themes-load-vivendi)
     ;; :con***REMOVED***g
     ;; Load the theme of your choice:
@@ -442,11 +449,11 @@
 *** Doom theme
 #+begin_src emacs-lisp
 (use-package doom-themes
+  :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
   :con***REMOVED***g
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-con***REMOVED***g)
@@ -460,7 +467,7 @@
 *** Doom modeline
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :init (doom-modeline-mode 1))
+    :hook (emacs-startup . (lambda () (doom-modeline-mode 1))))
 #+end_src
 
 ** Startup splash image
@@ -486,11 +493,11 @@ Run =all-the-icons-install-fonts= after installing this package
 Change modeline font size to match modeline's height
 [[https://github.com/seagle0128/doom-modeline/issues/187#issuecomment-806448361]]
 #+begin_src emacs-lisp
-  (defun js/doom-modeline--font-height ()
-    "Calculate the actual char height of the mode-line."
-    (+ (frame-char-height) 2))
+  ;; (defun js/doom-modeline--font-height ()
+  ;;   "Calculate the actual char height of the mode-line."
+  ;;   (+ (frame-char-height) 2))
   
-  (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
+  ;; (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
 #+end_src
 
 *** Minions
@@ -649,7 +656,7 @@ https://github.com/minad/consult
     (yas-global-mode t)
     (de***REMOVED***ne-key yas-minor-mode-map (kbd "<tab>") nil)
     (de***REMOVED***ne-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
-    (add-to-list #'yas-snippet-dirs "my-personal-snippets")
+    ;; (add-to-list #'yas-snippet-dirs "~/.emacs.d/my-yas-snippets")
     (yas-reload-all)
     (setq yas-prompt-functions '(yas-ido-prompt))
     (defun help/yas-after-exit-snippet-hook-fn ()
@@ -1035,14 +1042,11 @@ Javascript and Typescript
     :con***REMOVED***g
     (apheleia-global-mode +1))
 
-  ;; (use-package prettier-js
-  ;;   :con***REMOVED***g
-  ;;   (setq prettier-js-args '(
-  ;;                            "--single-quote" "true"
-  ;;                            ))
-
-  ;;   :hook ((js2-mode . prettier-js-mode)
-  ;e          (typescript-mode . prettier-js-mode)))
+   (use-package prettier-js
+     :con***REMOVED***g
+     (setq prettier-js-args '("--single-quote" "true"))
+     :hook ((js2-mode . prettier-js-mode)
+            (typescript-mode . prettier-js-mode)))
 
   (use-package js2-refactor
     :hook (js2-mode . js2-refactor-mode))
@@ -1196,6 +1200,16 @@ For Javacsript and Typescript, install the language server https://github.com/ty
   (use-package eglot)
 #+end_src
 
+*** Groovy
+#+begin_src emacs-lisp
+  (use-package groovy-mode)
+#+end_src
+
+*** CSV
+#+begin_src emacs-lisp
+  (use-package csv-mode)
+#+end_src
+
 ** Arduino with PlatformIO
 #+begin_src emacs-lisp
   (use-package platformio-mode
@@ -1221,6 +1235,15 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 
   (use-package company-box
     :hook (company-mode . company-box-mode))
+#+end_src
+
+** tree-sitter
+#+begin_src emacs-lisp
+  (use-package tree-sitter)
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (use-package tree-sitter-langs)
 #+end_src
 
 * Productivity
@@ -1313,6 +1336,8 @@ For Javacsript and Typescript, install the language server https://github.com/ty
     :diminish super-save-mode
     :con***REMOVED***g
     (super-save-mode +1)
+    (setq super-save-exclude '(".go"))
+    (setq auto-save-default nil)
     :custom
     (super-save-auto-save-when-idle t))
 #+end_src
@@ -1386,7 +1411,7 @@ For Javacsript and Typescript, install the language server https://github.com/ty
     (dired-omit-mode 1)
     (dired-hide-details-mode 1)
     (hl-line-mode 1))
- 
+
   (use-package dired
     :after evil-collection
     :straight (:type built-in)
@@ -1420,15 +1445,17 @@ For Javacsript and Typescript, install the language server https://github.com/ty
     (dired-rainbow-de***REMOVED***ne partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
     (dired-rainbow-de***REMOVED***ne vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
     (dired-rainbow-de***REMOVED***ne-chmod executable-unix "#38c172" "-.*x.*")) 
- 
+
   (use-package diredfl
     :hook (dired-mode . diredfl-mode)
     :con***REMOVED***g
     (diredfl-global-mode 1)) 
- 
+
   (use-package dired-single)
   (use-package dired-ranger)
   (use-package dired-collapse)
+
+  (use-package dirvish)
 #+end_src
 
 * Org mode
@@ -1655,4 +1682,10 @@ Allows you to edit entries directly from org-brain-visualize
 ** Elisp bug hunter
 #+begin_src emacs-lisp
   (use-package bug-hunter)
+#+end_src
+
+** eshell autosuggest
+#+begin_src emacs-lisp
+  (use-package esh-autosuggest
+  :hook (eshell-mode . esh-autosuggest-mode))
 #+end_src
