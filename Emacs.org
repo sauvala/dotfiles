@@ -9,7 +9,6 @@
 :END:
 :CONTENTS:
 - [[#add-lexical-binding-to-generated-***REMOVED***le][Add lexical binding to generated ***REMOVED***le]]
-- [[#native-compilation][Native compilation]]
 - [[#keep-emacsd-clean][Keep .emacs.d clean]]
 - [[#setup-path-from-shell][Setup path from shell]]
 - [[#keyboard-bindings][Keyboard bindings]]
@@ -40,6 +39,9 @@
   - [[#***REMOVED***x-cap-between-other-windows][Fix cap between other windows]]
   - [[#follow-symblinked-***REMOVED***les][Follow symblinked ***REMOVED***les]]
   - [[#store-backup-***REMOVED***les-separately][Store backup ***REMOVED***les separately]]
+  - [[#increase-large-***REMOVED***le-warning][Increase large ***REMOVED***le warning]]
+  - [[#use-y-and-n][Use y and n]]
+  - [[#do-not-save-duplicates-in-kill-ring][Do not save duplicates in kill-ring]]
 - [[#completion][Completion]]
   - [[#improve-completions][Improve completions]]
     - [[#orderless][Orderless]]
@@ -68,6 +70,9 @@
   - [[#sublimity][Sublimity]]
   - [[#minimap][Minimap]]
   - [[#burlyel][Burly.el]]
+  - [[#auto-revert-buffers][Auto revert buffers]]
+  - [[#trim-whitespace][Trim whitespace]]
+  - [[#parenthesis][Parenthesis]]
 - [[#development][Development]]
   - [[#magit][Magit]]
   - [[#code-review][Code review]]
@@ -85,6 +90,7 @@
     - [[#java][Java]]
     - [[#yaml][YAML]]
     - [[#lsp][LSP]]
+      - [[#eglot][Eglot]]
       - [[#python][Python]]
       - [[#dap-mode][dap-mode]]
       - [[#lsp-treemacs][lsp-treemacs]]
@@ -97,6 +103,7 @@
   - [[#aggressive-indent-mode][Aggressive indent mode]]
   - [[#company][Company]]
   - [[#tree-sitter][tree-sitter]]
+  - [[#dev-container][dev container]]
 - [[#productivity][Productivity]]
   - [[#rainbow-delimiter][Rainbow delimiter]]
   - [[#rainbow-mode][Rainbow mode]]
@@ -137,12 +144,6 @@
 * Add lexical binding to generated ***REMOVED***le
 #+begin_src emacs-lisp
   ;;; init.el -*- lexical-binding: t ; eval: (view-mode -1) -*-
-#+end_src
-
-* Native compilation
-#+begin_src emacs-lisp
-  (setq native-comp-async-report-warnings-errors nil)
-  (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory))
 #+end_src
 
 * Keep .emacs.d clean
@@ -313,6 +314,7 @@
   (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
   (setq scroll-step 1) ;; keyboard scroll one line at a time
   (setq use-dialog-box nil)
+  (pixel-scroll-precision-mode) ;; smoot scrolling
 #+end_src
 
 ** Line numbers
@@ -560,7 +562,8 @@ https://www.masteringemacs.org/article/working-coding-systems-unicode-emacs
 ** Enable font ligatures
 Needed only in emacs-mac but not in emacs-plus
 #+begin_src emacs-lisp
-  ;;(mac-auto-operator-composition-mode t)
+  (if (fboundp 'mac-auto-operator-composition-mode)
+      (mac-auto-operator-composition-mode))
 #+end_src
 
 ** Fix cap between other windows
@@ -582,6 +585,22 @@ Needed only in emacs-mac but not in emacs-plus
         kept-new-versions 6
         kept-old-versions 2
         version-control t)
+#+end_src
+
+** Increase large ***REMOVED***le warning
+~100 MB
+#+begin_src emacs-lisp
+  (setq large-***REMOVED***le-warning-threshold 100000000)
+#+end_src
+
+** Use y and n
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+** Do not save duplicates in kill-ring
+#+begin_src emacs-lisp
+  (setq kill-do-not-save-duplicates t)
 #+end_src
 
 * Completion
@@ -890,6 +909,25 @@ Add icons to ***REMOVED***les names
     :straight (:host github :type git :repo "alphapapa/burly.el"))
 #+end_src
 
+** Auto revert buffers
+#+begin_src emacs-lisp
+  (setq global-auto-revert-non-***REMOVED***le-buffers t)
+  (global-auto-revert-mode 1)
+#+end_src
+
+** Trim whitespace
+#+begin_src emacs-lisp
+  (use-package ws-butler
+    :hook
+    ((text-mode prog-mode org-mode) . ws-butler-mode))
+#+end_src
+
+** Parenthesis
+#+begin_src emacs-lisp
+  (electric-pair-mode 1)
+  (show-paren-mode 1)
+#+end_src
+
 * Development
 ** Magit
 #+begin_src emacs-lisp
@@ -1088,9 +1126,9 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 #+begin_src emacs-lisp
     (use-package lsp-mode
       :commands lsp
-      :hook
-      (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode) . lsp)
-       (go-mode . js/lsp-go-install-save-hooks))
+      ;; :hook
+      ;; (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode typescript-mode) . lsp)
+      ;;  (go-mode . js/lsp-go-install-save-hooks))
       :bind
       (:map lsp-mode-map ("TAB" . completion-at-point))
       :custom
@@ -1135,6 +1173,11 @@ For Javacsript and Typescript, install the language server https://github.com/ty
       :hook (lsp-mode . lsp-ui-mode)
       :con***REMOVED***g
       (setq lsp-ui-doc-position 'bottom))
+#+end_src
+
+**** Eglot
+#+begin_src emacs-lisp
+  (use-package eglot)
 #+end_src
 
 **** Python
@@ -1244,6 +1287,25 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 
 #+begin_src emacs-lisp
   ;; (use-package tree-sitter-langs)
+#+end_src
+
+** dev container
+#+begin_src emacs-lisp
+  (use-package lsp-docker
+    :con***REMOVED***g
+    (defvar lsp-docker-client-packages
+      '(lsp-clients lsp-go lsp-typescript))
+    (setq lsp-docker-client-con***REMOVED***gs
+          (:server-id gopls :docker-server-id gopls-docker :server-command "gopls")
+          (:server-id ts-ls :docker-server-id tsls-docker :server-command "typescript-language-server --stdio"))
+    (lsp-docker-init-clients
+     :path-mappings '(("~/Dev/comet" . "/projects"))
+     :client-packages lsp-docker-client-packages
+     :client-con***REMOVED***gs lsp-docker-client-con***REMOVED***gs))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package docker-tramp)
 #+end_src
 
 * Productivity
@@ -1462,83 +1524,84 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 ** Org con***REMOVED***g
 #+begin_src emacs-lisp
 
-  ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
-  (defun js/org-mode-setup ()
-    (org-indent-mode)
-    ;; (variable-pitch-mode 1) ;; Causes table columns to be unaligned
-    (auto-***REMOVED***ll-mode 0)
-    (visual-line-mode 1)
-    (setq evil-auto-indent nil)
-    (diminish org-indent-mode))
+    ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
+    (defun js/org-mode-setup ()
+      (org-indent-mode)
+      ;; (variable-pitch-mode 1) ;; Causes table columns to be unaligned
+      (auto-***REMOVED***ll-mode 0)
+      (visual-line-mode 1)
+      (setq evil-auto-indent nil)
+      (diminish org-indent-mode))
 
-  (use-package org 
-    :preface
-    (setq org-modules
-          '(;; ol-w3m
-            ;; ol-bbdb
-            ol-bibtex
-            ;; org-tempo
-            ;; org-crypt
-            ;; org-habit
-            ;; org-bookmark
-            ;; org-eshell
-            ;; org-irc
-            org-indent
-            ;; ol-docview
-            ;; ol-gnus
-            ;; ol-info
-            ;; ol-irc
-            ;; ol-mhe
-            ;; ol-rmail
-            ;; ol-eww
-            ))
-    :hook (org-mode . js/org-mode-setup)
-    :general
-    (js/leader-key-def
-      "o"   '(:ignore t :which-key "org")
-      "ot"  '(org-babel-tangle :which-key "tangle")
-      "oe"  '(org-ctrl-c-ctrl-c :which-key "eval"))
-    :con***REMOVED***g
-    (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-j") 'org-next-visible-heading)
-    (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-k") 'org-previous-visible-heading)
-    :custom
-    (org-ellipsis " ▾")
-    (org-hide-emphasis-markers t)
-    (org-src-fontify-natively t)
-    (org-fontify-quote-and-verse-blocks t)
-    (org-src-tab-acts-natively t)
-    (org-edit-src-content-indentation 2)
-    (org-hide-block-startup nil)
-    (org-src-preserve-indentation nil)
-    (org-startup-folded 'content)
-    (org-cycle-separator-lines 2)
-    (org-structure-template-alist '(("a" . "export ascii")
-                                    ("c" . "center")
-                                    ("C" . "comment")
-                                    ("e" . "example")
-                                    ("E" . "export")
-                                    ("h" . "export html")
-                                    ("l" . "export latex")
-                                    ("q" . "quote")
-                                    ("s" . "src")
-                                    ("v" . "verse")
-                                    ("el" . "src emacs-lisp")
-                                    ("py" . "src python")
-                                    ("json" . "src json")
-                                    ("yaml" . "src yaml")
-                                    ("sh" . "src sh")
-                                    ("go" . "src go")
-                                    ("clj" . "src clojure")))
-    :custom-face
-    (org-document-title ((t (:weight bold :height 1.3))))
-    (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
-    (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
-    (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
-    (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
-    (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
-    (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
-    (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-    (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
+    (use-package org 
+      :preface
+      (setq org-modules
+            '(;; ol-w3m
+              ;; ol-bbdb
+              ol-bibtex
+              ;; org-tempo
+              ;; org-crypt
+              ;; org-habit
+              ;; org-bookmark
+              ;; org-eshell
+              ;; org-irc
+              org-indent
+              ;; ol-docview
+              ;; ol-gnus
+              ;; ol-info
+              ;; ol-irc
+              ;; ol-mhe
+              ;; ol-rmail
+              ;; ol-eww
+              ))
+      :hook (org-mode . js/org-mode-setup)
+      :general
+      (js/leader-key-def
+        "o"   '(:ignore t :which-key "org")
+        "ot"  '(org-babel-tangle :which-key "tangle")
+        "oe"  '(org-ctrl-c-ctrl-c :which-key "eval")
+        "oc"  '(org-insert-structure-template :which-key "code template"))
+      :con***REMOVED***g
+      (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-j") 'org-next-visible-heading)
+      (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-k") 'org-previous-visible-heading)
+      :custom
+      (org-ellipsis " ▾")
+      (org-hide-emphasis-markers t)
+      (org-src-fontify-natively t)
+      (org-fontify-quote-and-verse-blocks t)
+      (org-src-tab-acts-natively t)
+      (org-edit-src-content-indentation 2)
+      (org-hide-block-startup nil)
+      (org-src-preserve-indentation nil)
+      (org-startup-folded 'content)
+      (org-cycle-separator-lines 2)
+      (org-structure-template-alist '(("a" . "export ascii")
+                                      ("c" . "center")
+                                      ("C" . "comment")
+                                      ("e" . "example")
+                                      ("E" . "export")
+                                      ("h" . "export html")
+                                      ("l" . "export latex")
+                                      ("q" . "quote")
+                                      ("s" . "src")
+                                      ("v" . "verse")
+                                      ("el" . "src emacs-lisp")
+                                      ("py" . "src python")
+                                      ("json" . "src json")
+                                      ("yaml" . "src yaml")
+                                      ("sh" . "src sh")
+                                      ("go" . "src go")
+                                      ("clj" . "src clojure")))
+      :custom-face
+      (org-document-title ((t (:weight bold :height 1.3))))
+      (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
+      (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
+      (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
+      (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
+      (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
+      (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
+      (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
+      (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
  #+end_src
  
 ** Pomodoro
