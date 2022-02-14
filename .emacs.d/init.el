@@ -1,8 +1,5 @@
 ;;; init.el -*- lexical-binding: t ; eval: (view-mode -1) -*-
 
-(setq native-comp-async-report-warnings-errors nil)
-(add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory))
-
 ;; Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
 (setq user-emacs-directory (expand-***REMOVED***le-name "~/.cache/emacs/")
     url-history-***REMOVED***le (expand-***REMOVED***le-name "url/history" user-emacs-directory))
@@ -135,6 +132,7 @@
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 (setq use-dialog-box nil)
+(pixel-scroll-precision-mode) ;; smoot scrolling
 
 (column-number-mode)
 
@@ -334,7 +332,8 @@
 ;; Treat clipboard input as UTF-8 string ***REMOVED***rst; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-;;(mac-auto-operator-composition-mode t)
+(if (fboundp 'mac-auto-operator-composition-mode)
+    (mac-auto-operator-composition-mode))
 
 (setq frame-resize-pixelwise t)
 
@@ -346,6 +345,12 @@
       kept-new-versions 6
       kept-old-versions 2
       version-control t)
+
+(setq large-***REMOVED***le-warning-threshold 100000000)
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(setq kill-do-not-save-duplicates t)
 
 (use-package orderless
   :defer 0.1
@@ -566,6 +571,16 @@ folder, otherwise delete a word"
 (use-package burly
   :straight (:host github :type git :repo "alphapapa/burly.el"))
 
+(setq global-auto-revert-non-***REMOVED***le-buffers t)
+(global-auto-revert-mode 1)
+
+(use-package ws-butler
+  :hook
+  ((text-mode prog-mode org-mode) . ws-butler-mode))
+
+(electric-pair-mode 1)
+(show-paren-mode 1)
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
@@ -712,9 +727,9 @@ folder, otherwise delete a word"
 
 (use-package lsp-mode
   :commands lsp
-  :hook
-  (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode) . lsp)
-   (go-mode . js/lsp-go-install-save-hooks))
+  ;; :hook
+  ;; (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode typescript-mode) . lsp)
+  ;;  (go-mode . js/lsp-go-install-save-hooks))
   :bind
   (:map lsp-mode-map ("TAB" . completion-at-point))
   :custom
@@ -759,6 +774,8 @@ folder, otherwise delete a word"
   :hook (lsp-mode . lsp-ui-mode)
   :con***REMOVED***g
   (setq lsp-ui-doc-position 'bottom))
+
+(use-package eglot)
 
 ;; (use-package lsp-pyright
   ;;   :after lsp-mode
@@ -830,6 +847,20 @@ folder, otherwise delete a word"
 (use-package tree-sitter)
 
 ;; (use-package tree-sitter-langs)
+
+(use-package lsp-docker
+  :con***REMOVED***g
+  (defvar lsp-docker-client-packages
+    '(lsp-clients lsp-go lsp-typescript))
+  (setq lsp-docker-client-con***REMOVED***gs
+        (:server-id gopls :docker-server-id gopls-docker :server-command "gopls")
+        (:server-id ts-ls :docker-server-id tsls-docker :server-command "typescript-language-server --stdio"))
+  (lsp-docker-init-clients
+   :path-mappings '(("~/Dev/comet" . "/projects"))
+   :client-packages lsp-docker-client-packages
+   :client-con***REMOVED***gs lsp-docker-client-con***REMOVED***gs))
+
+(use-package docker-tramp)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -1023,7 +1054,8 @@ folder, otherwise delete a word"
   (js/leader-key-def
     "o"   '(:ignore t :which-key "org")
     "ot"  '(org-babel-tangle :which-key "tangle")
-    "oe"  '(org-ctrl-c-ctrl-c :which-key "eval"))
+    "oe"  '(org-ctrl-c-ctrl-c :which-key "eval")
+    "oc"  '(org-insert-structure-template :which-key "code template"))
   :con***REMOVED***g
   (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-j") 'org-next-visible-heading)
   (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-k") 'org-previous-visible-heading)

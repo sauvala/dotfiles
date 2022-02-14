@@ -21,10 +21,12 @@
 
 (setq read-process-output-max 65536) ; (* 64 1024)
 
-(setq comp-deferred-compilation nil
-    native-comp-deferred-compilation nil)
-
 (setq load-prefer-newer noninteractive)
+
+(when (featurep 'native-compile)
+  (setq native-comp-async-report-warnings-errors nil)
+  (setq native-comp-deferred-compilation t)
+  (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory)))
 
 (setq package-enable-at-startup nil
       package--init-***REMOVED***le-ensured t)

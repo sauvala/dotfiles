@@ -44,24 +44,26 @@ Check [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Emacs lsp-mode p
   (setq read-process-output-max 65536) ; (* 64 1024)
 #+end_src
 
-* Defer compilation
-#+begin_src emacs-lisp
-  (setq comp-deferred-compilation nil
-      native-comp-deferred-compilation nil)
-#+end_src
-
 * Prioritise non-byte-compiled source ***REMOVED***les
 #+begin_src emacs-lisp
   (setq load-prefer-newer noninteractive)
 #+end_src
 
-* Disable package reading when starting 
+* Native comp
+#+begin_src emacs-lisp
+  (when (featurep 'native-compile)
+    (setq native-comp-async-report-warnings-errors nil)
+    (setq native-comp-deferred-compilation t)
+    (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory)))
+#+end_src
+
+* Disable package reading when starting#+begin_src emacs-lisp
 #+begin_src emacs-lisp
   (setq package-enable-at-startup nil
         package--init-***REMOVED***le-ensured t)
 #+end_src
 
-* Unset =***REMOVED***le-name-handler-alist= temporarily 
+* Unset =***REMOVED***le-name-handler-alist= temporarily
 #+begin_src emacs-lisp
   (defvar js--***REMOVED***le-name-handler-alist ***REMOVED***le-name-handler-alist)
   (setq ***REMOVED***le-name-handler-alist nil)
@@ -72,8 +74,8 @@ Check [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Emacs lsp-mode p
 
 * General UI changes
 #+begin_src emacs-lisp
-  (push '(menu-bar-lines . 0)  default-frame-alist)
-  (push '(tool-bar-lines . 0)  default-frame-alist)
+  (push '(menu-bar-lines . 0) default-frame-alist)
+  (push '(tool-bar-lines . 0) default-frame-alist)
   (push '(vertical-scroll-bars) default-frame-alist)
   (setq menu-bar-mode nil
         tool-bar-mode nil
