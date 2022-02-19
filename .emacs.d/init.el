@@ -556,6 +556,7 @@ folder, otherwise delete a word"
 
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
+(setq indent-tabs-mode nil)
 
 (use-package centered-window)
 
@@ -727,9 +728,9 @@ folder, otherwise delete a word"
 
 (use-package lsp-mode
   :commands lsp
-  ;; :hook
-  ;; (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode typescript-mode) . lsp)
-  ;;  (go-mode . js/lsp-go-install-save-hooks))
+  :hook
+  (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode typescript-mode) . lsp)
+   (go-mode . js/lsp-go-install-save-hooks))
   :bind
   (:map lsp-mode-map ("TAB" . completion-at-point))
   :custom
@@ -748,7 +749,7 @@ folder, otherwise delete a word"
                     :server-id 'terraform-ls))
 
   (setq lsp-eslint-format nil
-        lsp-eslint-enable nil) 
+        lsp-eslint-enable nil)
 
   ;; gopls
   (defun js/lsp-go-install-save-hooks ()
@@ -756,7 +757,7 @@ folder, otherwise delete a word"
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (lsp-register-custom-settings
    '(("gopls.completeUnimported" t t)
-     ("gopls.staticcheck" t t)))) 
+     ("gopls.staticcheck" t t))))
 
 (js/leader-key-def
   "l"  '(:ignore t :which-key "lsp")
