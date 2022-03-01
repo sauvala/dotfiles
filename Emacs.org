@@ -42,6 +42,7 @@
   - [[#increase-large-***REMOVED***le-warning][Increase large ***REMOVED***le warning]]
   - [[#use-y-and-n][Use y and n]]
   - [[#do-not-save-duplicates-in-kill-ring][Do not save duplicates in kill-ring]]
+  - [[#tramp][Tramp]]
 - [[#completion][Completion]]
   - [[#improve-completions][Improve completions]]
     - [[#orderless][Orderless]]
@@ -73,10 +74,12 @@
   - [[#auto-revert-buffers][Auto revert buffers]]
   - [[#trim-whitespace][Trim whitespace]]
   - [[#parenthesis][Parenthesis]]
+  - [[#long-lines][Long lines]]
 - [[#development][Development]]
   - [[#magit][Magit]]
+  - [[#forge][Forge]]
   - [[#code-review][Code review]]
-  - [[#blamer][Blamer]]
+  - [[#git-blame][Git blame]]
   - [[#projectel][Project.el]]
   - [[#treemacs][Treemacs]]
   - [[#terminal][Terminal]]
@@ -91,9 +94,6 @@
     - [[#yaml][YAML]]
     - [[#lsp][LSP]]
       - [[#eglot][Eglot]]
-      - [[#python][Python]]
-      - [[#dap-mode][dap-mode]]
-      - [[#lsp-treemacs][lsp-treemacs]]
     - [[#docker][Docker]]
     - [[#terraform][Terraform]]
     - [[#eglot][Eglot]]
@@ -252,7 +252,7 @@
     (evil-set-initial-state 'dashboard-mode 'normal))
 
   (use-package evil-collection
-    :after evil
+    :after (evil magit)
     :custom (evil-collection-setup-minibuffer t) 
     :con***REMOVED***g
     (evil-collection-init))
@@ -312,9 +312,14 @@
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
   (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
   (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-  (setq scroll-step 1) ;; keyboard scroll one line at a time
-  (setq use-dialog-box nil)
+  ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
+  ;; (setq use-dialog-box nil)
   (pixel-scroll-precision-mode) ;; smoot scrolling
+  (setq auto-window-vscroll nil)
+  (customize-set-variable 'fast-but-imprecise-scrolling t)
+  (customize-set-variable 'scroll-conservatively 101)
+  (customize-set-variable 'scroll-margin 0)
+  (customize-set-variable 'scroll-preserve-screen-position t)
 #+end_src
 
 ** Line numbers
@@ -335,7 +340,7 @@
 ** Theme
 *** Modus theme
 #+begin_src emacs-lisp
-  (setq visible-bell nil)
+  (setq visible-bell 1)
   (use-package modus-themes
     ;; :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
     :con***REMOVED***g
@@ -601,6 +606,28 @@ Needed only in emacs-mac but not in emacs-plus
 ** Do not save duplicates in kill-ring
 #+begin_src emacs-lisp
   (setq kill-do-not-save-duplicates t)
+#+end_src
+
+** Tramp
+#+begin_src emacs-lisp
+      ;; (require 'tramp)
+      ;; (setq tramp-default-method "ssh")
+      ;;(add-to-list 'tramp-methods
+      ;;             '("gcssh"
+      ;;               (tramp-login-program        "gcloud compute ssh")
+      ;;               (tramp-login-args           (("%h")))
+      ;;               (tramp-async-args           (("-q")))
+      ;;               (tramp-remote-shell         "/bin/sh")
+      ;;               (tramp-remote-shell-args    ("-c"))
+      ;;               (tramp-gw-args              (("-o" "GlobalKnownHostsFile=/dev/null")
+      ;;                                            ("-o" "UserKnownHostsFile=/dev/null")
+      ;;                                            ("-o" "StrictHostKeyChecking=no")))
+      ;;               (tramp-default-port         22)))
+  (setq tramp-verbose 6)
+  ;; (put #'tramp-dissect-***REMOVED***le-name 'tramp-suppress-trace t)
+  ;; (defun tramp-ensure-dissected-***REMOVED***le-name (vec-or-***REMOVED***lename)
+  ;;   "Return a `tramp-***REMOVED***le-name' structure for VEC-OR-FILENAME.VEC-OR-FILENAME may be either a string or a `tramp-***REMOVED***le-name'.If it's not a Tramp ***REMOVED***lename, return nil."`
+  ;;   (cond ((tramp-***REMOVED***le-name-p vec-or-***REMOVED***lename) vec-or-***REMOVED***lename) ((tramp-tramp-***REMOVED***le-p vec-or-***REMOVED***lename) (tramp-dissect-***REMOVED***le-name vec-or-***REMOVED***lename))))
 #+end_src
 
 * Completion
@@ -879,7 +906,7 @@ Add icons to ***REMOVED***les names
 #+begin_src emacs-lisp
   (setq-default tab-width 2)
   (setq-default evil-shift-width tab-width)
-  (setq indent-tabs-mode nil)
+  (setq indent-tabs-mode -1)
 #+end_src
 
 ** Center content
@@ -929,6 +956,13 @@ Add icons to ***REMOVED***les names
   (show-paren-mode 1)
 #+end_src
 
+** Long lines
+#+begin_src emacs-lisp
+  (setq-default bidi-paragraph-direction 'left-to-right)
+  (setq-default bidi-inhibit-bpa t)
+  (global-so-long-mode 1)
+#+end_src
+
 * Development
 ** Magit
 #+begin_src emacs-lisp
@@ -954,24 +988,35 @@ Add icons to ***REMOVED***les names
     "gr"  'magit-rebase)
 #+end_src
 
+** Forge
+#+begin_src emacs-lisp
+  (use-package forge
+    :after magit)
+#+end_src
+
 ** Code review
 #+begin_src emacs-lisp
   (use-package code-review)
 #+end_src
 
-** Blamer
+** Git blame
 #+begin_src emacs-lisp
   (use-package blamer
     :custom
-    (blamer-idle-time 0.3)
-    (blamer-min-offset 70)
+    (blamer-idle-time 0.8)
+    (blamer-min-offset 20)
     :custom-face
     (blamer-face ((t :foreground "#7a88cf"
                       :background nil
-                      :height 140
-                      :italic t)))
+                      :height 1)))
     :con***REMOVED***g
     (global-blamer-mode 1))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package why-this
+    :straight
+    (:type git  :repo "https://codeberg.org/akib/emacs-why-this.git"))
 #+end_src
 
 ** Project.el
@@ -1066,7 +1111,7 @@ Javascript and Typescript
     (js2r-prefer-let-over-var t)
     (js2r-prefered-quote-type 2)
     (js-indent-align-list-continuation t)
-    (global-auto-highlight-symbol-mode t) 
+    (global-auto-highlight-symbol-mode t)
     :con***REMOVED***g
     ;; Use js2-mode for Node scripts
     (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
@@ -1092,14 +1137,17 @@ Javascript and Typescript
 
   (use-package xref-js2
     :hook (js2-mode . (lambda ()
-                        (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+                        (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+    :con***REMOVED***g
+    (setq xref-js2-search-program 'rg))
+
   (add-hook 'js2-mode-hook (lambda ()
                            (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
-  (use-package tide
-    :hook ((js2-mode . tide-setup)
-           (js2-mode . tide-hl-identi***REMOVED***er-mode)
-           (before-save . tide-format-before-save)))
+  ;; (use-package tide
+  ;;   :hook ((js2-mode . tide-setup)
+  ;;          (js2-mode . tide-hl-identi***REMOVED***er-mode)
+  ;;          (before-save . tide-format-before-save)))
 
 #+end_src
 
@@ -1125,104 +1173,70 @@ Javascript and Typescript
 *** LSP
 For Javacsript and Typescript, install the language server https://github.com/typescript-language-server/typescript-language-server
 #+begin_src emacs-lisp
-    (use-package lsp-mode
-      :commands lsp
-      :hook
-      (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode typescript-mode) . lsp)
-       (go-mode . js/lsp-go-install-save-hooks))
-      :bind
-      (:map lsp-mode-map ("TAB" . completion-at-point))
-      :custom
-      (lsp-headerline-breadcrumb-enable nil)
-      (lsp-modeline-code-actions-enable nil)
-      (lsp-lens-enable t)
-      (lsp-idle-delay 0.500)
-      :con***REMOVED***g
-      (setq read-process-output-max 1048576) ; (* 1024 1024)
+  (use-package lsp-mode
+    :commands lsp
+    :hook
+    (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp)
+     (go-mode . js/lsp-go-install-save-hooks))
+    :bind
+    (:map lsp-mode-map ("TAB" . completion-at-point))
+    :custom
+    (lsp-headerline-breadcrumb-enable nil)
+    (lsp-modeline-code-actions-enable nil)
+    (lsp-lens-enable t)
+    (lsp-idle-delay 0.500)
+    :con***REMOVED***g
+    (setq read-process-output-max 1048576) ; (* 1024 1024)
+    (setq lsp-print-io t)
 
-      ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
-      ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
-      (lsp-register-client
-       (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-                        :major-modes '(terraform-mode)
-                        :server-id 'terraform-ls))
+    ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
+    ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
+                      :major-modes '(terraform-mode)
+                      :server-id 'terraform-ls))
 
-      (setq lsp-eslint-format nil
-            lsp-eslint-enable nil)
+    ;; (lsp-register-client
+    ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
+    ;;                   :major-modes '(js2-mode)
+    ;;                   :remote? t
+    ;;                   :server-id 'ts-ls))
 
-      ;; gopls
-      (defun js/lsp-go-install-save-hooks ()
-        (add-hook 'before-save-hook #'lsp-format-buffer t t)
-        (add-hook 'before-save-hook #'lsp-organize-imports t t))
-      (lsp-register-custom-settings
-       '(("gopls.completeUnimported" t t)
-         ("gopls.staticcheck" t t))))
+    (setq lsp-eslint-format nil
+          lsp-eslint-enable nil)
 
-    (js/leader-key-def
-      "l"  '(:ignore t :which-key "lsp")
-      "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
-      "lr" 'xref-***REMOVED***nd-references
-      "ln" 'lsp-ui-***REMOVED***nd-next-reference
-      "lp" 'lsp-ui-***REMOVED***nd-prev-reference
-      "ls" 'counsel-imenu
-      "le" 'lsp-ui-flycheck-list
-      "lS" 'lsp-ui-sideline-mode
-      "lX" 'lsp-execute-code-action)
+    ;; gopls
+    (defun js/lsp-go-install-save-hooks ()
+      (add-hook 'before-save-hook #'lsp-format-buffer t t)
+      (add-hook 'before-save-hook #'lsp-organize-imports t t))
+    (lsp-register-custom-settings
+     '(("gopls.completeUnimported" t t)
+       ("gopls.staticcheck" t t))))
 
-    (use-package lsp-ui
-      :after lsp-mode
-      :hook (lsp-mode . lsp-ui-mode)
-      :con***REMOVED***g
-      (setq lsp-ui-doc-position 'bottom))
+  (js/leader-key-def
+    "l"  '(:ignore t :which-key "lsp")
+    "ld" 'lsp-***REMOVED***nd-de***REMOVED***nition
+    "lr" 'lsp-***REMOVED***nd-references
+    "ln" 'lsp-ui-***REMOVED***nd-next-reference
+    "lp" 'lsp-ui-***REMOVED***nd-prev-reference
+    "ls" 'counsel-imenu
+    "le" 'lsp-ui-flycheck-list
+    "lS" 'lsp-ui-sideline-mode
+    "lX" 'lsp-execute-code-action)
+
+  (use-package lsp-ui
+    :after lsp-mode
+    :hook (lsp-mode . lsp-ui-mode)
+    :con***REMOVED***g
+    (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
+    (setq lsp-ui-doc-position 'bottom))
 #+end_src
 
 **** Eglot
 #+begin_src emacs-lisp
-  (use-package eglot)
-#+end_src
-
-**** Python
-#+begin_src emacs-lisp
-    ;; (use-package lsp-pyright
-    ;;   :after lsp-mode
-    ;;   :hook (python-mode . (lambda ()
-    ;;                          (require 'lsp-pyright)
-    ;;                          (lsp-deferred))))
-  ;; (use-package lsp-python-ms
-  ;;   :ensure t
-  ;;   :init (setq lsp-python-ms-auto-install-server t)
-  ;;   :hook (python-mode . (lambda ()
-  ;;                           (require 'lsp-python-ms)
-  ;;                           (lsp))))  ; or lsp-deferred
-#+end_src
-
-**** dap-mode
-#+begin_src emacs-lisp
-  (use-package dap-mode
-    ;; Uncomment the con***REMOVED***g below if you want all UI panes to be hidden by default!
-    ;; :custom
-    ;; (lsp-enable-dap-auto-con***REMOVED***gure nil)
-    ;; :con***REMOVED***g
-    ;; (dap-ui-mode 1)
-    :commands dap-debug
+  (use-package eglot
     :con***REMOVED***g
-    ;; Set up Node debugging
-    (require 'dap-node)
-    (dap-node-setup) ;; Automatically installs Node debug adapter if needed
-    (require 'dap-go)
-    ;; Bind `C-c l d` to `dap-hydra` for easy access
-    (general-de***REMOVED***ne-key
-      :keymaps 'lsp-mode-map
-      :pre***REMOVED***x lsp-keymap-pre***REMOVED***x
-      "d" '(dap-hydra t :wk "debugger")))
-#+end_src
-
-**** lsp-treemacs
-#+begin_src emacs-lisp
-  (use-package lsp-treemacs
-    :after (lsp treemacs)
-    :init
-    (lsp-treemacs-sync-mode 1))
+    (setq eglot-connect-timeout 10))
 #+end_src
 
 *** Docker
@@ -1241,7 +1255,7 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 
 *** Eglot
 #+begin_src emacs-lisp
-  (use-package eglot)
+  ;; (use-package eglot)
 #+end_src
 
 *** Groovy

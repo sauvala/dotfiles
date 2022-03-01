@@ -86,7 +86,7 @@
   (evil-set-initial-state 'dashboard-mode 'normal))
 
 (use-package evil-collection
-  :after evil
+  :after (evil magit)
   :custom (evil-collection-setup-minibuffer t) 
   :con***REMOVED***g
   (evil-collection-init))
@@ -130,9 +130,14 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-(setq scroll-step 1) ;; keyboard scroll one line at a time
-(setq use-dialog-box nil)
+;; (setq scroll-step 1) ;; keyboard scroll one line at a time
+;; (setq use-dialog-box nil)
 (pixel-scroll-precision-mode) ;; smoot scrolling
+(setq auto-window-vscroll nil)
+(customize-set-variable 'fast-but-imprecise-scrolling t)
+(customize-set-variable 'scroll-conservatively 101)
+(customize-set-variable 'scroll-margin 0)
+(customize-set-variable 'scroll-preserve-screen-position t)
 
 (column-number-mode)
 
@@ -146,7 +151,7 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(setq visible-bell nil)
+(setq visible-bell 1)
 (use-package modus-themes
   ;; :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
   :con***REMOVED***g
@@ -352,6 +357,25 @@
 
 (setq kill-do-not-save-duplicates t)
 
+;; (require 'tramp)
+    ;; (setq tramp-default-method "ssh")
+    ;;(add-to-list 'tramp-methods
+    ;;             '("gcssh"
+    ;;               (tramp-login-program        "gcloud compute ssh")
+    ;;               (tramp-login-args           (("%h")))
+    ;;               (tramp-async-args           (("-q")))
+    ;;               (tramp-remote-shell         "/bin/sh")
+    ;;               (tramp-remote-shell-args    ("-c"))
+    ;;               (tramp-gw-args              (("-o" "GlobalKnownHostsFile=/dev/null")
+    ;;                                            ("-o" "UserKnownHostsFile=/dev/null")
+    ;;                                            ("-o" "StrictHostKeyChecking=no")))
+    ;;               (tramp-default-port         22)))
+(setq tramp-verbose 6)
+;; (put #'tramp-dissect-***REMOVED***le-name 'tramp-suppress-trace t)
+;; (defun tramp-ensure-dissected-***REMOVED***le-name (vec-or-***REMOVED***lename)
+;;   "Return a `tramp-***REMOVED***le-name' structure for VEC-OR-FILENAME.VEC-OR-FILENAME may be either a string or a `tramp-***REMOVED***le-name'.If it's not a Tramp ***REMOVED***lename, return nil."`
+;;   (cond ((tramp-***REMOVED***le-name-p vec-or-***REMOVED***lename) vec-or-***REMOVED***lename) ((tramp-tramp-***REMOVED***le-p vec-or-***REMOVED***lename) (tramp-dissect-***REMOVED***le-name vec-or-***REMOVED***lename))))
+
 (use-package orderless
   :defer 0.1
   :init
@@ -556,7 +580,7 @@ folder, otherwise delete a word"
 
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
-(setq indent-tabs-mode nil)
+(setq indent-tabs-mode -1)
 
 (use-package centered-window)
 
@@ -582,6 +606,10 @@ folder, otherwise delete a word"
 (electric-pair-mode 1)
 (show-paren-mode 1)
 
+(setq-default bidi-paragraph-direction 'left-to-right)
+(setq-default bidi-inhibit-bpa t)
+(global-so-long-mode 1)
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
@@ -603,19 +631,25 @@ folder, otherwise delete a word"
   "gF"  'magit-fetch-all
   "gr"  'magit-rebase)
 
+(use-package forge
+  :after magit)
+
 (use-package code-review)
 
 (use-package blamer
   :custom
-  (blamer-idle-time 0.3)
-  (blamer-min-offset 70)
+  (blamer-idle-time 0.8)
+  (blamer-min-offset 20)
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
                     :background nil
-                    :height 140
-                    :italic t)))
+                    :height 1)))
   :con***REMOVED***g
   (global-blamer-mode 1))
+
+(use-package why-this
+  :straight
+  (:type git  :repo "https://codeberg.org/akib/emacs-why-this.git"))
 
 (use-package project
   :con***REMOVED***g
@@ -683,7 +717,7 @@ folder, otherwise delete a word"
   (js2r-prefer-let-over-var t)
   (js2r-prefered-quote-type 2)
   (js-indent-align-list-continuation t)
-  (global-auto-highlight-symbol-mode t) 
+  (global-auto-highlight-symbol-mode t)
   :con***REMOVED***g
   ;; Use js2-mode for Node scripts
   (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
@@ -709,14 +743,17 @@ folder, otherwise delete a word"
 
 (use-package xref-js2
   :hook (js2-mode . (lambda ()
-                      (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+                      (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  :con***REMOVED***g
+  (setq xref-js2-search-program 'rg))
+
 (add-hook 'js2-mode-hook (lambda ()
                          (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
-(use-package tide
-  :hook ((js2-mode . tide-setup)
-         (js2-mode . tide-hl-identi***REMOVED***er-mode)
-         (before-save . tide-format-before-save)))
+;; (use-package tide
+;;   :hook ((js2-mode . tide-setup)
+;;          (js2-mode . tide-hl-identi***REMOVED***er-mode)
+;;          (before-save . tide-format-before-save)))
 
 (use-package go-mode)
 
@@ -729,7 +766,7 @@ folder, otherwise delete a word"
 (use-package lsp-mode
   :commands lsp
   :hook
-  (((clojure-mode clojurescript-mode clojurec-mode python-mode go-mode terraform-mode java-mode js2-mode typescript-mode) . lsp)
+  (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp)
    (go-mode . js/lsp-go-install-save-hooks))
   :bind
   (:map lsp-mode-map ("TAB" . completion-at-point))
@@ -740,6 +777,7 @@ folder, otherwise delete a word"
   (lsp-idle-delay 0.500)
   :con***REMOVED***g
   (setq read-process-output-max 1048576) ; (* 1024 1024)
+  (setq lsp-print-io t)
 
   ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
   ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
@@ -747,6 +785,12 @@ folder, otherwise delete a word"
    (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
                     :major-modes '(terraform-mode)
                     :server-id 'terraform-ls))
+
+  ;; (lsp-register-client
+  ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
+  ;;                   :major-modes '(js2-mode)
+  ;;                   :remote? t
+  ;;                   :server-id 'ts-ls))
 
   (setq lsp-eslint-format nil
         lsp-eslint-enable nil)
@@ -761,8 +805,8 @@ folder, otherwise delete a word"
 
 (js/leader-key-def
   "l"  '(:ignore t :which-key "lsp")
-  "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
-  "lr" 'xref-***REMOVED***nd-references
+  "ld" 'lsp-***REMOVED***nd-de***REMOVED***nition
+  "lr" 'lsp-***REMOVED***nd-references
   "ln" 'lsp-ui-***REMOVED***nd-next-reference
   "lp" 'lsp-ui-***REMOVED***nd-prev-reference
   "ls" 'counsel-imenu
@@ -774,44 +818,12 @@ folder, otherwise delete a word"
   :after lsp-mode
   :hook (lsp-mode . lsp-ui-mode)
   :con***REMOVED***g
+  (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
   (setq lsp-ui-doc-position 'bottom))
 
-(use-package eglot)
-
-;; (use-package lsp-pyright
-  ;;   :after lsp-mode
-  ;;   :hook (python-mode . (lambda ()
-  ;;                          (require 'lsp-pyright)
-  ;;                          (lsp-deferred))))
-;; (use-package lsp-python-ms
-;;   :ensure t
-;;   :init (setq lsp-python-ms-auto-install-server t)
-;;   :hook (python-mode . (lambda ()
-;;                           (require 'lsp-python-ms)
-;;                           (lsp))))  ; or lsp-deferred
-
-(use-package dap-mode
-  ;; Uncomment the con***REMOVED***g below if you want all UI panes to be hidden by default!
-  ;; :custom
-  ;; (lsp-enable-dap-auto-con***REMOVED***gure nil)
-  ;; :con***REMOVED***g
-  ;; (dap-ui-mode 1)
-  :commands dap-debug
+(use-package eglot
   :con***REMOVED***g
-  ;; Set up Node debugging
-  (require 'dap-node)
-  (dap-node-setup) ;; Automatically installs Node debug adapter if needed
-  (require 'dap-go)
-  ;; Bind `C-c l d` to `dap-hydra` for easy access
-  (general-de***REMOVED***ne-key
-    :keymaps 'lsp-mode-map
-    :pre***REMOVED***x lsp-keymap-pre***REMOVED***x
-    "d" '(dap-hydra t :wk "debugger")))
-
-(use-package lsp-treemacs
-  :after (lsp treemacs)
-  :init
-  (lsp-treemacs-sync-mode 1))
+  (setq eglot-connect-timeout 10))
 
 (use-package docker
   :ensure t
@@ -821,7 +833,7 @@ folder, otherwise delete a word"
 
 (use-package terraform-mode)
 
-(use-package eglot)
+;; (use-package eglot)
 
 (use-package groovy-mode)
 
