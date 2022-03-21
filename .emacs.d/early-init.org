@@ -57,7 +57,7 @@ Check [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Emacs lsp-mode p
     (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory)))
 #+end_src
 
-* Disable package reading when starting#+begin_src emacs-lisp
+* Disable package reading when starting
 #+begin_src emacs-lisp
   (setq package-enable-at-startup nil
         package--init-***REMOVED***le-ensured t)
@@ -147,6 +147,7 @@ Con***REMOVED***gure Straight.el
         use-package-always-defer t
         use-package-always-ensure t
         straight-cache-autoloads t
+        ;; straight-check-for-modi***REMOVED***cations nil
         ;; use-package-verbose t
         )
 
