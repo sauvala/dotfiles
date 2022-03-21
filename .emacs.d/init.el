@@ -42,6 +42,13 @@
     (add-to-list 'evil-emacs-state-modes mode)))
 
 (use-package undo-tree
+  :con***REMOVED***g
+  (setq undo-tree-auto-save-history t
+        undo-limit 800000
+        undo-strong-limit 12000000
+        undo-outer-limit 120000000)
+  :custom
+  (undo-tree-history-directory-alist `(("." . "~/.cache/emacs/undo-tree-hist/")))
   :init
   (global-undo-tree-mode 1))
 
@@ -87,7 +94,7 @@
 
 (use-package evil-collection
   :after (evil magit)
-  :custom (evil-collection-setup-minibuffer t) 
+  :custom (evil-collection-setup-minibuffer t)
   :con***REMOVED***g
   (evil-collection-init))
 
@@ -273,8 +280,8 @@
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-con***REMOVED***g)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-con***REMOVED***g)
+  ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-con***REMOVED***g)
   ;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
   (doom-themes-org-con***REMOVED***g))
 
@@ -519,20 +526,27 @@ folder, otherwise delete a word"
   :hook (emacs-startup . marginalia-mode))
 
 (use-package corfu
-  :after orderless
-  :bind
-  (:map corfu-map
-        ("C-j" . corfu-next)
-        ("C-k" . corfu-previous)
-        ("H-j" . corfu-next)
-        ("H-k" . corfu-previous)
-        ("TAB" . corfu-insert))
-  :custom
-  (corfu-cycle t)
-  (corfu-quit-at-boundary t)
-  (corfu-quit-no-match t)
-  :init
-  (corfu-global-mode))
+	:hook ((prog-mode . corfu-mode)
+				 (shell-mode . corfu-mode)
+				 (eshell-mode . corfu-mode))
+	:bind
+	(:map corfu-map
+				("C-j" . corfu-next)
+				("C-k" . corfu-previous)
+				("H-j" . corfu-next)
+				("H-k" . corfu-previous)
+				("TAB" . corfu-insert))
+	:custom
+	(corfu-auto t)
+	(corfu-cycle nil)
+	(corfu-quit-at-boundary nil)
+	(corfu-quit-no-match nil)
+  (corfu-on-exact-match t)
+	(corfu-preview-current nil)
+	(corfu-preselect-***REMOVED***rst nil)
+	;; :init
+	;; (corfu-global-mode)
+	)
 
 (use-package cape
   ;; Bind dedicated completion commands
@@ -668,10 +682,12 @@ folder, otherwise delete a word"
 (use-package treemacs
   :defer 1.5
   :con***REMOVED***g
-  (js/leader-key-def
-    "t"   '(:ignore t :which-key "treemacs")
-    "tt"  'treemacs)
-  (setq treemacs-follow-mode t))
+  (progn
+    (js/leader-key-def
+      "t"   '(:ignore t :which-key "treemacs")
+      "tt"  'treemacs)
+    (setq treemacs-follow-mode t)
+    (treemacs-resize-icons 22)))
 
 (use-package treemacs-evil
   :after treemacs evil)
@@ -681,8 +697,18 @@ folder, otherwise delete a word"
 
 (use-package treemacs-all-the-icons
   :after treemacs
+  ;; :con***REMOVED***g
+  ;; (setq doom-themes-treemacs-theme "all-the-icons")
+  ;;(treemacs-load-theme "all-the-icons")
+  )
+
+(use-package treemacs-tab-bar
+  :after treemacs
   :con***REMOVED***g
-  (treemacs-load-theme "all-the-icons"))
+  (treemacs-set-scope-type 'Tabs))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
 
 (use-package vterm)
 

@@ -37,8 +37,8 @@
   (lambda ()
     (setq ***REMOVED***le-name-handler-alist js--***REMOVED***le-name-handler-alist)))
 
-(push '(menu-bar-lines . 0)  default-frame-alist)
-(push '(tool-bar-lines . 0)  default-frame-alist)
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (setq menu-bar-mode nil
       tool-bar-mode nil
@@ -82,6 +82,7 @@
       use-package-always-defer t
       use-package-always-ensure t
       straight-cache-autoloads t
+      ;; straight-check-for-modi***REMOVED***cations nil
       ;; use-package-verbose t
       )
 
