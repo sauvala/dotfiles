@@ -67,6 +67,7 @@ brew "borkdude/brew/babashka"
 brew "openjdk"
 brew "nvm"
 brew "libusb"
+brew "neovim"
 
 cask "stats"
 cask "sublime-text"
