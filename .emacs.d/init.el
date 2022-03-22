@@ -99,7 +99,7 @@
   (evil-collection-init))
 
 (use-package evil-surround
-  :after evil
+  :after (evil)
   :con***REMOVED***g
   (global-evil-surround-mode 1))
 
@@ -158,40 +158,44 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(setq visible-bell 1)
+(setq visible-bell nil)
 (use-package modus-themes
-  ;; :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
+  :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
   :con***REMOVED***g
   ;; Add all your customizations prior to loading the themes
   ;;   (setq modus-themes-italic-constructs t
   ;;         modus-themes-bold-constructs nil
   ;;         modus-themes-region '(bg-only no-extend))
-
-  (setq modus-themes-italic-constructs t
+  (setq
+        ; modus-themes-italic-constructs nil
         modus-themes-bold-constructs t
-        modus-themes-mixed-fonts t
+        ; modus-themes-mixed-fonts nil
         modus-themes-subtle-line-numbers t
-        modus-themes-intense-markup nil
-        modus-themes-success-deuteranopia nil
+        ; modus-themes-intense-mouseovers t
+        ;; modus-themes-deuteranopia t
         modus-themes-tabs-accented nil
+        ;; modus-themes-variable-pitch-ui nil
         modus-themes-inhibit-reload t ; only applies to `customize-set-variable' and related
-
         modus-themes-fringes nil ; {nil,'subtle,'intense}
 
         ;; Options for `modus-themes-lang-checkers' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `straight-underline', `text-also', `background',
         ;; `intense' OR `faint'.
-        modus-themes-lang-checkers nil
+        modus-themes-lang-checkers '(straight-underline)
 
-        ;; Options for `modus-themes-mode-line' are either nil, or a
-        ;; list that can combine any of `3d' OR `moody', `borderless',
-        ;; `accented', `padded'.
-        modus-themes-mode-line '(borderless padded) ; For Moody, also check `prot-moody'
+        ;; Options for `modus-themes-mode-line' are either nil, or a list
+        ;; that can combine any of `3d' OR `moody', `borderless',
+        ;; `accented', a natural number for extra padding (or a cons cell
+        ;; of padding and NATNUM), and a floating point for the height of
+        ;; the text relative to the base font size (or a cons cell of
+        ;; height and FLOAT)
+        modus-themes-mode-line '(borderless)
 
-        ;; This one only works when `modus-themes-mode-line' (above) has
-        ;; the `padded' property.  It takes a positive integer.
-        modus-themes-mode-line-padding 2
+        ;; Options for `modus-themes-markup' are either nil, or a list
+        ;; that can combine any of `bold', `italic', `background',
+        ;; `intense'.
+        ;; modus-themes-markup nil
 
         ;; Options for `modus-themes-syntax' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
@@ -201,66 +205,86 @@
         ;; Options for `modus-themes-hl-line' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `accented', `underline', `intense'
-        modus-themes-hl-line nil ;;'(accented)
+        modus-themes-hl-line '(intense)
 
         ;; Options for `modus-themes-paren-match' are either nil (the
         ;; default), or a list of properties that may include any of those
         ;; symbols: `bold', `intense', `underline'
-        modus-themes-paren-match '(bold)
+        modus-themes-paren-match '(bold intense)
 
         ;; Options for `modus-themes-links' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `neutral-underline' OR `no-underline', `faint' OR `no-color',
         ;; `bold', `italic', `background'
-        modus-themes-links nil
+        modus-themes-links '(neutral-underline)
+
+        ;; Options for `modus-themes-box-buttons' are either nil (the
+        ;; default), or a list that can combine any of `flat',
+        ;; `accented', `faint', `variable-pitch', `underline', the
+        ;; symbol of any font weight as listed in
+        ;; `modus-themes-weights', and a floating point number
+        ;; (e.g. 0.9) for the height of the button's text.
+        ;; modus-themes-box-buttons '(variable-pitch flat faint 0.9)
 
         ;; Options for `modus-themes-prompts' are either nil (the
-        ;; default), or a list of properties that may include any of
-        ;; those symbols: `background', `bold', `gray', `intense',
-        ;; `italic'
-        modus-themes-prompts '(bold italic)
+        ;; default), or a list of properties that may include any of those
+        ;; symbols: `background', `bold', `gray', `intense', `italic'
+        modus-themes-prompts '(intense)
 
-        modus-themes-completions 'opinionated ; {nil,'moderate,'opinionated}
+        ;; The `modus-themes-completions' is an alist that reads three
+        ;; keys: `matches', `selection', `popup'.  Each accepts a nil
+        ;; value (or empty list) or a list of properties that can include
+        ;; any of the following (for WEIGHT read further below):
+        ;;
+        ;; `matches' - `background', `intense', `underline', `italic', WEIGHT
+        ;; `selection' - `accented', `intense', `underline', `italic', `text-also', WEIGHT
+        ;; `popup' - same as `selected'
+        ;; `t' - applies to any key not explicitly referenced (check docs)
+        ;;
+        ;; WEIGHT is a symbol such as `semibold', `light', or anything
+        ;; covered in `modus-themes-weights'.  Bold is used in the absence
+        ;; of an explicit WEIGHT.
+         ;; modus-themes-completions
+         ;; '((matches . (extrabold background))
+         ;;   (selection . (intense accented))
+         ;;   (popup . (accented intense)))
 
-        modus-themes-mail-citations 'faint ; {nil,'faint,'monochrome}
+        ;; modus-themes-mail-citations nil ; {nil,'intense,'faint,'monochrome}
 
         ;; Options for `modus-themes-region' are either nil (the default),
         ;; or a list of properties that may include any of those symbols:
         ;; `no-extend', `bg-only', `accented'
-        modus-themes-region '(no-extend accented)
+        modus-themes-region '(bb-only accented)
 
-        ;; Options for `modus-themes-diffs': nil, 'desaturated,
-        ;; 'bg-only, 'deuteranopia, 'fg-only-deuteranopia
-        modus-themes-diffs 'desaturated
+        ;; Options for `modus-themes-diffs': nil, 'desaturated, 'bg-only
+        ;; modus-themes-diffs 'desaturated
 
-        modus-themes-org-blocks 'gray-background ; {nil,'gray-background,'tinted-background} (also read doc string)
+        modus-themes-org-blocks nil ; {nil,'gray-background,'tinted-background}
 
-        ;; This is an alist: read the manual or its doc string.
-        modus-themes-org-agenda
-        '((header-block . (variable-pitch scale-title))
-          (header-date . (bold-today scale-heading ))
-          (event . (accented italic))
-          (scheduled . uniform)
-          (habit . traf***REMOVED***c-light-deuteranopia))
+        ;; modus-themes-org-agenda ; this is an alist: read the manual or its doc string
+        ;; '((header-block . (variable-pitch regular 1.4))
+        ;;   (header-date . (bold-today grayscale underline-today 1.2))
+        ;;   (event . (accented italic varied))
+        ;;   (scheduled . uniform)
+        ;;   (habit . nil))
 
-        ;; This is an alist: read the manual or its doc string.
-        ;; modus-themes-headings nil
-        ;; '((1 . (overline))
-        ;;   (2 . (overline))
-        ;;   (3 . (rainbow overline))
-        ;;   (t . (rainbow no-bold overline)))
-        ;;
-        ;; '((t . (no-bold background overline)))
+        ;;modus-themes-headings ; this is an alist: read the manual or its doc string
+        ;;'((t . (variable-pitch extrabold)))
 
-        ;; modus-themes-variable-pitch-ui nil
-        ;; modus-themes-variable-pitch-headings nil
-        ;; modus-themes-scale-headings nil
-        ;; modus-themes-scale-1 1.1
-        ;; modus-themes-scale-2 1.15
-        ;; modus-themes-scale-3 1.21
-        ;; modus-themes-scale-4 1.27
-        ;; modus-themes-scale-title 1.33
-        ;; modus-themes-scale-small 0.9
+        ;; (let ((time (string-to-number (format-time-string "%H"))))
+        ;;   (if (and (> time 5) (< time 18))
+        ;;       (modus-themes-load-operandi)
+        ;;     (modus-themes-load-vivendi)))
+
+        ;; Sample for headings:
+
+        ;; modus-themes-headings
+        ;; '((1 . (variable-pitch light 1.6))
+        ;;   (2 . (variable-pitch regular 1.4))
+        ;;   (3 . (variable-pitch regular 1.3))
+        ;;   (4 . (1.2))
+        ;;   (5 . (1.1))
+        ;;   (t . (monochrome 1.05)))
         )
 
   ;; Load the theme ***REMOVED***les before enabling a theme
@@ -271,7 +295,7 @@
   )
 
 (use-package doom-themes
-  :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
+  ;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
   :con***REMOVED***g
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -280,13 +304,13 @@
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-con***REMOVED***g)
   ;; or for treemacs users
-  ;; (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  ;; (doom-themes-treemacs-con***REMOVED***g)
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-con***REMOVED***g)
   ;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
   (doom-themes-org-con***REMOVED***g))
 
-(use-package doom-modeline
-  :hook (emacs-startup . (lambda () (doom-modeline-mode 1))))
+;; (use-package doom-modeline
+;;   :hook (emacs-startup . (lambda () (doom-modeline-mode 1))))
 
 (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 
@@ -304,8 +328,11 @@
 ;; (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
 
 (use-package minions
-  :after doom-modeline
-  :hook (doom-modeline-mode . minions-mode))
+  :con***REMOVED***g
+  (minions-mode 1)
+  ;; :after doom-modeline
+  ;; :hook (doom-modeline-mode . minions-mode)
+  )
 
 (use-package diminish)
 
@@ -410,19 +437,19 @@
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-***REMOVED***le)))
 
-(use-package consult-lsp
-  :after (consult lsp-mode)
-  :commands consult-lsp-symbols
-  :con***REMOVED***g
-  (consult-lsp-marginalia-mode))
+;; (use-package consult-lsp
+;;   :after (consult lsp-mode)
+;;   :commands consult-lsp-symbols
+;;   :con***REMOVED***g
+;;   (consult-lsp-marginalia-mode))
 
-(use-package company-lsp
-  :after (lsp-mode company)
-  :con***REMOVED***g
-  (push 'company-lsp company-backend))
+;; (use-package company-lsp
+;;   :after (lsp-mode company)
+;;   :con***REMOVED***g
+;;   (push 'company-lsp company-backend))
 
 (use-package yasnippet-snippets
-  :after yasnippet)
+  :after (yasnippet))
 
 (use-package yasnippet
   :con***REMOVED***g
@@ -452,7 +479,7 @@
 	embark-become-indicator embark-action-indicator))
 
 (use-package embark-consult
-  :after embark
+  :after (embark)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
@@ -479,11 +506,11 @@ folder, otherwise delete a word"
          ("M-h" . js/minibuffer-backward-kill))
   :custom
   (vertico-cycle t)
-  :custom-face
-  ;; for doom-one use #3a3f5a 
-  (vertico-current ((t (:background "#3c3836"))))
+  ;; :custom-face
+  ;; for doom-one use #3a3f5a
+  ;; (vertico-current ((t (:background "#3c3836"))))
   ;; :con***REMOVED***g
-  ;; (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous) 
+  ;; (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous)
   :init
   (vertico-mode))
 
@@ -513,40 +540,46 @@ folder, otherwise delete a word"
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
 
-(use-package all-the-icons)
+(use-package all-the-icons
+  :ensure t)
 
 (use-package all-the-icons-completion
   :straight (:host github :repo "iyefrat/all-the-icons-completion")
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
 
 (use-package marginalia
-  :after vertico
+  :after (vertico)
   :custom
   (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-  :hook (emacs-startup . marginalia-mode))
+  :hook (emacs-startup . marginalia-mode)
+  :init (marginalia-mode))
 
 (use-package corfu
-	:hook ((prog-mode . corfu-mode)
-				 (shell-mode . corfu-mode)
-				 (eshell-mode . corfu-mode))
-	:bind
-	(:map corfu-map
-				("C-j" . corfu-next)
-				("C-k" . corfu-previous)
-				("H-j" . corfu-next)
-				("H-k" . corfu-previous)
-				("TAB" . corfu-insert))
-	:custom
-	(corfu-auto t)
-	(corfu-cycle nil)
-	(corfu-quit-at-boundary nil)
-	(corfu-quit-no-match nil)
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
+  :bind
+  (:map corfu-map
+        ("C-j" . corfu-next)
+        ("C-k" . corfu-previous)
+        ("H-j" . corfu-next)
+        ("H-k" . corfu-previous)
+        ("TAB" . corfu-insert))
+  :custom
+  (corfu-auto t)
+  (corfu-cycle nil)
+  (corfu-quit-at-boundary nil)
+  (corfu-quit-no-match nil)
   (corfu-on-exact-match t)
-	(corfu-preview-current nil)
-	(corfu-preselect-***REMOVED***rst nil)
-	;; :init
-	;; (corfu-global-mode)
-	)
+  (corfu-preview-current nil)
+  (corfu-preselect-***REMOVED***rst nil)
+  :init
+  (corfu-global-mode)
+  )
+
+(use-package corfu-doc
+  :hook
+  (corfu-mode-hook . corfu-doc-mode))
 
 (use-package cape
   ;; Bind dedicated completion commands
@@ -624,6 +657,55 @@ folder, otherwise delete a word"
 (setq-default bidi-inhibit-bpa t)
 (global-so-long-mode 1)
 
+(use-package pulsar
+  :straight (:host gitlab :type git :repo "protesilaos/pulsar")
+  :con***REMOVED***g
+  (customize-set-variable
+   'pulsar-pulse-functions ; Read the doc string for why not `setq'
+   '(recenter-top-bottom
+     move-to-window-line-top-bottom
+     reposition-window
+     bookmark-jump
+     other-window
+     delete-window
+     delete-other-windows
+     forward-page
+     backward-page
+     scroll-up-command
+     scroll-down-command
+     windmove-right
+     windmove-left
+     windmove-up
+     windmove-down
+     windmove-swap-states-right
+     windmove-swap-states-left
+     windmove-swap-states-up
+     windmove-swap-states-down
+     tab-new
+     tab-close
+     tab-next
+     org-next-visible-heading
+     org-previous-visible-heading
+     org-forward-heading-same-level
+     org-backward-heading-same-level
+     outline-backward-same-level
+     outline-forward-same-level
+     outline-next-visible-heading
+     outline-previous-visible-heading
+     outline-up-heading
+     evil-scroll-down
+     evil-scroll-up
+     evil-window-down
+     evil-window-up
+     evil-window-left
+     evil-window-right))
+
+  (setq pulsar-pulse t)
+  (setq pulsar-delay 0.055)
+  (setq pulsar-iterations 10)
+  (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-highlight-face 'pulsar-yellow))
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
@@ -646,7 +728,7 @@ folder, otherwise delete a word"
   "gr"  'magit-rebase)
 
 (use-package forge
-  :after magit)
+  :after (magit))
 
 (use-package code-review)
 
@@ -686,21 +768,20 @@ folder, otherwise delete a word"
     (js/leader-key-def
       "t"   '(:ignore t :which-key "treemacs")
       "tt"  'treemacs)
-    (setq treemacs-follow-mode t)
-    (treemacs-resize-icons 22)))
+    (setq treemacs-follow-mode t)))
+
+(use-package treemacs-all-the-icons
+  :after (treemacs)
+  :init
+  (load-***REMOVED***le "~/.emacs.d/straight/repos/treemacs/src/extra/treemacs-all-the-icons.el")
+  :con***REMOVED***g
+  (treemacs-load-theme "all-the-icons"))
 
 (use-package treemacs-evil
-  :after treemacs evil)
+  :after (treemacs evil))
 
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
-
-(use-package treemacs-all-the-icons
-  :after treemacs
-  ;; :con***REMOVED***g
-  ;; (setq doom-themes-treemacs-theme "all-the-icons")
-  ;;(treemacs-load-theme "all-the-icons")
-  )
 
 (use-package treemacs-tab-bar
   :after treemacs
@@ -874,14 +955,14 @@ folder, otherwise delete a word"
 (use-package aggressive-indent-mode
   :hook (emacs-lisp-mode-hook clojure-mode org))
 
-(use-package company
-  :hook (emacs-startup . global-company-mode)
-  :bind ("H-SPC" . company-complete)
-  :con***REMOVED***g
-  (setq company-idle-delay 0.2))
+;; (use-package company
+;;   :hook (emacs-startup . global-company-mode)
+;;   :bind ("H-SPC" . company-complete)
+;;   :con***REMOVED***g
+;;   (setq company-idle-delay 0.2))
 
-(use-package company-box
-  :hook (company-mode . company-box-mode))
+;; (use-package company-box
+;;   :hook (company-mode . company-box-mode))
 
 (use-package tree-sitter)
 
@@ -892,8 +973,9 @@ folder, otherwise delete a word"
   (defvar lsp-docker-client-packages
     '(lsp-clients lsp-go lsp-typescript))
   (setq lsp-docker-client-con***REMOVED***gs
-        (:server-id gopls :docker-server-id gopls-docker :server-command "gopls")
-        (:server-id ts-ls :docker-server-id tsls-docker :server-command "typescript-language-server --stdio"))
+        '((:server-id gopls :docker-server-id gopls-docker :server-command "gopls")
+          ;; (:server-id ts-ls :docker-server-id tsls-docker :server-command "typescript-language-server --stdio")
+          ))
   (lsp-docker-init-clients
    :path-mappings '(("~/Dev/comet" . "/projects"))
    :client-packages lsp-docker-client-packages
@@ -950,7 +1032,7 @@ folder, otherwise delete a word"
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 (use-package winner
-  :after evil
+  :after (evil)
   :con***REMOVED***g
   (winner-mode)
   (de***REMOVED***ne-key evil-window-map "u" 'winner-undo)
@@ -1005,8 +1087,8 @@ folder, otherwise delete a word"
   (setq pomm-audio-enabled t)
   :commands (pomm))
 
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode)) 
+;; (use-package all-the-icons-dired
+;;   :hook (dired-mode . all-the-icons-dired-mode))
 
 (defun js/dired-con***REMOVED***g ()
   (dired-omit-mode 1)
@@ -1014,7 +1096,7 @@ folder, otherwise delete a word"
   (hl-line-mode 1))
 
 (use-package dired
-  :after evil-collection
+  :after (evil-collection)
   :straight (:type built-in)
   :commands (dired dired-jump)
   :hook (dired-mode . js/dired-con***REMOVED***g)
@@ -1045,12 +1127,12 @@ folder, otherwise delete a word"
   (dired-rainbow-de***REMOVED***ne fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
   (dired-rainbow-de***REMOVED***ne partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
   (dired-rainbow-de***REMOVED***ne vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
-  (dired-rainbow-de***REMOVED***ne-chmod executable-unix "#38c172" "-.*x.*")) 
+  (dired-rainbow-de***REMOVED***ne-chmod executable-unix "#38c172" "-.*x.*"))
 
 (use-package diredfl
   :hook (dired-mode . diredfl-mode)
   :con***REMOVED***g
-  (diredfl-global-mode 1)) 
+  (diredfl-global-mode 1))
 
 (use-package dired-single)
 (use-package dired-ranger)
@@ -1239,6 +1321,3 @@ folder, otherwise delete a word"
 (use-package speed-type)
 
 (use-package bug-hunter)
-
-(use-package esh-autosuggest
-:hook (eshell-mode . esh-autosuggest-mode))
