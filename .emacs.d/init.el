@@ -1219,6 +1219,10 @@ folder, otherwise delete a word"
   (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
   (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
 
+(use-package org-modern
+  :hook ((org-mode . org-modern-mode)
+         (org-agenda-***REMOVED***nalize . org-modern-agenda)))
+
 (use-package org-pomodoro
   ;:after org-mode
   :general

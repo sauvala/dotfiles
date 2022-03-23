@@ -126,6 +126,7 @@
 - [[#dired][Dired]]
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
+  - [[#org-modern][org-modern]]
   - [[#pomodoro][Pomodoro]]
   - [[#add-toc-automatically][Add TOC automatically]]
   - [[#visual-***REMOVED***ll][Visual ***REMOVED***ll]]
@@ -1729,6 +1730,13 @@ For Javacsript and Typescript, install the language server https://github.com/ty
       (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
       (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
  #+end_src
+
+** org-modern
+#+begin_src emacs-lisp
+  (use-package org-modern
+    :hook ((org-mode . org-modern-mode)
+           (org-agenda-***REMOVED***nalize . org-modern-agenda)))
+#+end_src
  
 ** Pomodoro
 [[https://github.com/marcinkoziej/org-pomodoro]]
