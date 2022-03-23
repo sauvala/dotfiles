@@ -574,12 +574,12 @@ folder, otherwise delete a word"
   (corfu-preview-current nil)
   (corfu-preselect-***REMOVED***rst nil)
   :init
-  (corfu-global-mode)
-  )
+  (corfu-global-mode))
 
 (use-package corfu-doc
-  :hook
-  (corfu-mode-hook . corfu-doc-mode))
+  :after (corfu)
+  :con***REMOVED***g
+  (corfu-doc-mode))
 
 (use-package cape
   ;; Bind dedicated completion commands
