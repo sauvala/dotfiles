@@ -932,8 +932,9 @@ Add icons to ***REMOVED***les names
 *** Dabbrev
 #+begin_src emacs-lisp
   (use-package dabbrev
-    :bind
-    (("C-SPC" . dabbrev-completion))) 
+    ;; :bind
+    ;; (("C-SPC" . dabbrev-completion))
+    )
 #+end_src
 
 ** Save minibuffer history
