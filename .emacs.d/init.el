@@ -612,8 +612,9 @@ folder, otherwise delete a word"
 )
 
 (use-package dabbrev
-  :bind
-  (("C-SPC" . dabbrev-completion)))
+  ;; :bind
+  ;; (("C-SPC" . dabbrev-completion))
+  )
 
 (use-package savehist
   :defer 0.1 
