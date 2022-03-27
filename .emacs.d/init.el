@@ -1226,7 +1226,14 @@ folder, otherwise delete a word"
 
 (use-package org-modern
   :hook ((org-mode . org-modern-mode)
-         (org-agenda-***REMOVED***nalize . org-modern-agenda)))
+         (org-agenda-***REMOVED***nalize . org-modern-agenda))
+  :con***REMOVED***g
+  (progn
+    (setq org-modern-variable-pitch nil
+          org-modern-label-border 1)
+    (set-face-attribute 'org-modern-label nil
+                        :box `( :line-width (-1 . ,org-modern-label-border)
+                                :color ,(face-background 'default)))))
 
 (use-package org-pomodoro
   ;:after org-mode
