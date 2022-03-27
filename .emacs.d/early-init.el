@@ -74,7 +74,7 @@
 
 ;; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil
-                    :font "Iosevka Aile"
+                    :font "JetBrains Mono"
                     :weight 'light
                     :height js/default-variable-font-size)
 
