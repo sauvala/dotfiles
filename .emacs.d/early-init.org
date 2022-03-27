@@ -135,7 +135,7 @@ hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_
 
   ;; Set the variable pitch face
   (set-face-attribute 'variable-pitch nil
-                      :font "Iosevka Aile"
+                      :font "JetBrains Mono"
                       :weight 'light
                       :height js/default-variable-font-size)
 #+end_src
