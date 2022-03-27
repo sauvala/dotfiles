@@ -1744,8 +1744,15 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 #+begin_src emacs-lisp
   (use-package org-modern
     :hook ((org-mode . org-modern-mode)
-           (org-agenda-***REMOVED***nalize . org-modern-agenda)))
-#+end_src
+           (org-agenda-***REMOVED***nalize . org-modern-agenda))
+    :con***REMOVED***g
+    (progn
+      (setq org-modern-variable-pitch nil
+            org-modern-label-border 1)
+      (set-face-attribute 'org-modern-label nil
+                          :box `( :line-width (-1 . ,org-modern-label-border)
+                                  :color ,(face-background 'default)))))
+                                  #+end_src
  
 ** Pomodoro
 [[https://github.com/marcinkoziej/org-pomodoro]]
