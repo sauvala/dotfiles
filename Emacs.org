@@ -76,6 +76,7 @@
   - [[#parenthesis][Parenthesis]]
   - [[#long-lines][Long lines]]
   - [[#pulsar][Pulsar]]
+  - [[#undo-hl][Undo-hl]]
 - [[#development][Development]]
   - [[#magit][Magit]]
   - [[#forge][Forge]]
@@ -1063,6 +1064,13 @@ Add icons to ***REMOVED***les names
           (setq pulsar-face 'pulsar-magenta)
           (setq pulsar-highlight-face 'pulsar-yellow))
 #+end_src
+
+** Undo-hl
+#+begin_src emacs-lisp
+  (use-package undo-hl
+    :straight (:host github :type git :repo "casouri/undo-hl")
+    :con***REMOVED***g (undo-hl-mode))
+  #+end_src
 
 * Development
 ** Magit

@@ -707,6 +707,10 @@ folder, otherwise delete a word"
   (setq pulsar-face 'pulsar-magenta)
   (setq pulsar-highlight-face 'pulsar-yellow))
 
+(use-package undo-hl
+  :straight (:host github :type git :repo "casouri/undo-hl")
+  :con***REMOVED***g (undo-hl-mode))
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
