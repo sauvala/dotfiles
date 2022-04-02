@@ -139,7 +139,7 @@
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
 ;; (setq use-dialog-box nil)
-(pixel-scroll-precision-mode) ;; smoot scrolling
+;; (pixel-scroll-precision-mode) ;; smoot scrolling
 (setq auto-window-vscroll nil)
 (customize-set-variable 'fast-but-imprecise-scrolling t)
 (customize-set-variable 'scroll-conservatively 101)
@@ -776,7 +776,7 @@ folder, otherwise delete a word"
     (setq treemacs-follow-mode t)))
 
 (use-package treemacs-all-the-icons
-  :after (treemacs)
+  ;; :after (treemacs)
   :init
   (load-***REMOVED***le "~/.emacs.d/straight/repos/treemacs/src/extra/treemacs-all-the-icons.el")
   :con***REMOVED***g
@@ -950,12 +950,6 @@ folder, otherwise delete a word"
 (use-package groovy-mode)
 
 (use-package csv-mode)
-
-(use-package platformio-mode
-  :hook
-  (c++-mode-hook . (lambda ()
-                     (lsp-deferred)
-                     (platformio-conditionally-enable))))
 
 (use-package aggressive-indent-mode
   :hook (emacs-lisp-mode-hook clojure-mode org))
@@ -1234,6 +1228,8 @@ folder, otherwise delete a word"
     (set-face-attribute 'org-modern-label nil
                         :box `( :line-width (-1 . ,org-modern-label-border)
                                 :color ,(face-background 'default)))))
+
+(use-package valign)
 
 (use-package org-pomodoro
   ;:after org-mode

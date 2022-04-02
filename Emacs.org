@@ -101,7 +101,6 @@
     - [[#eglot][Eglot]]
     - [[#groovy][Groovy]]
     - [[#csv][CSV]]
-  - [[#arduino-with-platformio][Arduino with PlatformIO]]
   - [[#aggressive-indent-mode][Aggressive indent mode]]
   - [[#company][Company]]
   - [[#tree-sitter][tree-sitter]]
@@ -128,6 +127,7 @@
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
   - [[#org-modern][org-modern]]
+  - [[#valign][valign]]
   - [[#pomodoro][Pomodoro]]
   - [[#add-toc-automatically][Add TOC automatically]]
   - [[#visual-***REMOVED***ll][Visual ***REMOVED***ll]]
@@ -323,7 +323,7 @@
   (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
   ;; (setq scroll-step 1) ;; keyboard scroll one line at a time
   ;; (setq use-dialog-box nil)
-  (pixel-scroll-precision-mode) ;; smoot scrolling
+  ;; (pixel-scroll-precision-mode) ;; smoot scrolling
   (setq auto-window-vscroll nil)
   (customize-set-variable 'fast-but-imprecise-scrolling t)
   (customize-set-variable 'scroll-conservatively 101)
@@ -1157,7 +1157,7 @@ Add icons to ***REMOVED***les names
       (setq treemacs-follow-mode t)))
 
   (use-package treemacs-all-the-icons
-    :after (treemacs)
+    ;; :after (treemacs)
     :init
     (load-***REMOVED***le "~/.emacs.d/straight/repos/treemacs/src/extra/treemacs-all-the-icons.el")
     :con***REMOVED***g
@@ -1386,15 +1386,6 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 *** CSV
 #+begin_src emacs-lisp
   (use-package csv-mode)
-#+end_src
-
-** Arduino with PlatformIO
-#+begin_src emacs-lisp
-  (use-package platformio-mode
-    :hook
-    (c++-mode-hook . (lambda ()
-                       (lsp-deferred)
-                       (platformio-conditionally-enable))))
 #+end_src
 
 ** Aggressive indent mode
@@ -1753,7 +1744,12 @@ For Javacsript and Typescript, install the language server https://github.com/ty
                           :box `( :line-width (-1 . ,org-modern-label-border)
                                   :color ,(face-background 'default)))))
                                   #+end_src
- 
+
+** valign
+#+begin_src emacs-lisp
+  (use-package valign)
+#+end_src
+
 ** Pomodoro
 [[https://github.com/marcinkoziej/org-pomodoro]]
 "You can start a pomodoro for the task at point or select one of the last tasks that you clocked time for. Each clocked-in pomodoro starts a timer of 25 minutes and after each pomodoro a break timer of 5 minutes is started automatically. Every 4 breaks a long break is started with 20 minutes. All values are customizable."
