@@ -1339,4 +1339,6 @@ folder, otherwise delete a word"
   (setq elfeed-feeds
         '("https://news.ycombinator.com/rss"
           "https://www.reddit.com/r/emacs/.rss"
-          "https://www.reddit.com/r/suomi/.rss")))
+          "https://www.reddit.com/r/suomi/.rss"
+          "https://hnrss.org/best"
+          "https://hnrss.org/newest?points=100")))
