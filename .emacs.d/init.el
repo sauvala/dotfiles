@@ -1333,3 +1333,10 @@ folder, otherwise delete a word"
 (use-package speed-type)
 
 (use-package bug-hunter)
+
+(use-package elfeed
+  :con***REMOVED***g
+  (setq elfeed-feeds
+        '("https://news.ycombinator.com/rss"
+          "https://www.reddit.com/r/emacs/.rss"
+          "https://www.reddit.com/r/suomi/.rss")))
