@@ -141,6 +141,7 @@
 - [[#other-tools][Other tools]]
   - [[#speed-typing][Speed typing]]
   - [[#elisp-bug-hunter][Elisp bug hunter]]
+  - [[#elfeed][Elfeed]]
 :END:
 
 * Add lexical binding to generated ***REMOVED***le
@@ -1891,4 +1892,14 @@ Allows you to edit entries directly from org-brain-visualize
 ** Elisp bug hunter
 #+begin_src emacs-lisp
   (use-package bug-hunter)
+#+end_src
+
+** Elfeed
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :con***REMOVED***g
+    (setq elfeed-feeds
+          '("https://news.ycombinator.com/rss"
+            "https://www.reddit.com/r/emacs/.rss"
+            "https://www.reddit.com/r/suomi/.rss")))
 #+end_src
