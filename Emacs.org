@@ -1424,7 +1424,10 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 #+begin_src emacs-lisp
   (use-package eglot
     :con***REMOVED***g
-    (setq eglot-connect-timeout 10))
+    (setq eglot-connect-timeout 10)
+    (setq eglot-workspace-con***REMOVED***guration
+          '((:gopls . (:usePlaceholders t))
+            (:jdtsl . (:usePlaceholders t)))))
 #+end_src
 
 *** Docker
