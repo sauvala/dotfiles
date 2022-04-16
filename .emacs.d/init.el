@@ -145,6 +145,7 @@
 (customize-set-variable 'scroll-conservatively 101)
 (customize-set-variable 'scroll-margin 0)
 (customize-set-variable 'scroll-preserve-screen-position t)
+(pixel-scroll-precision-mode)
 
 (column-number-mode)
 
