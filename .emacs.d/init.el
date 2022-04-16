@@ -994,7 +994,10 @@ folder, otherwise delete a word"
 
 (use-package eglot
   :con***REMOVED***g
-  (setq eglot-connect-timeout 10))
+  (setq eglot-connect-timeout 10)
+  (setq eglot-workspace-con***REMOVED***guration
+        '((:gopls . (:usePlaceholders t))
+          (:jdtsl . (:usePlaceholders t)))))
 
 (use-package docker
   :ensure t
