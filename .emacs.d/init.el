@@ -137,8 +137,8 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-;; (setq scroll-step 1) ;; keyboard scroll one line at a time
-;; (setq use-dialog-box nil)
+(setq scroll-step 1) ;; keyboard scroll one line at a time
+(setq use-dialog-box nil)
 ;; (pixel-scroll-precision-mode) ;; smoot scrolling
 (setq auto-window-vscroll nil)
 (customize-set-variable 'fast-but-imprecise-scrolling t)
@@ -465,6 +465,38 @@
   (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
   :diminish yas-minor-mode)
 
+(use-package tempel
+  ;; Require trigger pre***REMOVED***x before template name when completing.
+  ;; :custom
+  ;; (tempel-trigger-pre***REMOVED***x "<")
+
+  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+         ("M-*" . tempel-insert))
+
+  :init
+
+  ;; Setup completion at point
+  (defun tempel-setup-capf ()
+    ;; Add the Tempel Capf to `completion-at-point-functions'.
+    ;; `tempel-expand' only triggers on exact matches. Alternatively use
+    ;; `tempel-complete' if you want to see all matches, but then you
+    ;; should also con***REMOVED***gure `tempel-trigger-pre***REMOVED***x', such that Tempel
+    ;; does not trigger too often when you don't expect it. NOTE: We add
+    ;; `tempel-expand' *before* the main programming mode Capf, such
+    ;; that it will be tried ***REMOVED***rst.
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+
+  ;; Optionally make the Tempel templates available to Abbrev,
+  ;; either locally or globally. `expand-abbrev' is bound to C-x '.
+  ;; (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
+  ;; (global-tempel-abbrev-mode)
+  )
+
 (use-package embark
   :bind (("C-S-a" . embark-act)
 	 ("C-S-w" . embark-dwim)
@@ -563,8 +595,7 @@ folder, otherwise delete a word"
         ("C-j" . corfu-next)
         ("C-k" . corfu-previous)
         ("H-j" . corfu-next)
-        ("H-k" . corfu-previous)
-        ("TAB" . corfu-insert))
+        ("H-k" . corfu-previous))
   :custom
   (corfu-auto t)
   (corfu-cycle nil)
@@ -580,6 +611,17 @@ folder, otherwise delete a word"
   :after (corfu)
   :con***REMOVED***g
   (corfu-doc-mode))
+
+(use-package svg-lib)
+
+(use-package kind-icon
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  (kind-icon-blend-frac 0.08)
+  (svg-lib-icons-dir (no-littering-expand-var-***REMOVED***le-name "svg-lib/cache/")) ; Change cache dir
+  :con***REMOVED***g
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package cape
   ;; Bind dedicated completion commands
@@ -710,6 +752,24 @@ folder, otherwise delete a word"
 (use-package undo-hl
   :straight (:host github :type git :repo "casouri/undo-hl")
   :con***REMOVED***g (undo-hl-mode))
+
+(use-package ligature
+  :straight (:host github :type git :repo "mickeynp/ligature.el")
+  :con***REMOVED***g
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                   ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                   "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                   "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                   "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                   "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                   "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                   "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                   ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                   "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                   "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                   "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                   "\\\\" "://"))
+  (global-ligature-mode t))
 
 (use-package magit
   :bind ("C-M-;" . magit-status)
@@ -875,63 +935,61 @@ folder, otherwise delete a word"
 
 (use-package yaml-mode)
 
-(use-package lsp-mode
-  :commands lsp
-  :hook
-  (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp)
-   (go-mode . js/lsp-go-install-save-hooks))
-  :bind
-  (:map lsp-mode-map ("TAB" . completion-at-point))
-  :custom
-  (lsp-headerline-breadcrumb-enable nil)
-  (lsp-modeline-code-actions-enable nil)
-  (lsp-lens-enable t)
-  (lsp-idle-delay 0.500)
-  :con***REMOVED***g
-  (setq read-process-output-max 1048576) ; (* 1024 1024)
-  (setq lsp-print-io t)
+;; (use-package lsp-mode
+;;   :commands lsp
+;;   :hook
+;;   (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp)
+;;    (go-mode . js/lsp-go-install-save-hooks))
+;;   :bind
+;;   (:map lsp-mode-map ("TAB" . completion-at-point))
+;;   :custom
+;;   (lsp-headerline-breadcrumb-enable nil)
+;;   (lsp-modeline-code-actions-enable nil)
+;;   (lsp-lens-enable t)
+;;   (lsp-idle-delay 0.500)
+;;   :con***REMOVED***g
+;;   (setq read-process-output-max 1048576) ; (* 1024 1024)
+;;   (setq lsp-print-io t)
 
-  ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
-  ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-                    :major-modes '(terraform-mode)
-                    :server-id 'terraform-ls))
+;;   ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
+;;   ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
+;;                     :major-modes '(terraform-mode)
+;;                     :server-id 'terraform-ls))
 
-  ;; (lsp-register-client
-  ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
-  ;;                   :major-modes '(js2-mode)
-  ;;                   :remote? t
-  ;;                   :server-id 'ts-ls))
+;;   ;; (lsp-register-client
+;;   ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
+;;   ;;                   :major-modes '(js2-mode)
+;;   ;;                   :remote? t
+;;   ;;                   :server-id 'ts-ls))
 
-  (setq lsp-eslint-format nil
-        lsp-eslint-enable nil)
+;;   (setq lsp-eslint-format nil
+;;         lsp-eslint-enable nil)
 
-  ;; gopls
-  (defun js/lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (lsp-register-custom-settings
-   '(("gopls.completeUnimported" t t)
-     ("gopls.staticcheck" t t))))
+;;   ;; gopls
+;;   (defun js/lsp-go-install-save-hooks ()
+;;     (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;;     (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;;   (lsp-register-custom-settings
+;;    '(("gopls.completeUnimported" t t)
+;;      ("gopls.staticcheck" t t))))
 
 (js/leader-key-def
   "l"  '(:ignore t :which-key "lsp")
-  "ld" 'lsp-***REMOVED***nd-de***REMOVED***nition
-  "lr" 'lsp-***REMOVED***nd-references
-  "ln" 'lsp-ui-***REMOVED***nd-next-reference
-  "lp" 'lsp-ui-***REMOVED***nd-prev-reference
+  "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
+  "lr" 'xref-***REMOVED***nd-references
+  "ln" 'xref-next-line
+  "lp" 'xref-prev-line
   "ls" 'counsel-imenu
-  "le" 'lsp-ui-flycheck-list
-  "lS" 'lsp-ui-sideline-mode
-  "lX" 'lsp-execute-code-action)
+  "lX" 'eglot-code-actions)
 
-(use-package lsp-ui
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :con***REMOVED***g
-  (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
-  (setq lsp-ui-doc-position 'bottom))
+;; (use-package lsp-ui
+;;   :after lsp-mode
+;;   :hook (lsp-mode . lsp-ui-mode)
+;;   :con***REMOVED***g
+;;   (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
+;;   (setq lsp-ui-doc-position 'bottom))
 
 (use-package eglot
   :con***REMOVED***g
@@ -965,7 +1023,7 @@ folder, otherwise delete a word"
 
 (use-package tree-sitter)
 
-;; (use-package tree-sitter-langs)
+(use-package tree-sitter-langs)
 
 (use-package lsp-docker
   :con***REMOVED***g
