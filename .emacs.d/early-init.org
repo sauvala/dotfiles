@@ -179,18 +179,6 @@ Con***REMOVED***gure Straight.el
     (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
 #+end_src
 
-** benchmark-init
-#+begin_src emacs-lisp
-  (use-package benchmark-init
-    :demand t
-    :straight (benchmark-init :host github
-                              :repo "nasyxx/benchmark-init-el")
-    :con***REMOVED***g
-    (benchmark-init/activate)
-    :hook
-    (after-init . benchmark-init/deactivate))
-#+end_src
-
 * GC magic hack
 #+begin_src emacs-lisp
   (use-package gcmh

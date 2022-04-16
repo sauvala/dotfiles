@@ -109,15 +109,6 @@
   :con***REMOVED***g
   (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
 
-(use-package benchmark-init
-  :demand t
-  :straight (benchmark-init :host github
-                            :repo "nasyxx/benchmark-init-el")
-  :con***REMOVED***g
-  (benchmark-init/activate)
-  :hook
-  (after-init . benchmark-init/deactivate))
-
 (use-package gcmh
   :hook (emacs-startup . gcmh-mode)
   :con***REMOVED***g
