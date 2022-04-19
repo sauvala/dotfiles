@@ -310,8 +310,9 @@
   ;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
   (doom-themes-org-con***REMOVED***g))
 
-;; (use-package doom-modeline
-;;   :hook (emacs-startup . (lambda () (doom-modeline-mode 1))))
+(use-package solaire-mode
+  :con***REMOVED***g
+  (solaire-global-mode +1)
 
 (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 
@@ -1203,82 +1204,83 @@ folder, otherwise delete a word"
 
 ;; Turn on indentation and auto-***REMOVED***ll mode for Org ***REMOVED***les
 (defun js/org-mode-setup ()
-  (org-indent-mode)
-  ;; (variable-pitch-mode 1) ;; Causes table columns to be unaligned
-  (auto-***REMOVED***ll-mode 0)
-  (visual-line-mode 1)
-  (setq evil-auto-indent nil)
-  (diminish org-indent-mode))
+	(org-indent-mode)
+	;; (variable-pitch-mode 1) ;; Causes table columns to be unaligned
+	(auto-***REMOVED***ll-mode 0)
+	(visual-line-mode 1)
+	(setq evil-auto-indent nil)
+	(diminish org-indent-mode))
 
-(use-package org 
-  :preface
-  (setq org-modules
-        '(;; ol-w3m
-          ;; ol-bbdb
-          ol-bibtex
-          ;; org-tempo
-          ;; org-crypt
-          ;; org-habit
-          ;; org-bookmark
-          ;; org-eshell
-          ;; org-irc
-          org-indent
-          ;; ol-docview
-          ;; ol-gnus
-          ;; ol-info
-          ;; ol-irc
-          ;; ol-mhe
-          ;; ol-rmail
-          ;; ol-eww
-          ))
-  :hook (org-mode . js/org-mode-setup)
-  :general
-  (js/leader-key-def
-    "o"   '(:ignore t :which-key "org")
-    "ot"  '(org-babel-tangle :which-key "tangle")
-    "oe"  '(org-ctrl-c-ctrl-c :which-key "eval")
-    "oc"  '(org-insert-structure-template :which-key "code template"))
-  :con***REMOVED***g
-  (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-j") 'org-next-visible-heading)
-  (evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-k") 'org-previous-visible-heading)
-  :custom
-  (org-ellipsis " ▾")
-  (org-hide-emphasis-markers t)
-  (org-src-fontify-natively t)
-  (org-fontify-quote-and-verse-blocks t)
-  (org-src-tab-acts-natively t)
-  (org-edit-src-content-indentation 2)
-  (org-hide-block-startup nil)
-  (org-src-preserve-indentation nil)
-  (org-startup-folded 'content)
-  (org-cycle-separator-lines 2)
-  (org-structure-template-alist '(("a" . "export ascii")
-                                  ("c" . "center")
-                                  ("C" . "comment")
-                                  ("e" . "example")
-                                  ("E" . "export")
-                                  ("h" . "export html")
-                                  ("l" . "export latex")
-                                  ("q" . "quote")
-                                  ("s" . "src")
-                                  ("v" . "verse")
-                                  ("el" . "src emacs-lisp")
-                                  ("py" . "src python")
-                                  ("json" . "src json")
-                                  ("yaml" . "src yaml")
-                                  ("sh" . "src sh")
-                                  ("go" . "src go")
-                                  ("clj" . "src clojure")))
-  :custom-face
-  (org-document-title ((t (:weight bold :height 1.3))))
-  (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
-  (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
-  (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
-  (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
-  (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
-  (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
-  (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-  (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
+(use-package org
+	:preface
+	(setq org-modules
+				'(;; ol-w3m
+					;; ol-bbdb
+					ol-bibtex
+					;; org-tempo
+					;; org-crypt
+					;; org-habit
+					;; org-bookmark
+					;; org-eshell
+					;; org-irc
+					org-indent
+					;; ol-docview
+					;; ol-gnus
+					;; ol-info
+					;; ol-irc
+					;; ol-mhe
+					;; ol-rmail
+					;; ol-eww
+					))
+	:hook (org-mode . js/org-mode-setup)
+	:general
+	(js/leader-key-def
+		"o"   '(:ignore t :which-key "org")
+		"ot"  '(org-babel-tangle :which-key "tangle")
+		"oe"  '(org-ctrl-c-ctrl-c :which-key "eval")
+		"oc"  '(org-insert-structure-template :which-key "code template"))
+	:con***REMOVED***g
+	(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-j") 'org-next-visible-heading)
+	(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-k") 'org-previous-visible-heading)
+	:custom
+	;; (org-ellipsis " ▾")
+	;; (org-hide-emphasis-markers t)
+	;; (org-src-fontify-natively t)
+	;; (org-fontify-quote-and-verse-blocks t)
+	(org-src-tab-acts-natively t)
+	(org-edit-src-content-indentation 2)
+	;; (org-hide-block-startup nil)
+	;; (org-src-preserve-indentation nil)
+	(org-startup-folded 'content)
+	;; (org-cycle-separator-lines 2)
+	(org-structure-template-alist '(("a" . "export ascii")
+				                          ("c" . "center")
+				                          ("C" . "comment")
+				                          ("e" . "example")
+				                          ("E" . "export")
+				                          ("h" . "export html")
+				                          ("l" . "export latex")
+				                          ("q" . "quote")
+				                          ("s" . "src")
+				                          ("v" . "verse")
+				                          ("el" . "src emacs-lisp")
+				                          ("py" . "src python")
+				                          ("json" . "src json")
+				                          ("yaml" . "src yaml")
+				                          ("sh" . "src sh")
+				                          ("go" . "src go")
+				                          ("clj" . "src clojure")))
+	;; :custom-face
+	;; (org-document-title ((t (:weight bold :height 1.3))))
+	;; (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
+	;; (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
+	;; (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
+	;; (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
+	;; (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
+	;; (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
+	;; (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
+	;; (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
+	)
 
 (use-package org-modern
   :hook ((org-mode . org-modern-mode)
