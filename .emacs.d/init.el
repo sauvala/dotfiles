@@ -1023,6 +1023,8 @@ folder, otherwise delete a word"
 
 (use-package csv-mode)
 
+(use-package rustic)
+
 (use-package aggressive-indent-mode
   :hook (emacs-lisp-mode-hook clojure-mode org))
 
