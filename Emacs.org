@@ -25,6 +25,7 @@
   - [[#line-numbers][Line numbers]]
   - [[#theme][Theme]]
     - [[#modus-theme][Modus theme]]
+      - [[#system-appearance-change][System appearance change]]
     - [[#doom-theme][Doom theme]]
   - [[#solaire-mode][Solaire mode]]
   - [[#startup-splash-image][Startup splash image]]
@@ -103,6 +104,7 @@
     - [[#eglot][Eglot]]
     - [[#groovy][Groovy]]
     - [[#csv][CSV]]
+    - [[#rust][Rust]]
   - [[#aggressive-indent-mode][Aggressive indent mode]]
   - [[#company][Company]]
   - [[#tree-sitter][tree-sitter]]
@@ -488,6 +490,18 @@
     ;; :con***REMOVED***g
     ;; Load the theme of your choice:
     )
+#+end_src
+
+**** System appearance change
+#+begin_src emacs-lisp
+  (defun js/change-theme (appearance)
+    "Load theme, taking current system APPEARANCE into consideration."
+    (mapc #'disable-theme custom-enabled-themes)
+    (pcase appearance
+      ('light (modus-themes-load-operandi))
+      ('dark (modus-themes-load-vivendi))))
+
+  (add-hook 'ns-system-appearance-change-functions #'js/change-theme)
 #+end_src
 
 *** Doom theme
@@ -928,7 +942,7 @@ Add icons to ***REMOVED***les names
     (corfu-preview-current nil)
     (corfu-preselect-***REMOVED***rst nil)
     :init
-    (corfu-global-mode))
+    (global-corfu-mode))
 
   (use-package corfu-doc
     :after (corfu)
@@ -1458,6 +1472,11 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 *** CSV
 #+begin_src emacs-lisp
   (use-package csv-mode)
+#+end_src
+
+*** Rust
+#+begin_src emacs-lisp
+  (use-package rustic)
 #+end_src
 
 ** Aggressive indent mode
