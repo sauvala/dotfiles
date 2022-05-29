@@ -295,6 +295,15 @@
   ;; Load the theme of your choice:
   )
 
+(defun js/change-theme (appearance)
+  "Load theme, taking current system APPEARANCE into consideration."
+  (mapc #'disable-theme custom-enabled-themes)
+  (pcase appearance
+    ('light (modus-themes-load-operandi))
+    ('dark (modus-themes-load-vivendi))))
+
+(add-hook 'ns-system-appearance-change-functions #'js/change-theme)
+
 (use-package doom-themes
   ;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
   :con***REMOVED***g
