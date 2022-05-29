@@ -607,7 +607,7 @@ folder, otherwise delete a word"
   (corfu-preview-current nil)
   (corfu-preselect-***REMOVED***rst nil)
   :init
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 (use-package corfu-doc
   :after (corfu)
