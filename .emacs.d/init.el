@@ -548,7 +548,7 @@ folder, otherwise delete a word"
          :map minibuffer-local-map
          ("M-h" . js/minibuffer-backward-kill))
   :custom
-  (vertico-cycle t)
+  (vertico-cycle nil)
   ;; :custom-face
   ;; for doom-one use #3a3f5a
   ;; (vertico-current ((t (:background "#3c3836"))))
@@ -614,6 +614,7 @@ folder, otherwise delete a word"
   (corfu-quit-no-match nil)
   (corfu-on-exact-match t)
   (corfu-preview-current nil)
+  (corfu-echo-documentation t)
   (corfu-preselect-***REMOVED***rst nil)
   :init
   (global-corfu-mode))
