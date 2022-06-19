@@ -58,26 +58,6 @@
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 
-(defvar js/default-font-size 150)
-(defvar js/default-variable-font-size 150)
-
-(set-face-attribute 'default nil
-                    :font "JetBrains Mono"
-                    :weight 'normal
-                    :height js/default-font-size)
-
-;; Set the ***REMOVED***xed pitch face
-(set-face-attribute '***REMOVED***xed-pitch nil
-                    :font "JetBrains Mono"
-                    :weight 'light
-                    :height js/default-font-size)
-
-;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil
-                    :font "JetBrains Mono"
-                    :weight 'light
-                    :height js/default-variable-font-size)
-
 (setq straight-use-package-by-default t
       use-package-always-defer t
       use-package-always-ensure t
@@ -85,11 +65,11 @@
       ;; straight-check-for-modi***REMOVED***cations nil
       ;; use-package-verbose t
       )
-
+;; (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/"))
 (defvar bootstrap-version)
 (let ((bootstrap-***REMOVED***le
        (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
+      (bootstrap-version 5))
   (unless (***REMOVED***le-exists-p bootstrap-***REMOVED***le)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -97,7 +77,7 @@
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
-    (load bootstrap-***REMOVED***le nil 'nomessage))
+  (load bootstrap-***REMOVED***le nil 'nomessage))
 
 (straight-use-package 'use-package)
 

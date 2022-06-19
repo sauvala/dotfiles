@@ -56,8 +56,7 @@ Check [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Emacs lsp-mode p
     (setq native-comp-deferred-compilation t)
     (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory)))
 #+end_src
-
-* Disable package reading when starting
+" Disable package reading when starting
 #+begin_src emacs-lisp
   (setq package-enable-at-startup nil
         package--init-***REMOVED***le-ensured t)
@@ -104,42 +103,6 @@ To remove icons from the title bar run in the command line
   defaults write org.gnu.Emacs HideDocumentIcon YES
 #+end_src
 
-* Font
-Fonts to try out:
-- [[https://typeof.net/Iosevka/][JetBrains Mono]]
-- [[https://typeof.net/Iosevka/][Iosevka]]
-  To use variants, install them separately like =brew install --cask font-iosevka-ss08=
-- [[https://github.com/i-tu/Hasklig][Hasklig]]
-- [[Dejavu Sans Mono][Dejavu Sans Mono]]
-- [[https://design.ubuntu.com/font/][Ubuntu and Ubuntu Monospace]]
-- [[https://mozilla.github.io/Fira/][Fira Mono]]
-hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_so_damn_fast/fhicvbj?utm_source=share&utm_medium=web2x&context=3][some tips how to set font fast on startup]], might be relevant:
-#+begin_quote
-(add-to-list 'default-frame-alist '(font . "Fira Code-14")) instead of (set-frame-font "Fira Code-14" t t). The latter does more work than the former, under the hood.
-#+end_quote
-
-#+begin_src emacs-lisp
-  (defvar js/default-font-size 150)
-  (defvar js/default-variable-font-size 150)
-
-  (set-face-attribute 'default nil
-                      :font "JetBrains Mono"
-                      :weight 'normal
-                      :height js/default-font-size)
-
-  ;; Set the ***REMOVED***xed pitch face
-  (set-face-attribute '***REMOVED***xed-pitch nil
-                      :font "JetBrains Mono"
-                      :weight 'light
-                      :height js/default-font-size)
-
-  ;; Set the variable pitch face
-  (set-face-attribute 'variable-pitch nil
-                      :font "JetBrains Mono"
-                      :weight 'light
-                      :height js/default-variable-font-size)
-#+end_src
-
 * Package management
 Con***REMOVED***gure Straight.el
 #+begin_src emacs-lisp
@@ -150,11 +113,11 @@ Con***REMOVED***gure Straight.el
         ;; straight-check-for-modi***REMOVED***cations nil
         ;; use-package-verbose t
         )
-
+  ;; (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/"))
   (defvar bootstrap-version)
   (let ((bootstrap-***REMOVED***le
          (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-          (bootstrap-version 5))
+        (bootstrap-version 5))
     (unless (***REMOVED***le-exists-p bootstrap-***REMOVED***le)
       (with-current-buffer
           (url-retrieve-synchronously
@@ -162,7 +125,7 @@ Con***REMOVED***gure Straight.el
            'silent 'inhibit-cookies)
         (goto-char (point-max))
         (eval-print-last-sexp)))
-      (load bootstrap-***REMOVED***le nil 'nomessage))
+    (load bootstrap-***REMOVED***le nil 'nomessage))
 
   (straight-use-package 'use-package)
 
