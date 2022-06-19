@@ -305,23 +305,34 @@
 (add-hook 'ns-system-appearance-change-functions #'js/change-theme)
 
 (use-package doom-themes
-  ;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
-  :con***REMOVED***g
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+	;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
+	:con***REMOVED***g
+	;; make fringe match the bg
+	(custom-set-faces
+	 `(fringe ((t (:background nil)))))
 
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-con***REMOVED***g)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-con***REMOVED***g)
-  ;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
-  (doom-themes-org-con***REMOVED***g))
+	;; Global settings (defaults)
+	(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+				doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+	;; Enable flashing mode-line on errors
+	(doom-themes-visual-bell-con***REMOVED***g)
+	;; or for treemacs users
+	(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+	(doom-themes-treemacs-con***REMOVED***g)
+	;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
+	(doom-themes-org-con***REMOVED***g))
+
+(set-frame-parameter (selected-frame) 'alpha '(100 100))
+(add-to-list 'default-frame-alist '(alpha 100 100))
+
+(use-package pulsing-cursor
+  :straight (:host github :repo "jasonjckn/pulsing-cursor")
+  :con***REMOVED***g (pulsing-cursor-mode +1))
 
 (use-package solaire-mode
   :con***REMOVED***g
-  (solaire-global-mode +1)
+  (solaire-global-mode +1))
 
 (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 
@@ -606,7 +617,8 @@ folder, otherwise delete a word"
         ("C-j" . corfu-next)
         ("C-k" . corfu-previous)
         ("H-j" . corfu-next)
-        ("H-k" . corfu-previous))
+        ("H-k" . corfu-previous)
+        ("TAB" . corfu-insert))
   :custom
   (corfu-auto t)
   (corfu-cycle nil)
@@ -680,9 +692,31 @@ folder, otherwise delete a word"
   ;;(put 'evil-ex-history 'history-length 50)
   ;;(put 'kill-ring 'history-length 25))
 
+(defvar js/default-font-size 150)
+(defvar js/default-variable-font-size 150)
+
+(set-face-attribute 'default nil
+                    :font "JetBrains Mono"
+                    :weight 'normal
+                    :height js/default-font-size)
+
+;; Set the ***REMOVED***xed pitch face
+(set-face-attribute '***REMOVED***xed-pitch nil
+                    :font "JetBrains Mono"
+                    :weight 'light
+                    :height js/default-font-size)
+
+;; Set the variable pitch face
+(set-face-attribute 'variable-pitch nil
+                    :font "JetBrains Mono"
+                    :weight 'light
+                    :height js/default-variable-font-size)
+
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
 (setq indent-tabs-mode -1)
+
+(use-package highlight-indent-guides)
 
 (use-package centered-window)
 
@@ -694,6 +728,10 @@ folder, otherwise delete a word"
 ;;   (require 'sublimity-attractive))
 
 (use-package minimap)
+
+(use-package sublimity
+	:con***REMOVED***g
+	(sublimity-mode 1))
 
 (use-package burly
   :straight (:host github :type git :repo "alphapapa/burly.el"))
@@ -782,6 +820,9 @@ folder, otherwise delete a word"
                                    "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                    "\\\\" "://"))
   (global-ligature-mode t))
+
+(use-package dired-sidebar
+  :commands (dired-sidebar-toggle-sidebar))
 
 (use-package magit
   :bind ("C-M-;" . magit-status)
@@ -947,45 +988,45 @@ folder, otherwise delete a word"
 
 (use-package yaml-mode)
 
-;; (use-package lsp-mode
-;;   :commands lsp
-;;   :hook
-;;   (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp)
-;;    (go-mode . js/lsp-go-install-save-hooks))
-;;   :bind
-;;   (:map lsp-mode-map ("TAB" . completion-at-point))
-;;   :custom
-;;   (lsp-headerline-breadcrumb-enable nil)
-;;   (lsp-modeline-code-actions-enable nil)
-;;   (lsp-lens-enable t)
-;;   (lsp-idle-delay 0.500)
-;;   :con***REMOVED***g
-;;   (setq read-process-output-max 1048576) ; (* 1024 1024)
-;;   (setq lsp-print-io t)
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook
+  (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp-deferred)
+   (go-mode . js/lsp-go-install-save-hooks))
+  :bind
+  (:map lsp-mode-map ("TAB" . completion-at-point))
+  :custom
+  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-modeline-code-actions-enable nil)
+  (lsp-lens-enable t)
+  (lsp-idle-delay 0.500)
+  :con***REMOVED***g
+  (setq read-process-output-max 1048576) ; (* 1024 1024)
+  (setq lsp-print-io t)
 
-;;   ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
-;;   ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
-;;   (lsp-register-client
-;;    (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-;;                     :major-modes '(terraform-mode)
-;;                     :server-id 'terraform-ls))
+  ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
+  ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
+                    :major-modes '(terraform-mode)
+                    :server-id 'terraform-ls))
 
-;;   ;; (lsp-register-client
-;;   ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
-;;   ;;                   :major-modes '(js2-mode)
-;;   ;;                   :remote? t
-;;   ;;                   :server-id 'ts-ls))
+  ;; (lsp-register-client
+  ;;   ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
+  ;;   ;;                   :major-modes '(js2-mode)
+  ;;   ;;                   :remote? t
+  ;;   ;;                   :server-id 'ts-ls))
 
-;;   (setq lsp-eslint-format nil
-;;         lsp-eslint-enable nil)
+  (setq lsp-eslint-format nil
+        lsp-eslint-enable nil)
 
-;;   ;; gopls
-;;   (defun js/lsp-go-install-save-hooks ()
-;;     (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;;     (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;;   (lsp-register-custom-settings
-;;    '(("gopls.completeUnimported" t t)
-;;      ("gopls.staticcheck" t t))))
+  ;;   ;; gopls
+  (defun js/lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (lsp-register-custom-settings
+   '(("gopls.completeUnimported" t t)
+     ("gopls.staticcheck" t t))))
 
 (js/leader-key-def
   "l"  '(:ignore t :which-key "lsp")
@@ -996,12 +1037,12 @@ folder, otherwise delete a word"
   "ls" 'counsel-imenu
   "lX" 'eglot-code-actions)
 
-;; (use-package lsp-ui
-;;   :after lsp-mode
-;;   :hook (lsp-mode . lsp-ui-mode)
-;;   :con***REMOVED***g
-;;   (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
-;;   (setq lsp-ui-doc-position 'bottom))
+(use-package lsp-ui
+  :con***REMOVED***g
+  (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
+  (setq lsp-ui-doc-position 'bottom))
+
+(use-package lsp-java)
 
 (use-package eglot
   :con***REMOVED***g
@@ -1056,6 +1097,8 @@ folder, otherwise delete a word"
    :client-con***REMOVED***gs lsp-docker-client-con***REMOVED***gs))
 
 (use-package docker-tramp)
+
+(use-package inspector)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -1257,14 +1300,14 @@ folder, otherwise delete a word"
 	:custom
 	;; (org-ellipsis " ▾")
 	;; (org-hide-emphasis-markers t)
-	;; (org-src-fontify-natively t)
-	;; (org-fontify-quote-and-verse-blocks t)
+	(org-src-fontify-natively t)
+	(org-fontify-quote-and-verse-blocks t)
 	(org-src-tab-acts-natively t)
 	(org-edit-src-content-indentation 2)
-	;; (org-hide-block-startup nil)
-	;; (org-src-preserve-indentation nil)
+	(org-hide-block-startup nil)
+	(org-src-preserve-indentation nil)
 	(org-startup-folded 'content)
-	;; (org-cycle-separator-lines 2)
+	(org-cycle-separator-lines 2)
 	(org-structure-template-alist '(("a" . "export ascii")
 				                          ("c" . "center")
 				                          ("C" . "comment")
@@ -1282,16 +1325,16 @@ folder, otherwise delete a word"
 				                          ("sh" . "src sh")
 				                          ("go" . "src go")
 				                          ("clj" . "src clojure")))
-	;; :custom-face
-	;; (org-document-title ((t (:weight bold :height 1.3))))
-	;; (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
-	;; (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
-	;; (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
-	;; (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
-	;; (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
-	;; (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
-	;; (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-	;; (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
+	 :custom-face
+	 (org-document-title ((t (:weight bold :height 1.3))))
+	 (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
+	 (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
+	 (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
+	 (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
+	 (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
+	 (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
+	 (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
+	 (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
 	)
 
 (use-package org-modern
@@ -1393,11 +1436,15 @@ folder, otherwise delete a word"
   (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode))
 
 (use-package markdown-mode
-  :mode
-  ("README\\.md\\'" . gfm-mode)
-  :custom
-  (markdown-command "marked")
-  (markdown-max-image-size '(850 . 900)))
+	:mode
+	("README\\.md\\'" . gfm-mode)
+	:custom
+	(markdown-command "marked")
+	(markdown-max-image-size '(850 . 900)))
+
+(use-package grip-mode)
+
+(use-package markdown-toc)
 
 (use-package transmission)
 
@@ -1406,6 +1453,8 @@ folder, otherwise delete a word"
   (setq plantuml-executable-path "/usr/local/bin/plantuml")
   (setq plantuml-default-exec-mode 'executable))
 
+(use-package circe)
+
 (use-package speed-type)
 
 (use-package bug-hunter)
@@ -1413,8 +1462,24 @@ folder, otherwise delete a word"
 (use-package elfeed
   :con***REMOVED***g
   (setq elfeed-feeds
-        '("https://news.ycombinator.com/rss"
-          "https://www.reddit.com/r/emacs/.rss"
-          "https://www.reddit.com/r/suomi/.rss"
-          "https://hnrss.org/best"
+        '("https://www.reddit.com/r/emacs/.rss"
           "https://hnrss.org/newest?points=100")))
+
+(use-package elfeed-tube
+	:straight (:host github :repo "karthink/elfeed-tube")
+	:after elfeed
+	:con***REMOVED***g
+	;; (setq elfeed-tube-auto-save-p nil) ;; t is auto-save (not default)
+	;; (setq elfeed-tube-auto-fetch-p t) ;;  t is auto-fetch (default)
+	(elfeed-tube-setup)
+
+	(elfeed-tube-add-feeds '("system crafters"))
+
+	:bind (:map elfeed-show-mode-map
+				 ("F" . elfeed-tube-fetch)
+				 ([remap save-buffer] . elfeed-tube-save)
+				 :map elfeed-search-mode-map
+				 ("F" . elfeed-tube-fetch)
+				 ([remap save-buffer] . elfeed-tube-save)
+				 ("C-c C-f" . elfeed-tube-mpv-follow-mode)
+				 ("C-c C-w" . elfeed-tube-mpv-where)))

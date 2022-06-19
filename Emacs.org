@@ -27,6 +27,8 @@
     - [[#modus-theme][Modus theme]]
       - [[#system-appearance-change][System appearance change]]
     - [[#doom-theme][Doom theme]]
+  - [[#transparent-frame][Transparent frame]]
+  - [[#pulsing-cursor][Pulsing cursor]]
   - [[#solaire-mode][Solaire mode]]
   - [[#startup-splash-image][Startup splash image]]
   - [[#emojis-in-buffers][Emojis in buffers]]
@@ -68,7 +70,9 @@
     - [[#dabbrev][Dabbrev]]
   - [[#save-minibuffer-history][Save minibuffer history]]
 - [[#editor-con***REMOVED***guration][Editor con***REMOVED***guration]]
+  - [[#font][Font]]
   - [[#tab-width][Tab width]]
+  - [[#indent-guides][Indent guides]]
   - [[#center-content][Center content]]
   - [[#sublimity][Sublimity]]
   - [[#minimap][Minimap]]
@@ -80,6 +84,7 @@
   - [[#pulsar][Pulsar]]
   - [[#undo-hl][Undo-hl]]
   - [[#ligatures][Ligatures]]
+  - [[#project-sidebar][Project sidebar]]
 - [[#development][Development]]
   - [[#magit][Magit]]
   - [[#forge][Forge]]
@@ -109,6 +114,7 @@
   - [[#company][Company]]
   - [[#tree-sitter][tree-sitter]]
   - [[#dev-container][dev container]]
+  - [[#emacs-lisp-inspector][Emacs Lisp inspector]]
 - [[#productivity][Productivity]]
   - [[#rainbow-delimiter][Rainbow delimiter]]
   - [[#rainbow-mode][Rainbow mode]]
@@ -142,10 +148,12 @@
 - [[#markdown-mode][Markdown mode]]
 - [[#torrent][Torrent]]
 - [[#plantuml][PlantUML]]
+- [[#irc][IRC]]
 - [[#other-tools][Other tools]]
   - [[#speed-typing][Speed typing]]
   - [[#elisp-bug-hunter][Elisp bug hunter]]
   - [[#elfeed][Elfeed]]
+  - [[#elfeed-tube][Elfeed-tube]]
 :END:
 
 * Add lexical binding to generated ***REMOVED***le
@@ -506,27 +514,44 @@
 
 *** Doom theme
 #+begin_src emacs-lisp
-  (use-package doom-themes
-    ;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
-    :con***REMOVED***g
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+	(use-package doom-themes
+		;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
+		:con***REMOVED***g
+		;; make fringe match the bg
+		(custom-set-faces
+		 `(fringe ((t (:background nil)))))
 
-    ;; Enable flashing mode-line on errors
-    (doom-themes-visual-bell-con***REMOVED***g)
-    ;; or for treemacs users
-    (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-    (doom-themes-treemacs-con***REMOVED***g)
-    ;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
-    (doom-themes-org-con***REMOVED***g))
+		;; Global settings (defaults)
+		(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+					doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+		;; Enable flashing mode-line on errors
+		(doom-themes-visual-bell-con***REMOVED***g)
+		;; or for treemacs users
+		(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+		(doom-themes-treemacs-con***REMOVED***g)
+		;; Corrects (and improves) org-mode's native fonti***REMOVED***cation.
+		(doom-themes-org-con***REMOVED***g))
+#+end_src
+
+** Transparent frame
+#+begin_src emacs-lisp
+	(set-frame-parameter (selected-frame) 'alpha '(100 100))
+	(add-to-list 'default-frame-alist '(alpha 100 100))
+#+end_src
+
+** Pulsing cursor
+#+begin_src emacs-lisp
+  (use-package pulsing-cursor
+    :straight (:host github :repo "jasonjckn/pulsing-cursor")
+    :con***REMOVED***g (pulsing-cursor-mode +1))
 #+end_src
 
 ** Solaire mode
 #+begin_src emacs-lisp
   (use-package solaire-mode
     :con***REMOVED***g
-    (solaire-global-mode +1)
+    (solaire-global-mode +1))
 #+end_src
 
 ** Startup splash image
@@ -932,7 +957,8 @@ Add icons to ***REMOVED***les names
           ("C-j" . corfu-next)
           ("C-k" . corfu-previous)
           ("H-j" . corfu-next)
-          ("H-k" . corfu-previous))
+          ("H-k" . corfu-previous)
+          ("TAB" . corfu-insert))
     :custom
     (corfu-auto t)
     (corfu-cycle nil)
@@ -1017,11 +1043,52 @@ Add icons to ***REMOVED***les names
  #+end_src
 
 * Editor con***REMOVED***guration
+** Font
+Fonts to try out:
+- [[https://typeof.net/Iosevka/][JetBrains Mono]]
+- [[https://typeof.net/Iosevka/][Iosevka]]
+  To use variants, install them separately like =brew install --cask font-iosevka-ss08=
+- [[https://github.com/i-tu/Hasklig][Hasklig]]
+- [[Dejavu Sans Mono][Dejavu Sans Mono]]
+- [[https://design.ubuntu.com/font/][Ubuntu and Ubuntu Monospace]]
+- [[https://mozilla.github.io/Fira/][Fira Mono]]
+hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_so_damn_fast/fhicvbj?utm_source=share&utm_medium=web2x&context=3][some tips how to set font fast on startup]], might be relevant:
+#+begin_quote
+(add-to-list 'default-frame-alist '(font . "Fira Code-14")) instead of (set-frame-font "Fira Code-14" t t). The latter does more work than the former, under the hood.
+#+end_quote
+
+#+begin_src emacs-lisp
+  (defvar js/default-font-size 150)
+  (defvar js/default-variable-font-size 150)
+
+  (set-face-attribute 'default nil
+                      :font "JetBrains Mono"
+                      :weight 'normal
+                      :height js/default-font-size)
+
+  ;; Set the ***REMOVED***xed pitch face
+  (set-face-attribute '***REMOVED***xed-pitch nil
+                      :font "JetBrains Mono"
+                      :weight 'light
+                      :height js/default-font-size)
+
+  ;; Set the variable pitch face
+  (set-face-attribute 'variable-pitch nil
+                      :font "JetBrains Mono"
+                      :weight 'light
+                      :height js/default-variable-font-size)
+#+end_src
+
 ** Tab width
 #+begin_src emacs-lisp
   (setq-default tab-width 2)
   (setq-default evil-shift-width tab-width)
   (setq indent-tabs-mode -1)
+#+end_src
+
+** Indent guides
+#+begin_src emacs-lisp
+	(use-package highlight-indent-guides)
 #+end_src
 
 ** Center content
@@ -1044,6 +1111,12 @@ Add icons to ***REMOVED***les names
 ** Minimap
 #+begin_src emacs-lisp
   (use-package minimap)
+#+end_src
+
+#+begin_src emacs-lisp
+	(use-package sublimity
+		:con***REMOVED***g
+		(sublimity-mode 1))
 #+end_src
 
 ** Burly.el
@@ -1156,6 +1229,12 @@ Add icons to ***REMOVED***les names
                                      "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                      "\\\\" "://"))
     (global-ligature-mode t))
+#+end_src
+
+** Project sidebar
+#+begin_src emacs-lisp
+  (use-package dired-sidebar
+    :commands (dired-sidebar-toggle-sidebar))
 #+end_src
 
 * Development
@@ -1379,45 +1458,45 @@ Javascript and Typescript
 *** LSP
 For Javacsript and Typescript, install the language server https://github.com/typescript-language-server/typescript-language-server
 #+begin_src emacs-lisp
-  ;; (use-package lsp-mode
-  ;;   :commands lsp
-  ;;   :hook
-  ;;   (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp)
-  ;;    (go-mode . js/lsp-go-install-save-hooks))
-  ;;   :bind
-  ;;   (:map lsp-mode-map ("TAB" . completion-at-point))
-  ;;   :custom
-  ;;   (lsp-headerline-breadcrumb-enable nil)
-  ;;   (lsp-modeline-code-actions-enable nil)
-  ;;   (lsp-lens-enable t)
-  ;;   (lsp-idle-delay 0.500)
-  ;;   :con***REMOVED***g
-  ;;   (setq read-process-output-max 1048576) ; (* 1024 1024)
-  ;;   (setq lsp-print-io t)
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :hook
+    (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp-deferred)
+     (go-mode . js/lsp-go-install-save-hooks))
+    :bind
+    (:map lsp-mode-map ("TAB" . completion-at-point))
+    :custom
+    (lsp-headerline-breadcrumb-enable nil)
+    (lsp-modeline-code-actions-enable nil)
+    (lsp-lens-enable t)
+    (lsp-idle-delay 0.500)
+    :con***REMOVED***g
+    (setq read-process-output-max 1048576) ; (* 1024 1024)
+    (setq lsp-print-io t)
 
-  ;;   ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
-  ;;   ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
-  ;;   (lsp-register-client
-  ;;    (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-  ;;                     :major-modes '(terraform-mode)
-  ;;                     :server-id 'terraform-ls))
+    ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
+    ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
+                      :major-modes '(terraform-mode)
+                      :server-id 'terraform-ls))
 
-  ;;   ;; (lsp-register-client
-  ;;   ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
-  ;;   ;;                   :major-modes '(js2-mode)
-  ;;   ;;                   :remote? t
-  ;;   ;;                   :server-id 'ts-ls))
+    ;; (lsp-register-client
+    ;;   ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
+    ;;   ;;                   :major-modes '(js2-mode)
+    ;;   ;;                   :remote? t
+    ;;   ;;                   :server-id 'ts-ls))
 
-  ;;   (setq lsp-eslint-format nil
-  ;;         lsp-eslint-enable nil)
+    (setq lsp-eslint-format nil
+          lsp-eslint-enable nil)
 
-  ;;   ;; gopls
-  ;;   (defun js/lsp-go-install-save-hooks ()
-  ;;     (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  ;;     (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  ;;   (lsp-register-custom-settings
-  ;;    '(("gopls.completeUnimported" t t)
-  ;;      ("gopls.staticcheck" t t))))
+    ;;   ;; gopls
+    (defun js/lsp-go-install-save-hooks ()
+      (add-hook 'before-save-hook #'lsp-format-buffer t t)
+      (add-hook 'before-save-hook #'lsp-organize-imports t t))
+    (lsp-register-custom-settings
+     '(("gopls.completeUnimported" t t)
+       ("gopls.staticcheck" t t))))
 
   (js/leader-key-def
     "l"  '(:ignore t :which-key "lsp")
@@ -1428,12 +1507,12 @@ For Javacsript and Typescript, install the language server https://github.com/ty
     "ls" 'counsel-imenu
     "lX" 'eglot-code-actions)
 
-  ;; (use-package lsp-ui
-  ;;   :after lsp-mode
-  ;;   :hook (lsp-mode . lsp-ui-mode)
-  ;;   :con***REMOVED***g
-  ;;   (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
-  ;;   (setq lsp-ui-doc-position 'bottom))
+  (use-package lsp-ui
+    :con***REMOVED***g
+    (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
+    (setq lsp-ui-doc-position 'bottom))
+
+  (use-package lsp-java)
 #+end_src
 
 **** Eglot
@@ -1525,6 +1604,11 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 
 #+begin_src emacs-lisp
   (use-package docker-tramp)
+#+end_src
+
+** Emacs Lisp inspector
+#+begin_src emacs-lisp
+	(use-package inspector)
 #+end_src
 
 * Productivity
@@ -1786,14 +1870,14 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 				:custom
 				;; (org-ellipsis " ▾")
 				;; (org-hide-emphasis-markers t)
-				;; (org-src-fontify-natively t)
-				;; (org-fontify-quote-and-verse-blocks t)
+				(org-src-fontify-natively t)
+				(org-fontify-quote-and-verse-blocks t)
 				(org-src-tab-acts-natively t)
 				(org-edit-src-content-indentation 2)
-				;; (org-hide-block-startup nil)
-				;; (org-src-preserve-indentation nil)
+				(org-hide-block-startup nil)
+				(org-src-preserve-indentation nil)
 				(org-startup-folded 'content)
-				;; (org-cycle-separator-lines 2)
+				(org-cycle-separator-lines 2)
 				(org-structure-template-alist '(("a" . "export ascii")
 				                                ("c" . "center")
 				                                ("C" . "comment")
@@ -1811,16 +1895,16 @@ For Javacsript and Typescript, install the language server https://github.com/ty
 				                                ("sh" . "src sh")
 				                                ("go" . "src go")
 				                                ("clj" . "src clojure")))
-				;; :custom-face
-				;; (org-document-title ((t (:weight bold :height 1.3))))
-				;; (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
-				;; (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
-				;; (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
-				;; (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
-				;; (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
-				;; (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
-				;; (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-				;; (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
+				 :custom-face
+				 (org-document-title ((t (:weight bold :height 1.3))))
+				 (org-level-1 ((t (:inherit 'outline-1 :weight medium :height 1.2))))
+				 (org-level-2 ((t (:inherit 'outline-2 :weight medium :height 1.1))))
+				 (org-level-3 ((t (:inherit 'outline-3 :weight medium :height 1.05))))
+				 (org-level-4 ((t (:inherit 'outline-4 :weight medium :height 1.0))))
+				 (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
+				 (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
+				 (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
+				 (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
 				)
  #+end_src
 
@@ -1954,12 +2038,16 @@ Allows you to edit entries directly from org-brain-visualize
 
 * Markdown mode
 #+begin_src emacs-lisp
-  (use-package markdown-mode
-    :mode
-    ("README\\.md\\'" . gfm-mode)
-    :custom
-    (markdown-command "marked")
-    (markdown-max-image-size '(850 . 900)))
+	(use-package markdown-mode
+		:mode
+		("README\\.md\\'" . gfm-mode)
+		:custom
+		(markdown-command "marked")
+		(markdown-max-image-size '(850 . 900)))
+
+	(use-package grip-mode)
+
+	(use-package markdown-toc)
 #+end_src
 
 * Torrent
@@ -1975,6 +2063,11 @@ Allows you to edit entries directly from org-brain-visualize
     (setq plantuml-default-exec-mode 'executable))
 #+end_src
 
+* IRC
+#+begin_src emacs-lisp
+(use-package circe)
+#+end_src
+
 * Other tools
 ** Speed typing
 #+begin_src emacs-lisp
@@ -1988,12 +2081,31 @@ Allows you to edit entries directly from org-brain-visualize
 
 ** Elfeed
 #+begin_src emacs-lisp
-  (use-package elfeed
-    :con***REMOVED***g
-    (setq elfeed-feeds
-          '("https://news.ycombinator.com/rss"
-            "https://www.reddit.com/r/emacs/.rss"
-            "https://www.reddit.com/r/suomi/.rss"
-            "https://hnrss.org/best"
-            "https://hnrss.org/newest?points=100")))
+	(use-package elfeed
+		:con***REMOVED***g
+		(setq elfeed-feeds
+					'("https://www.reddit.com/r/emacs/.rss"
+						"https://hnrss.org/newest?points=100")))
+#+end_src
+
+** Elfeed-tube
+#+begin_src emacs-lisp
+	(use-package elfeed-tube
+		:straight (:host github :repo "karthink/elfeed-tube")
+		:after elfeed
+		:con***REMOVED***g
+		;; (setq elfeed-tube-auto-save-p nil) ;; t is auto-save (not default)
+		;; (setq elfeed-tube-auto-fetch-p t) ;;  t is auto-fetch (default)
+		(elfeed-tube-setup)
+
+		(elfeed-tube-add-feeds '("system crafters"))
+
+		:bind (:map elfeed-show-mode-map
+					 ("F" . elfeed-tube-fetch)
+					 ([remap save-buffer] . elfeed-tube-save)
+					 :map elfeed-search-mode-map
+					 ("F" . elfeed-tube-fetch)
+					 ([remap save-buffer] . elfeed-tube-save)
+					 ("C-c C-f" . elfeed-tube-mpv-follow-mode)
+					 ("C-c C-w" . elfeed-tube-mpv-where)))
 #+end_src
