@@ -27,82 +27,6 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(global-set-key (kbd "C-M-u") 'universal-argument)
-
-(defun js/evil-hook ()
-  (dolist (mode '(custom-mode
-                  eshell-mode
-                  git-rebase-mode
-                  erc-mode
-                  circe-server-mode
-                  circe-chat-mode
-                  circe-query-mode
-                  sauron-mode
-                  term-mode))
-    (add-to-list 'evil-emacs-state-modes mode)))
-
-(use-package undo-tree
-  :con***REMOVED***g
-  (setq undo-tree-auto-save-history t
-        undo-limit 800000
-        undo-strong-limit 12000000
-        undo-outer-limit 120000000)
-  :custom
-  (undo-tree-history-directory-alist `(("." . "~/.cache/emacs/undo-tree-hist/")))
-  :init
-  (global-undo-tree-mode 1))
-
-(use-package evil-snipe
-  :defer 0.5
-  :con***REMOVED***g
-  (evil-snipe-mode +1))
-
-(use-package evil-mc
-  :con***REMOVED***g
-  (evil-mc-mode 1))
-
-(use-package evil
-  :defer 1
-  :init
-  ;; these two needs to be set for evil-collection
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  (setq evil-respect-visual-line-mode t)
-  (setq evil-undo-system 'undo-tree)
-  (setq evil-want-***REMOVED***ne-undo t)
-  (setq evil-visual-state-cursor 'hollow)
-  :custom
-  (evil-want-minibuffer t)
-  :con***REMOVED***g
-  (add-hook 'evil-mode-hook 'js/evil-hook)
-  (evil-mode 1)
-  (de***REMOVED***ne-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (de***REMOVED***ne-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-  (de***REMOVED***ne-key evil-normal-state-map (kbd "H-i") 'evil-jump-forward)
-  (de***REMOVED***ne-key evil-normal-state-map (kbd "C-M-s-i") 'evil-jump-forward)
-  (de***REMOVED***ne-key evil-normal-state-map (kbd "H-o") 'evil-jump-backward)
-  (de***REMOVED***ne-key evil-normal-state-map (kbd "C-M-s-o") 'evil-jump-backward)
-
-  ;; Use visual line motions even outside of visual-line-mode buffers
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
-
-(use-package evil-collection
-  :after (evil magit)
-  :custom (evil-collection-setup-minibuffer t)
-  :con***REMOVED***g
-  (evil-collection-init))
-
-(use-package evil-surround
-  :after (evil)
-  :con***REMOVED***g
-  (global-evil-surround-mode 1))
-
 (use-package which-key
   ;; :init 
   :diminish which-key-mode
@@ -113,12 +37,9 @@
 (use-package general
   :defer 0.1
   :con***REMOVED***g
-  (general-evil-setup t)
-
   (general-create-de***REMOVED***ner js/leader-key-def
-    :keymaps '(normal insert visual emacs)
-    :pre***REMOVED***x "SPC"
-    :global-pre***REMOVED***x "s-SPC"))
+    :pre***REMOVED***x "C-c"
+    :global-pre***REMOVED***x "H-SPC"))
 
 (use-package use-package-chords
   :disabled
@@ -132,7 +53,10 @@
       "fR"  '(revert-buffer :which-key "revert ***REMOVED***le")
       "b"   '(:ignore t :which-key "buffers")
       "bb"  '(consult-buffer :which-key "list buffers")
-      "bl"  '(consult-buffer :which-key "list buffers"))
+      "bl"  '(consult-buffer :which-key "list buffers")
+      "Pa"  '(pro***REMOVED***ler-start :which-key "pro***REMOVED***ler start")
+      "Pe"  '(pro***REMOVED***ler-stop :which-key "pro***REMOVED***ler stop")
+      "Pr"  '(pro***REMOVED***ler-report :which-key "pro***REMOVED***ler report"))
 
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
@@ -371,14 +295,14 @@
   (load user-init-***REMOVED***le nil 'nomessage)
   (message "Reloading init.el... done."))
 
-(use-package restart-emacs
-  :general
-  (js/leader-key-def
-    "q"   '(:ignore t :which-key "quit")
-    "qq"  '(save-buffers-kill-emacs :which-key "quit emacs")
-    "qR"  'restart-emacs
-    "qc"  '(delete-frame :which-key "close emacsclient")
-    "qr"  '(js/reload-init :which-key "reload confs")))
+ (use-package restart-emacs
+   :general
+   (js/leader-key-def
+     "q"   '(:ignore t :which-key "quit")
+     "qq"  '(save-buffers-kill-emacs :which-key "quit emacs")
+     "qR"  'restart-emacs
+     "qc"  '(delete-frame :which-key "close emacsclient")
+     "qr"  '(js/reload-init :which-key "reload confs")))
 
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -458,17 +382,6 @@
          :map vertico-map 
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-***REMOVED***le)))
-
-;; (use-package consult-lsp
-;;   :after (consult lsp-mode)
-;;   :commands consult-lsp-symbols
-;;   :con***REMOVED***g
-;;   (consult-lsp-marginalia-mode))
-
-;; (use-package company-lsp
-;;   :after (lsp-mode company)
-;;   :con***REMOVED***g
-;;   (push 'company-lsp company-backend))
 
 (use-package yasnippet-snippets
   :after (yasnippet))
@@ -569,10 +482,7 @@ folder, otherwise delete a word"
   (vertico-mode))
 
 (use-package savehist
-  :hook (emacs-startup . (lambda () (savehist-mode)))
-  ;; :init
-  ;; (savehist-mode)
-  )
+  :hook (emacs-startup . (lambda () (savehist-mode))))
 
 (use-package emacs
   :init
@@ -622,12 +532,13 @@ folder, otherwise delete a word"
   :custom
   (corfu-auto t)
   (corfu-cycle nil)
-  (corfu-quit-at-boundary nil)
-  (corfu-quit-no-match nil)
-  (corfu-on-exact-match t)
-  (corfu-preview-current nil)
-  (corfu-echo-documentation t)
-  (corfu-preselect-***REMOVED***rst nil)
+  (corfu-separator ?\s)
+  (corfu-quit-at-boundary 'separator)
+  (corfu-quit-no-match 'separator)
+  (corfu-on-exact-match 'insert)
+  (corfu-preview-current 'insert)
+  (corfu-echo-documentation '(1.0 . 0.2))
+  (corfu-preselect-***REMOVED***rst t)
   :init
   (global-corfu-mode))
 
@@ -639,11 +550,11 @@ folder, otherwise delete a word"
 (use-package svg-lib)
 
 (use-package kind-icon
+  :after corfu
   :custom
-  (kind-icon-use-icons t)
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  (kind-icon-blend-frac 0.08)
-  (svg-lib-icons-dir (no-littering-expand-var-***REMOVED***le-name "svg-lib/cache/")) ; Change cache dir
+  ;; (kind-icon-blend-frac 0.08)
+  ;; (svg-lib-icons-dir (no-littering-expand-var-***REMOVED***le-name "svg-lib/cache/")) ; Change cache dir
   :con***REMOVED***g
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
@@ -687,11 +598,6 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (savehist-mode))
 
-  ;; Individual history elements can be con***REMOVED***gured separately
-  ;;(put 'minibuffer-history 'history-length 25)
-  ;;(put 'evil-ex-history 'history-length 50)
-  ;;(put 'kill-ring 'history-length 25))
-
 (defvar js/default-font-size 150)
 (defvar js/default-variable-font-size 150)
 
@@ -713,10 +619,22 @@ folder, otherwise delete a word"
                     :height js/default-variable-font-size)
 
 (setq-default tab-width 2)
-(setq-default evil-shift-width tab-width)
-(setq indent-tabs-mode -1)
+(setq-default indent-tabs-mode nil)
 
-(use-package highlight-indent-guides)
+(setq-default bidi-paragraph-direction 'left-to-right)
+
+(if (version<= "27.1" emacs-version)
+  (setq bidi-inhibit-bpa t))
+
+(if (version<= "27.1" emacs-version)
+  (global-so-long-mode 1))
+
+(use-package highlight-indent-guides
+  :con***REMOVED***g
+  (setq highlight-indent-guides-method 'bitmap))
+
+(use-package highlight-indentation-mode
+  :straight (:host github :type git :repo "antonj/Highlight-Indentation-for-Emacs"))
 
 (use-package centered-window)
 
@@ -732,6 +650,11 @@ folder, otherwise delete a word"
 (use-package sublimity
 	:con***REMOVED***g
 	(sublimity-mode 1))
+
+(use-package demap
+  :straight (:host gitlab :type git :repo "sawyerjgardner/demap.el")
+  :con***REMOVED***g
+  (setq demap-minimap-window-side 'right))
 
 (use-package burly
   :straight (:host github :type git :repo "alphapapa/burly.el"))
@@ -785,13 +708,7 @@ folder, otherwise delete a word"
      outline-forward-same-level
      outline-next-visible-heading
      outline-previous-visible-heading
-     outline-up-heading
-     evil-scroll-down
-     evil-scroll-up
-     evil-window-down
-     evil-window-up
-     evil-window-left
-     evil-window-right))
+     outline-up-heading))
 
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.055)
@@ -824,6 +741,26 @@ folder, otherwise delete a word"
 (use-package dired-sidebar
   :commands (dired-sidebar-toggle-sidebar))
 
+(when (< 26 emacs-major-version)
+ (tab-bar-mode 1)                           ;; enable tab bar
+ (setq tab-bar-show 1)                      ;; hide bar if less than 1 tabs open
+ (setq tab-bar-close-button-show nil)       ;; hide tab close / X button
+ (setq tab-bar-new-tab-choice "*new*");; buffer to show in new tabs
+ (setq tab-bar-tab-hints t)                 ;; show tab numbers
+ (setq tab-bar-format '(tab-bar-format-tabs tab-bar-separator)))
+                                            ;; elements to include in bar
+
+(use-package undo-tree
+  :con***REMOVED***g
+  (setq undo-tree-auto-save-history t
+        undo-limit 800000
+        undo-strong-limit 12000000
+        undo-outer-limit 120000000)
+  :custom
+  (undo-tree-history-directory-alist `(("." . "~/.cache/emacs/undo-tree-hist/")))
+  :init
+  (global-undo-tree-mode 1))
+
 (use-package magit
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
@@ -844,6 +781,8 @@ folder, otherwise delete a word"
   "gf"  'magit-fetch
   "gF"  'magit-fetch-all
   "gr"  'magit-rebase)
+
+(use-package )
 
 (use-package forge
   :after (magit))
@@ -895,9 +834,6 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (treemacs-load-theme "all-the-icons"))
 
-(use-package treemacs-evil
-  :after (treemacs evil))
-
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
 
@@ -908,6 +844,8 @@ folder, otherwise delete a word"
 
 (use-package treemacs-magit
   :after (treemacs magit))
+
+(use-package sr-speedbar)
 
 (use-package vterm)
 
@@ -929,7 +867,6 @@ folder, otherwise delete a word"
 
 (defun js/set-js-indentation ()
   (setq js-indent-level 2)
-  (setq evil-shift-width js-indent-level)
   (setq-default tab-width 2))
 
 (use-package js2-mode
@@ -975,77 +912,22 @@ folder, otherwise delete a word"
 (add-hook 'js2-mode-hook (lambda ()
                          (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 
-;; (use-package tide
-;;   :hook ((js2-mode . tide-setup)
-;;          (js2-mode . tide-hl-identi***REMOVED***er-mode)
-;;          (before-save . tide-format-before-save)))
-
 (use-package go-mode)
 
 (use-package gotest)
 
-(use-package lsp-java)
-
 (use-package yaml-mode)
-
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook
-  (((clojure-mode clojurescript-mode clojurec-mode js2-mode python-mode go-mode terraform-mode java-mode  typescript-mode) . lsp-deferred)
-   (go-mode . js/lsp-go-install-save-hooks))
-  :bind
-  (:map lsp-mode-map ("TAB" . completion-at-point))
-  :custom
-  (lsp-headerline-breadcrumb-enable nil)
-  (lsp-modeline-code-actions-enable nil)
-  (lsp-lens-enable t)
-  (lsp-idle-delay 0.500)
-  :con***REMOVED***g
-  (setq read-process-output-max 1048576) ; (* 1024 1024)
-  (setq lsp-print-io t)
-
-  ;; Install TF LSP: https://github.com/hashicorp/terraform-ls
-  ;; Editor integration: https://github.com/hashicorp/terraform-ls/blob/main/docs/USAGE.md#emacs
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-                    :major-modes '(terraform-mode)
-                    :server-id 'terraform-ls))
-
-  ;; (lsp-register-client
-  ;;   ;;  (make-lsp-client :new-connection (lsp-tramp-connection (list "typescript-language-server" "--stdio"))
-  ;;   ;;                   :major-modes '(js2-mode)
-  ;;   ;;                   :remote? t
-  ;;   ;;                   :server-id 'ts-ls))
-
-  (setq lsp-eslint-format nil
-        lsp-eslint-enable nil)
-
-  ;;   ;; gopls
-  (defun js/lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (lsp-register-custom-settings
-   '(("gopls.completeUnimported" t t)
-     ("gopls.staticcheck" t t))))
-
-(js/leader-key-def
-  "l"  '(:ignore t :which-key "lsp")
-  "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
-  "lr" 'xref-***REMOVED***nd-references
-  "ln" 'xref-next-line
-  "lp" 'xref-prev-line
-  "ls" 'counsel-imenu
-  "lX" 'eglot-code-actions)
-
-(use-package lsp-ui
-  :con***REMOVED***g
-  (keymap-local-set "<tab-bar> <mouse-movement>" #'ignore)
-  (setq lsp-ui-doc-position 'bottom))
-
-(use-package lsp-java)
 
 (use-package eglot
   :con***REMOVED***g
+  (js/leader-key-def
+    "l"  '(:ignore t :which-key "lsp")
+    "ld" 'xref-***REMOVED***nd-de***REMOVED***nitions
+    "lr" 'xref-***REMOVED***nd-references
+    "ln" 'xref-next-line
+    "lp" 'xref-prev-line
+    "ls" 'counsel-imenu
+    "lX" 'eglot-code-actions)
   (setq eglot-connect-timeout 10)
   (setq eglot-workspace-con***REMOVED***guration
         '((:gopls . (:usePlaceholders t))
@@ -1059,8 +941,6 @@ folder, otherwise delete a word"
 
 (use-package terraform-mode)
 
-;; (use-package eglot)
-
 (use-package groovy-mode)
 
 (use-package csv-mode)
@@ -1069,15 +949,6 @@ folder, otherwise delete a word"
 
 (use-package aggressive-indent-mode
   :hook (emacs-lisp-mode-hook clojure-mode org))
-
-;; (use-package company
-;;   :hook (emacs-startup . global-company-mode)
-;;   :bind ("H-SPC" . company-complete)
-;;   :con***REMOVED***g
-;;   (setq company-idle-delay 0.2))
-
-;; (use-package company-box
-;;   :hook (company-mode . company-box-mode))
 
 (use-package tree-sitter)
 
@@ -1145,15 +1016,9 @@ folder, otherwise delete a word"
    :bind (("M-[" . er/expand-region)
           ("C-(" . er/mark-outside-pairs)))
 
-(use-package evil-nerd-commenter
-  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
-
 (use-package winner
-  :after (evil)
   :con***REMOVED***g
-  (winner-mode)
-  (de***REMOVED***ne-key evil-window-map "u" 'winner-undo)
-  (de***REMOVED***ne-key evil-window-map "U" 'winner-redo))
+  (winner-mode))
 
 (use-package super-save
   :defer 1
@@ -1213,7 +1078,6 @@ folder, otherwise delete a word"
   (hl-line-mode 1))
 
 (use-package dired
-  :after (evil-collection)
   :straight (:type built-in)
   :commands (dired dired-jump)
   :hook (dired-mode . js/dired-con***REMOVED***g)
@@ -1263,7 +1127,6 @@ folder, otherwise delete a word"
 	;; (variable-pitch-mode 1) ;; Causes table columns to be unaligned
 	(auto-***REMOVED***ll-mode 0)
 	(visual-line-mode 1)
-	(setq evil-auto-indent nil)
 	(diminish org-indent-mode))
 
 (use-package org
@@ -1294,9 +1157,6 @@ folder, otherwise delete a word"
 		"ot"  '(org-babel-tangle :which-key "tangle")
 		"oe"  '(org-ctrl-c-ctrl-c :which-key "eval")
 		"oc"  '(org-insert-structure-template :which-key "code template"))
-	:con***REMOVED***g
-	(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-j") 'org-next-visible-heading)
-	(evil-de***REMOVED***ne-key '(normal insert visual) org-mode-map (kbd "H-k") 'org-previous-visible-heading)
 	:custom
 	;; (org-ellipsis " ▾")
 	;; (org-hide-emphasis-markers t)
@@ -1416,8 +1276,6 @@ folder, otherwise delete a word"
 (use-package org-brain
   :init
   (setq org-brain-path "/Volumes/GoogleDrive/My Drive/Org/org-brain")
-  (with-eval-after-load 'evil
-    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
   :con***REMOVED***g
   (bind-key "C-c b" 'org-brain-pre***REMOVED***x-map org-mode-map)
   (setq org-id-track-globally t)
@@ -1460,10 +1318,10 @@ folder, otherwise delete a word"
 (use-package bug-hunter)
 
 (use-package elfeed
-  :con***REMOVED***g
-  (setq elfeed-feeds
-        '("https://www.reddit.com/r/emacs/.rss"
-          "https://hnrss.org/newest?points=100")))
+	:con***REMOVED***g
+	(setq elfeed-feeds
+				'("https://www.reddit.com/r/emacs/.rss"
+					"https://hnrss.org/newest?points=100")))
 
 (use-package elfeed-tube
 	:straight (:host github :repo "karthink/elfeed-tube")

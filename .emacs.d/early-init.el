@@ -21,11 +21,17 @@
 
 (setq read-process-output-max 65536) ; (* 64 1024)
 
-(setq load-prefer-newer noninteractive)
+(customize-set-variable 'load-prefer-newer noninteractive)
 
 (when (featurep 'native-compile)
   (setq native-comp-async-report-warnings-errors nil)
   (setq native-comp-deferred-compilation t)
+
+  (when (fboundp 'startup-redirect-eln-cache)
+    (if (version< emacs-version "29")
+        (add-to-list 'native-comp-eln-load-path (convert-standard-***REMOVED***lename (expand-***REMOVED***le-name "var/eln-cache/" user-emacs-directory)))
+      (startup-redirect-eln-cache (convert-standard-***REMOVED***lename (expand-***REMOVED***le-name "var/eln-cache/" user-emacs-directory)))))
+
   (add-to-list 'native-comp-eln-load-path (expand-***REMOVED***le-name "eln-cache/" user-emacs-directory)))
 
 (setq package-enable-at-startup nil
