@@ -782,8 +782,6 @@ folder, otherwise delete a word"
   "gF"  'magit-fetch-all
   "gr"  'magit-rebase)
 
-(use-package )
-
 (use-package forge
   :after (magit))
 
