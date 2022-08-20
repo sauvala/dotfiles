@@ -23,6 +23,7 @@
   - [[#line-numbers][Line numbers]]
   - [[#theme][Theme]]
     - [[#modus-theme][Modus theme]]
+    - [[#ef-themes][ef-themes]]
       - [[#system-appearance-change][System appearance change]]
     - [[#doom-theme][Doom theme]]
   - [[#transparent-frame][Transparent frame]]
@@ -276,7 +277,6 @@
 #+begin_src emacs-lisp
   (setq visible-bell nil)
   (use-package modus-themes
-    :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
     :con***REMOVED***g
     ;; Add all your customizations prior to loading the themes
     ;;   (setq modus-themes-italic-constructs t
@@ -411,6 +411,12 @@
     )
 #+end_src
 
+*** ef-themes
+#+begin_src emacs-lisp
+  (use-package ef-themes
+    :hook (emacs-startup . (lambda () (load-theme 'ef-night)))
+    :straight (:host github :repo "protesilaos/ef-themes"))
+#+end_src
 **** System appearance change
 #+begin_src emacs-lisp
   (defun js/change-theme (appearance)
