@@ -60,9 +60,15 @@
       initial-major-mode 'fundamental-mode)
 
 (setq ns-use-proxy-icon nil)
-(setq frame-title-format nil)
+; (setq frame-title-format nil)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
+(set-frame-name (format "%s%s" (buffer-name)
+                        (if-let (fn (buffer-***REMOVED***le-name))
+                            (format " (%s)" (***REMOVED***le-name-directory fn))
+                          "")))
+(set-frame-name nil)
+(setq frame-title-format '("%f [%m] - Emacs"))
 
 (setq straight-use-package-by-default t
       use-package-always-defer t
