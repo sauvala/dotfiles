@@ -85,7 +85,6 @@
 
 (setq visible-bell nil)
 (use-package modus-themes
-  :hook (emacs-startup . (lambda () (modus-themes-load-vivendi)))
   :con***REMOVED***g
   ;; Add all your customizations prior to loading the themes
   ;;   (setq modus-themes-italic-constructs t
@@ -218,6 +217,10 @@
   ;; :con***REMOVED***g
   ;; Load the theme of your choice:
   )
+
+(use-package ef-themes
+  :hook (emacs-startup . (lambda () (load-theme 'ef-night)))
+  :straight (:host github :repo "protesilaos/ef-themes"))
 
 (defun js/change-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
