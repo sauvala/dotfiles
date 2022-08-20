@@ -100,9 +100,16 @@ Disable package reading when starting
 ** Titlebar
 #+begin_src emacs-lisp
   (setq ns-use-proxy-icon nil)
-  (setq frame-title-format nil)
+  ; (setq frame-title-format nil)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  ;; (set-frame-name (format "%s%s" (buffer-name)
+  ;;                         (if-let (fn (buffer-***REMOVED***le-name))
+  ;;                             (format " (%s)" (***REMOVED***le-name-directory fn))
+  ;;                           "")))
+  (setq frame-title-format
+              '((:eval (list (abbreviate-***REMOVED***le-name
+                               (expand-***REMOVED***le-name buffer-***REMOVED***le-name))))))
 #+end_src
 
 To remove icons from the title bar run in the command line
