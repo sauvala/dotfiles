@@ -1418,7 +1418,9 @@ Javascript and Typescript
 
 *** Rust
 #+begin_src emacs-lisp
-  (use-package rustic)
+  (use-package rustic
+    :con***REMOVED***g
+    (setq rustic-lsp-client 'eglot))
 #+end_src
 
 ** Aggressive indent mode
