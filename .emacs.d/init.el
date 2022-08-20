@@ -253,10 +253,6 @@
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
 (add-to-list 'default-frame-alist '(alpha 100 100))
 
-(use-package pulsing-cursor
-  :straight (:host github :repo "jasonjckn/pulsing-cursor")
-  :con***REMOVED***g (pulsing-cursor-mode +1))
-
 (use-package solaire-mode
   :con***REMOVED***g
   (solaire-global-mode +1))

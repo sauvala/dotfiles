@@ -27,7 +27,6 @@
       - [[#system-appearance-change][System appearance change]]
     - [[#doom-theme][Doom theme]]
   - [[#transparent-frame][Transparent frame]]
-  - [[#pulsing-cursor][Pulsing cursor]]
   - [[#solaire-mode][Solaire mode]]
   - [[#startup-splash-image][Startup splash image]]
   - [[#emojis-in-buffers][Emojis in buffers]]
@@ -455,13 +454,6 @@
 #+begin_src emacs-lisp
 	(set-frame-parameter (selected-frame) 'alpha '(100 100))
 	(add-to-list 'default-frame-alist '(alpha 100 100))
-#+end_src
-
-** Pulsing cursor
-#+begin_src emacs-lisp
-  (use-package pulsing-cursor
-    :straight (:host github :repo "jasonjckn/pulsing-cursor")
-    :con***REMOVED***g (pulsing-cursor-mode +1))
 #+end_src
 
 ** Solaire mode
