@@ -797,9 +797,7 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (global-blamer-mode 1))
 
-(use-package why-this
-  :straight
-  (:type git  :repo "https://codeberg.org/akib/emacs-why-this.git"))
+(use-package why-this)
 
 (use-package project
   :con***REMOVED***g
