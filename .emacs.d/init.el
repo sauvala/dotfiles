@@ -672,6 +672,10 @@ folder, otherwise delete a word"
 (setq-default bidi-inhibit-bpa t)
 (global-so-long-mode 1)
 
+(use-package lin)
+
+(use-package logos)
+
 (use-package pulsar
   :straight (:host gitlab :type git :repo "protesilaos/pulsar")
   :con***REMOVED***g
@@ -1065,6 +1069,8 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (setq pomm-audio-enabled t)
   :commands (pomm))
+
+(use-package denote)
 
 ;; (use-package all-the-icons-dired
 ;;   :hook (dired-mode . all-the-icons-dired-mode))
