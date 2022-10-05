@@ -219,7 +219,10 @@
   )
 
 (use-package ef-themes
-  :hook (emacs-startup . (lambda () (load-theme 'ef-night)))
+  :hook (emacs-startup . (lambda ()
+                           (progn
+                             (mapc #'disable-theme custom-enabled-themes)
+                             (ef-themes-select 'ef-bio))))
   :straight (:host github :repo "protesilaos/ef-themes"))
 
 (defun js/change-theme (appearance)

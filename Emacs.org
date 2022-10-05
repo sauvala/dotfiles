@@ -416,7 +416,10 @@
 *** ef-themes
 #+begin_src emacs-lisp
   (use-package ef-themes
-    :hook (emacs-startup . (lambda () (load-theme 'ef-night)))
+    :hook (emacs-startup . (lambda ()
+                             (progn
+                               (mapc #'disable-theme custom-enabled-themes)
+                               (ef-themes-select 'ef-bio))))
     :straight (:host github :repo "protesilaos/ef-themes"))
 #+end_src
 **** System appearance change
