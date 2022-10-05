@@ -30,7 +30,7 @@
 (use-package which-key
   ;; :init 
   :diminish which-key-mode
-  :hook (emacs-startup . (lambda () (which-key-mode)))
+  :hook (after-init . which-key-mode)
   :con***REMOVED***g
   (setq which-key-idle-delay 0.3))
 
