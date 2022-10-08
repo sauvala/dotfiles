@@ -131,6 +131,7 @@
   - [[#dogearsel][Dogears.el]]
   - [[#pomm][Pomm]]
   - [[#denote][Denote]]
+  - [[#detached][detached]]
 - [[#dired][Dired]]
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
@@ -1624,7 +1625,23 @@ Javascript and Typescript
 
 *** Denote
 #+begin_src emacs-lisp
-  (use-package denote)
+    (use-package denote)
+#+end_src
+
+*** detached
+#+begin_src emacs-lisp
+  (use-package detached
+    :init
+    (detached-init)
+    :bind (;; Replace `async-shell-command' with `detached-shell-command'
+           ([remap async-shell-command] . detached-shell-command)
+           ;; Replace `compile' with `detached-compile'
+           ([remap compile] . detached-compile)
+           ([remap recompile] . detached-compile-recompile)
+           ;; Replace built in completion of sessions with `consult'
+           ([remap detached-open-session] . detached-consult-session))
+    :custom ((detached-show-output-on-attach t)
+             (detached-terminal-data-command system-type)))
 #+end_src
 
 * Dired
