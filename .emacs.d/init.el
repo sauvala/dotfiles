@@ -222,7 +222,7 @@
   :hook (emacs-startup . (lambda ()
                            (progn
                              (mapc #'disable-theme custom-enabled-themes)
-                             (ef-themes-select 'ef-bio))))
+                             (ef-themes-select 'ef-autumn))))
   :straight (:host github :repo "protesilaos/ef-themes"))
 
 (defun js/change-theme (appearance)
