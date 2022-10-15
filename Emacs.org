@@ -133,6 +133,7 @@
   - [[#pomm][Pomm]]
   - [[#denote][Denote]]
   - [[#detached][detached]]
+  - [[#pdf-tools][pdf-tools]]
 - [[#dired][Dired]]
 - [[#org-mode][Org mode]]
   - [[#org-con***REMOVED***g][Org con***REMOVED***g]]
@@ -1658,6 +1659,13 @@ Javascript and Typescript
            ([remap detached-open-session] . detached-consult-session))
     :custom ((detached-show-output-on-attach t)
              (detached-terminal-data-command system-type)))
+#+end_src
+
+*** pdf-tools
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :con***REMOVED***g
+    (setq pdf-view-use-scaling t))
 #+end_src
 
 * Dired
