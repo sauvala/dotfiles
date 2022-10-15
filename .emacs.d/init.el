@@ -982,8 +982,6 @@ folder, otherwise delete a word"
    :client-packages lsp-docker-client-packages
    :client-con***REMOVED***gs lsp-docker-client-con***REMOVED***gs))
 
-(use-package docker-tramp)
-
 (use-package inspector)
 
 (use-package rainbow-delimiters
