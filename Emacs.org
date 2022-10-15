@@ -66,6 +66,7 @@
     - [[#dabbrev][Dabbrev]]
   - [[#save-minibuffer-history][Save minibuffer history]]
 - [[#editor-con***REMOVED***guration][Editor con***REMOVED***guration]]
+  - [[#clipboard][Clipboard]]
   - [[#font][Font]]
   - [[#tab-width][Tab width]]
   - [[#birectional-editing][Birectional editing]]
@@ -935,6 +936,21 @@ Add icons to ***REMOVED***les names
  #+end_src
 
 * Editor con***REMOVED***guration
+** Clipboard
+In WSL, copying from Emacs and pasting to Windows did not work out of the box. Found a solution from https://emacs.stackexchange.com/questions/39210/copy-paste-from-windows-clipboard-in-wsl-terminal
+#+begin_src emacs-lisp
+  (if (and (eq system-type 'gnu/linux)
+           (executable-***REMOVED***nd "powershell.exe"))
+      (progn
+        (defun js/wsl-copy (start end)
+          (interactive "r")
+          (shell-command-on-region start end "clip.exe")
+          (deactivate-mark))
+        (global-set-key
+         (kbd "C-c W")
+         'js/wsl-copy)))
+#+end_src
+
 ** Font
 Fonts to try out:
 - [[https://typeof.net/Iosevka/][JetBrains Mono]]
