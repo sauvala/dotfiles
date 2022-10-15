@@ -1484,10 +1484,6 @@ Javascript and Typescript
        :client-con***REMOVED***gs lsp-docker-client-con***REMOVED***gs))
 #+end_src
 
-#+begin_src emacs-lisp
-  (use-package docker-tramp)
-#+end_src
-
 ** Emacs Lisp inspector
 #+begin_src emacs-lisp
 	(use-package inspector)
