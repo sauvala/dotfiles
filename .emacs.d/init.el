@@ -1099,6 +1099,10 @@ folder, otherwise delete a word"
   :custom ((detached-show-output-on-attach t)
            (detached-terminal-data-command system-type)))
 
+(use-package pdf-tools
+  :con***REMOVED***g
+  (setq pdf-view-use-scaling t))
+
 ;; (use-package all-the-icons-dired
 ;;   :hook (dired-mode . all-the-icons-dired-mode))
 
