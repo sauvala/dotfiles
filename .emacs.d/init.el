@@ -600,6 +600,17 @@ folder, otherwise delete a word"
   :con***REMOVED***g
   (savehist-mode))
 
+(if (and (eq system-type 'gnu/linux)
+         (executable-***REMOVED***nd "powershell.exe"))
+    (progn
+      (defun js/wsl-copy (start end)
+        (interactive "r")
+        (shell-command-on-region start end "clip.exe")
+        (deactivate-mark))
+      (global-set-key
+       (kbd "C-c W")
+       'js/wsl-copy)))
+
 (defvar js/default-font-size 150)
 (defvar js/default-variable-font-size 150)
 
