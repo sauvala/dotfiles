@@ -654,16 +654,11 @@ folder, otherwise delete a word"
 
 (use-package perfect-margin)
 
-;; (use-package sublimity
-;;   :con***REMOVED***g
-;;   (require 'sublimity-map)
-;;   (require 'sublimity-attractive))
-
-(use-package minimap)
-
 (use-package sublimity
 	:con***REMOVED***g
 	(sublimity-mode 1))
+
+(use-package minimap)
 
 (use-package demap
   :straight (:host gitlab :type git :repo "sawyerjgardner/demap.el")
