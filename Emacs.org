@@ -819,17 +819,15 @@ Taken from [[https://github.com/minad/vertico#con***REMOVED***guration][Vertico 
 ** Completion metadata
 *** Add icons to Marginalia metadata
 Add icons to ***REMOVED***les names
-[[https://github.com/minad/marginalia/issues/59]]
 **** all-the-icons
 #+begin_src emacs-lisp
-  (use-package all-the-icons
-    :ensure t)
+  (use-package all-the-icons)
 #+end_src
 
 **** all-the-icons-completion
 #+begin_src emacs-lisp
   (use-package all-the-icons-completion
-    :straight (:host github :repo "iyefrat/all-the-icons-completion")
+    :straight (:host github :repo "MintSoup/all-the-icons-completion")
     :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
 #+end_src
 
@@ -1024,6 +1022,10 @@ hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_
 
 #+begin_src emacs-lisp
   (use-package olivetti)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package perfect-margin)
 #+end_src
 
 ** Sublimity
