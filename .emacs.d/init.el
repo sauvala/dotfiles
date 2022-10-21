@@ -339,24 +339,19 @@
 
 (setq kill-do-not-save-duplicates t)
 
-;; (require 'tramp)
-    ;; (setq tramp-default-method "ssh")
-    ;;(add-to-list 'tramp-methods
-    ;;             '("gcssh"
-    ;;               (tramp-login-program        "gcloud compute ssh")
-    ;;               (tramp-login-args           (("%h")))
-    ;;               (tramp-async-args           (("-q")))
-    ;;               (tramp-remote-shell         "/bin/sh")
-    ;;               (tramp-remote-shell-args    ("-c"))
-    ;;               (tramp-gw-args              (("-o" "GlobalKnownHostsFile=/dev/null")
-    ;;                                            ("-o" "UserKnownHostsFile=/dev/null")
-    ;;                                            ("-o" "StrictHostKeyChecking=no")))
-    ;;               (tramp-default-port         22)))
-(setq tramp-verbose 6)
-;; (put #'tramp-dissect-***REMOVED***le-name 'tramp-suppress-trace t)
-;; (defun tramp-ensure-dissected-***REMOVED***le-name (vec-or-***REMOVED***lename)
-;;   "Return a `tramp-***REMOVED***le-name' structure for VEC-OR-FILENAME.VEC-OR-FILENAME may be either a string or a `tramp-***REMOVED***le-name'.If it's not a Tramp ***REMOVED***lename, return nil."`
-;;   (cond ((tramp-***REMOVED***le-name-p vec-or-***REMOVED***lename) vec-or-***REMOVED***lename) ((tramp-tramp-***REMOVED***le-p vec-or-***REMOVED***lename) (tramp-dissect-***REMOVED***le-name vec-or-***REMOVED***lename))))
+(require 'tramp)
+(setq tramp-default-method "ssh")
+
+(defun my-vc-off-if-remote ()
+  (if (***REMOVED***le-remote-p (buffer-***REMOVED***le-name))
+      (setq-local vc-handled-backends nil)))
+(add-hook '***REMOVED***nd-***REMOVED***le-hook 'my-vc-off-if-remote)
+
+(setq vc-handled-backends '(Git))
+  ;; (put #'tramp-dissect-***REMOVED***le-name 'tramp-suppress-trace t)
+  ;; (defun tramp-ensure-dissected-***REMOVED***le-name (vec-or-***REMOVED***lename)
+  ;;   "Return a `tramp-***REMOVED***le-name' structure for VEC-OR-FILENAME.VEC-OR-FILENAME may be either a string or a `tramp-***REMOVED***le-name'.If it's not a Tramp ***REMOVED***lename, return nil."`
+  ;;   (cond ((tramp-***REMOVED***le-name-p vec-or-***REMOVED***lename) vec-or-***REMOVED***lename) ((tramp-tramp-***REMOVED***le-p vec-or-***REMOVED***lename) (tramp-dissect-***REMOVED***le-name vec-or-***REMOVED***lename))))
 
 (use-package orderless
   :defer 0.1
@@ -1096,6 +1091,12 @@ folder, otherwise delete a word"
 (use-package pdf-tools
   :con***REMOVED***g
   (setq pdf-view-use-scaling t))
+
+(use-package mini-frame)
+
+(use-package mini-popup)
+
+(use-package vertico-posframe)
 
 ;; (use-package all-the-icons-dired
 ;;   :hook (dired-mode . all-the-icons-dired-mode))
