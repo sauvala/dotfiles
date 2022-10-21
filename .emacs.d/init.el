@@ -506,11 +506,10 @@ folder, otherwise delete a word"
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
 
-(use-package all-the-icons
-  :ensure t)
+(use-package all-the-icons)
 
 (use-package all-the-icons-completion
-  :straight (:host github :repo "iyefrat/all-the-icons-completion")
+  :straight (:host github :repo "MintSoup/all-the-icons-completion")
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
 
 (use-package marginalia
@@ -652,6 +651,8 @@ folder, otherwise delete a word"
 (use-package centered-window)
 
 (use-package olivetti)
+
+(use-package perfect-margin)
 
 ;; (use-package sublimity
 ;;   :con***REMOVED***g
