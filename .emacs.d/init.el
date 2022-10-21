@@ -342,10 +342,10 @@
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
-(defun my-vc-off-if-remote ()
+(defun my/vc-off-if-remote ()
   (if (***REMOVED***le-remote-p (buffer-***REMOVED***le-name))
       (setq-local vc-handled-backends nil)))
-(add-hook '***REMOVED***nd-***REMOVED***le-hook 'my-vc-off-if-remote)
+(add-hook '***REMOVED***nd-***REMOVED***le-hook 'my/vc-off-if-remote)
 
 (setq vc-handled-backends '(Git))
   ;; (put #'tramp-dissect-***REMOVED***le-name 'tramp-suppress-trace t)
