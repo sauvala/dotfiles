@@ -349,6 +349,9 @@
 
 (setq vc-handled-backends '(Git))
 
+(use-package consult-tramp
+  :straight (:host github :repo "Ladicle/consult-tramp"))
+
 (use-package orderless
   :defer 0.1
   :init
