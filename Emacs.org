@@ -44,6 +44,7 @@
   - [[#use-y-and-n][Use y and n]]
   - [[#do-not-save-duplicates-in-kill-ring][Do not save duplicates in kill-ring]]
   - [[#tramp][Tramp]]
+    - [[#consult-tramp][consult-tramp]]
 - [[#completion][Completion]]
   - [[#improve-completions][Improve completions]]
     - [[#orderless][Orderless]]
@@ -618,6 +619,12 @@ Needed only in emacs-mac but not in emacs-plus
   (add-hook '***REMOVED***nd-***REMOVED***le-hook 'my/vc-off-if-remote)
 
   (setq vc-handled-backends '(Git))
+#+end_src
+
+*** consult-tramp
+#+begin_src emacs-lisp
+  (use-package consult-tramp
+    :straight (:host github :repo "Ladicle/consult-tramp"))
 #+end_src
 
 * Completion
