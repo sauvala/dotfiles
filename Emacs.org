@@ -618,10 +618,6 @@ Needed only in emacs-mac but not in emacs-plus
   (add-hook '***REMOVED***nd-***REMOVED***le-hook 'my/vc-off-if-remote)
 
   (setq vc-handled-backends '(Git))
-    ;; (put #'tramp-dissect-***REMOVED***le-name 'tramp-suppress-trace t)
-    ;; (defun tramp-ensure-dissected-***REMOVED***le-name (vec-or-***REMOVED***lename)
-    ;;   "Return a `tramp-***REMOVED***le-name' structure for VEC-OR-FILENAME.VEC-OR-FILENAME may be either a string or a `tramp-***REMOVED***le-name'.If it's not a Tramp ***REMOVED***lename, return nil."`
-    ;;   (cond ((tramp-***REMOVED***le-name-p vec-or-***REMOVED***lename) vec-or-***REMOVED***lename) ((tramp-tramp-***REMOVED***le-p vec-or-***REMOVED***lename) (tramp-dissect-***REMOVED***le-name vec-or-***REMOVED***lename))))
 #+end_src
 
 * Completion
