@@ -1841,9 +1841,10 @@ Javascript and Typescript
     (setq visual-***REMOVED***ll-column-width 110
           visual-***REMOVED***ll-column-center-text t)
   (visual-***REMOVED***ll-column-mode 1))
-  
+
   (use-package visual-***REMOVED***ll-column
-    :hook (org-mode . js/org-mode-visual-***REMOVED***ll))
+    ;;:hook (org-mode . js/org-mode-visual-***REMOVED***ll)
+    )
 #+end_src
 
 ** Fonts and bullets
