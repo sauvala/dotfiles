@@ -1244,7 +1244,8 @@ folder, otherwise delete a word"
 (visual-***REMOVED***ll-column-mode 1))
 
 (use-package visual-***REMOVED***ll-column
-  :hook (org-mode . js/org-mode-visual-***REMOVED***ll))
+  ;;:hook (org-mode . js/org-mode-visual-***REMOVED***ll)
+  )
 
 ;; Increase the size of various headings
 ;(set-face-attribute 'org-document-title nil :font "JetBrains Mono" :weight 'bold :height 1.3)
