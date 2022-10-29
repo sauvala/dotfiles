@@ -58,17 +58,6 @@
       "Pe"  '(pro***REMOVED***ler-stop :which-key "pro***REMOVED***ler stop")
       "Pr"  '(pro***REMOVED***ler-report :which-key "pro***REMOVED***ler report"))
 
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-(setq scroll-step 1) ;; keyboard scroll one line at a time
-(setq use-dialog-box nil)
-;; (pixel-scroll-precision-mode) ;; smoot scrolling
-(setq auto-window-vscroll nil)
-(customize-set-variable 'fast-but-imprecise-scrolling t)
-(customize-set-variable 'scroll-conservatively 101)
-(customize-set-variable 'scroll-margin 0)
-(customize-set-variable 'scroll-preserve-screen-position t)
 (pixel-scroll-precision-mode)
 
 (column-number-mode)
@@ -335,7 +324,9 @@
 
 (setq large-***REMOVED***le-warning-threshold 100000000)
 
-(fset 'yes-or-no-p 'y-or-n-p)
+(if (boundp 'use-short-answers)
+    (setq use-short-answers t)
+  (advice-add 'yes-or-no-p :override #'y-or-n-p))
 
 (setq kill-do-not-save-duplicates t)
 
