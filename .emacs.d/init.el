@@ -1,5 +1,35 @@
 ;;; init.el -*- lexical-binding: t ; eval: (view-mode -1) -*-
 
+(declare-function elpaca-generate-autoloads "elpaca")
+  (defvar elpaca-directory (expand-***REMOVED***le-name "elpaca/" user-emacs-directory))
+  (defvar elpaca-builds-directory (expand-***REMOVED***le-name "builds/" elpaca-directory))
+  (when-let ((elpaca-repo (expand-***REMOVED***le-name "repos/elpaca/" elpaca-directory))
+             (elpaca-build (expand-***REMOVED***le-name "elpaca/" elpaca-builds-directory))
+             (elpaca-target (if (***REMOVED***le-exists-p elpaca-build) elpaca-build elpaca-repo))
+             (elpaca-url  "https://www.github.com/progfolio/elpaca.git")
+             ((add-to-list 'load-path elpaca-target))
+             ((not (***REMOVED***le-exists-p elpaca-repo)))
+             (buffer (get-buffer-create "*elpaca-bootstrap*")))
+    (condition-case-unless-debug err
+        (progn
+          (unless (zerop (call-process "git" nil buffer t "clone" elpaca-url elpaca-repo))
+            (error "%s" (list (with-current-buffer buffer (buffer-string)))))
+          (byte-recompile-directory elpaca-repo 0 'force)
+          (require 'elpaca)
+          (elpaca-generate-autoloads "elpaca" elpaca-repo)
+          (kill-buffer buffer))
+      ((error)
+       (delete-directory elpaca-directory 'recursive)
+       (with-current-buffer buffer
+         (goto-char (point-max))
+         (insert (format "\n%S" err))
+         (display-buffer buffer)))))
+  (require 'elpaca-autoloads)
+  (add-hook 'after-init-hook #'elpaca-process-queues)
+  (elpaca (elpaca :host github :repo "progfolio/elpaca"))
+
+  (elpaca use-package (require 'use-package))
+
 ;; Change the user-emacs-directory to keep unwanted things out of ~/.emacs.d
 (setq user-emacs-directory (expand-***REMOVED***le-name "~/.cache/emacs/")
     url-history-***REMOVED***le (expand-***REMOVED***le-name "url/history" user-emacs-directory))
@@ -330,7 +360,7 @@
 
 (setq kill-do-not-save-duplicates t)
 
-(require 'tramp)
+(use-package tramp)
 (setq tramp-default-method "ssh")
 
 (defun my/vc-off-if-remote ()
@@ -344,7 +374,7 @@
   :straight (:host github :repo "Ladicle/consult-tramp"))
 
 (use-package orderless
-  :defer 0.1
+  :demand t
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
@@ -446,25 +476,24 @@ folder, otherwise delete a word"
       (if (string-match-p "/." (minibuffer-contents))
           (zap-up-to-char (- arg) ?/)
         (delete-minibuffer-contents))
-      (backward-kill-word arg)))
+    (backward-kill-word arg)))
 
-(use-package vertico
-  :after orderless
+(elpaca-use-package vertico
   :bind (:map vertico-map
-         ("C-j" . vertico-next)
-         ("C-k" . vertico-previous)
-         ("H-j" . vertico-next)
-         ("H-k" . vertico-previous)
-         ("C-f" . vertico-exit)
-         :map minibuffer-local-map
-         ("M-h" . js/minibuffer-backward-kill))
+              ("C-j" . vertico-next)
+              ("C-k" . vertico-previous)
+              ("H-j" . vertico-next)
+              ("H-k" . vertico-previous)
+              ("C-f" . vertico-exit)
+              :map minibuffer-local-map
+              ("M-h" . js/minibuffer-backward-kill))
   :custom
   (vertico-cycle nil)
-  ;; :custom-face
-  ;; for doom-one use #3a3f5a
-  ;; (vertico-current ((t (:background "#3c3836"))))
-  ;; :con***REMOVED***g
-  ;; (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous)
+  ;;:custom-face
+  ;;for doom-one use #3a3f5a
+  ;;(vertico-current ((t (:background "#3c3836"))))
+  :con***REMOVED***g
+  (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous)
   :init
   (vertico-mode))
 
@@ -1086,7 +1115,7 @@ folder, otherwise delete a word"
 
 (use-package mini-popup)
 
-(use-package vertico-posframe)
+;;(use-package vertico-posframe)
 
 ;; (use-package all-the-icons-dired
 ;;   :hook (dired-mode . all-the-icons-dired-mode))

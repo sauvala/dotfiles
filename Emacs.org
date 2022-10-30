@@ -9,6 +9,7 @@
 :END:
 :CONTENTS:
 - [[#add-lexical-binding-to-generated-***REMOVED***le][Add lexical binding to generated ***REMOVED***le]]
+- [[#elpaca][Elpaca]]
 - [[#keep-emacsd-clean][Keep .emacs.d clean]]
 - [[#setup-path-from-shell][Setup path from shell]]
 - [[#keyboard-bindings][Keyboard bindings]]
@@ -162,6 +163,39 @@
 * Add lexical binding to generated ***REMOVED***le
 #+begin_src emacs-lisp
   ;;; init.el -*- lexical-binding: t ; eval: (view-mode -1) -*-
+#+end_src
+
+* Elpaca
+#+begin_src emacs-lisp
+(declare-function elpaca-generate-autoloads "elpaca")
+  (defvar elpaca-directory (expand-***REMOVED***le-name "elpaca/" user-emacs-directory))
+  (defvar elpaca-builds-directory (expand-***REMOVED***le-name "builds/" elpaca-directory))
+  (when-let ((elpaca-repo (expand-***REMOVED***le-name "repos/elpaca/" elpaca-directory))
+             (elpaca-build (expand-***REMOVED***le-name "elpaca/" elpaca-builds-directory))
+             (elpaca-target (if (***REMOVED***le-exists-p elpaca-build) elpaca-build elpaca-repo))
+             (elpaca-url  "https://www.github.com/progfolio/elpaca.git")
+             ((add-to-list 'load-path elpaca-target))
+             ((not (***REMOVED***le-exists-p elpaca-repo)))
+             (buffer (get-buffer-create "*elpaca-bootstrap*")))
+    (condition-case-unless-debug err
+        (progn
+          (unless (zerop (call-process "git" nil buffer t "clone" elpaca-url elpaca-repo))
+            (error "%s" (list (with-current-buffer buffer (buffer-string)))))
+          (byte-recompile-directory elpaca-repo 0 'force)
+          (require 'elpaca)
+          (elpaca-generate-autoloads "elpaca" elpaca-repo)
+          (kill-buffer buffer))
+      ((error)
+       (delete-directory elpaca-directory 'recursive)
+       (with-current-buffer buffer
+         (goto-char (point-max))
+         (insert (format "\n%S" err))
+         (display-buffer buffer)))))
+  (require 'elpaca-autoloads)
+  (add-hook 'after-init-hook #'elpaca-process-queues)
+  (elpaca (elpaca :host github :repo "progfolio/elpaca"))
+
+  (elpaca use-package (require 'use-package))
 #+end_src
 
 * Keep .emacs.d clean
@@ -601,7 +635,7 @@ Needed only in emacs-mac but not in emacs-plus
 
 ** Tramp
 #+begin_src emacs-lisp
-  (require 'tramp)
+  (use-package tramp)
   (setq tramp-default-method "ssh")
 
   (defun my/vc-off-if-remote ()
@@ -628,7 +662,7 @@ https://github.com/daviwil/dot***REMOVED***les/blob/master/Emacs.org#completion-
 https://github.com/oantolin/orderless
 #+begin_src emacs-lisp
   (use-package orderless
-    :defer 0.1
+    :demand t
     :init
     (setq completion-styles '(orderless)
           completion-category-defaults nil
@@ -752,25 +786,24 @@ https://github.com/oantolin/embark
         (if (string-match-p "/." (minibuffer-contents))
             (zap-up-to-char (- arg) ?/)
           (delete-minibuffer-contents))
-        (backward-kill-word arg)))
+      (backward-kill-word arg)))
 
-  (use-package vertico
-    :after orderless
+  (elpaca-use-package vertico
     :bind (:map vertico-map
-           ("C-j" . vertico-next)
-           ("C-k" . vertico-previous)
-           ("H-j" . vertico-next)
-           ("H-k" . vertico-previous)
-           ("C-f" . vertico-exit)
-           :map minibuffer-local-map
-           ("M-h" . js/minibuffer-backward-kill))
+                ("C-j" . vertico-next)
+                ("C-k" . vertico-previous)
+                ("H-j" . vertico-next)
+                ("H-k" . vertico-previous)
+                ("C-f" . vertico-exit)
+                :map minibuffer-local-map
+                ("M-h" . js/minibuffer-backward-kill))
     :custom
     (vertico-cycle nil)
-    ;; :custom-face
-    ;; for doom-one use #3a3f5a
-    ;; (vertico-current ((t (:background "#3c3836"))))
-    ;; :con***REMOVED***g
-    ;; (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous)
+    ;;:custom-face
+    ;;for doom-one use #3a3f5a
+    ;;(vertico-current ((t (:background "#3c3836"))))
+    :con***REMOVED***g
+    (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous)
     :init
     (vertico-mode))
 #+end_src
@@ -923,7 +956,7 @@ Add icons to ***REMOVED***les names
      :con***REMOVED***g
      (savehist-mode))
  #+end_src
-
+ 
 * Editor con***REMOVED***guration
 ** Clipboard
 In WSL, copying from Emacs and pasting to Windows did not work out of the box. Found a solution from https://emacs.stackexchange.com/questions/39210/copy-paste-from-windows-clipboard-in-wsl-terminal
@@ -1660,7 +1693,7 @@ Javascript and Typescript
 
 
 #+begin_src emacs-lisp
-  (use-package vertico-posframe)
+  ;;(use-package vertico-posframe)
 #+end_src
 
 * Dired
