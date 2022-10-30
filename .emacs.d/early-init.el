@@ -25,7 +25,7 @@
 
 (when (featurep 'native-compile)
   (setq native-comp-async-report-warnings-errors nil)
-  (setq native-comp-deferred-compilation t)
+  (setq inhibit-automatic-native-compilation t)
 
   (when (fboundp 'startup-redirect-eln-cache)
     (if (version< emacs-version "29")
@@ -63,32 +63,33 @@
 ; (setq frame-title-format nil)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
-(set-frame-name (format "%s%s" (buffer-name)
-                        (if-let (fn (buffer-***REMOVED***le-name))
-                            (format " (%s)" (***REMOVED***le-name-directory fn))
-                          "")))
-(set-frame-name nil)
-(setq frame-title-format '("%f [%m] - Emacs"))
+;; (set-frame-name (format "%s%s" (buffer-name)
+;;                         (if-let (fn (buffer-***REMOVED***le-name))
+;;                             (format " (%s)" (***REMOVED***le-name-directory fn))
+;;                           "")))
+(setq frame-title-format
+            '((:eval (list (abbreviate-***REMOVED***le-name
+                             (expand-***REMOVED***le-name buffer-***REMOVED***le-name))))))
 
 (setq straight-use-package-by-default t
-      use-package-always-defer t
-      use-package-always-ensure t
-      straight-cache-autoloads t
-      ;; straight-check-for-modi***REMOVED***cations nil
-      ;; use-package-verbose t
-      )
+use-package-always-defer t
+use-package-always-ensure t
+straight-cache-autoloads t
+;; straight-check-for-modi***REMOVED***cations nil
+;; use-package-verbose t
+)
 ;; (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/"))
 (defvar bootstrap-version)
 (let ((bootstrap-***REMOVED***le
-       (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+ (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+(bootstrap-version 5))
   (unless (***REMOVED***le-exists-p bootstrap-***REMOVED***le)
     (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
+(goto-char (point-max))
+(eval-print-last-sexp)))
   (load bootstrap-***REMOVED***le nil 'nomessage))
 
 (straight-use-package 'use-package)
@@ -96,14 +97,14 @@
 ;; Load the helper package for commands like `straight-x-clean-unused-repos'
 (require 'straight-x)
 
-(use-package esup
-  :commands esup
-  :con***REMOVED***g
-  (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
+;; (elpaca-use-package esup
+;;   :commands esup
+;;   :con***REMOVED***g
+;;   (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
 
-(use-package gcmh
-  :hook (emacs-startup . gcmh-mode)
-  :con***REMOVED***g
-  (gcmh-mode 1))
+;; (elpaca-use-package gcmh
+;;   :hook (emacs-startup . gcmh-mode)
+;;   :con***REMOVED***g
+;;  (gcmh-mode 1))
 
 (provide 'early-init)

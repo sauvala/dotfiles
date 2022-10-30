@@ -53,7 +53,7 @@ Check [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Emacs lsp-mode p
 #+begin_src emacs-lisp
   (when (featurep 'native-compile)
     (setq native-comp-async-report-warnings-errors nil)
-    (setq native-comp-deferred-compilation t)
+    (setq inhibit-automatic-native-compilation t)
 
     (when (fboundp 'startup-redirect-eln-cache)
       (if (version< emacs-version "29")
@@ -118,27 +118,27 @@ To remove icons from the title bar run in the command line
 #+end_src
 
 * Package management
-Con***REMOVED***gure Straight.el
+** Straight.el
 #+begin_src emacs-lisp
   (setq straight-use-package-by-default t
-        use-package-always-defer t
-        use-package-always-ensure t
-        straight-cache-autoloads t
-        ;; straight-check-for-modi***REMOVED***cations nil
-        ;; use-package-verbose t
-        )
+	use-package-always-defer t
+	use-package-always-ensure t
+	straight-cache-autoloads t
+	;; straight-check-for-modi***REMOVED***cations nil
+	;; use-package-verbose t
+	)
   ;; (add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/"))
   (defvar bootstrap-version)
   (let ((bootstrap-***REMOVED***le
-         (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
+	 (expand-***REMOVED***le-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	(bootstrap-version 5))
     (unless (***REMOVED***le-exists-p bootstrap-***REMOVED***le)
       (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
+	  (url-retrieve-synchronously
+	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	   'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
     (load bootstrap-***REMOVED***le nil 'nomessage))
 
   (straight-use-package 'use-package)
@@ -150,18 +150,18 @@ Con***REMOVED***gure Straight.el
 * Benchmarking
 ** Esup
 #+begin_src emacs-lisp
-  (use-package esup
-    :commands esup
-    :con***REMOVED***g
-    (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
+  ;; (elpaca-use-package esup
+  ;;   :commands esup
+  ;;   :con***REMOVED***g
+  ;;   (setq esup-user-init-***REMOVED***le (***REMOVED***le-truename "~/.emacs.d/init.el")))
 #+end_src
 
 * GC magic hack
 #+begin_src emacs-lisp
-  (use-package gcmh
-    :hook (emacs-startup . gcmh-mode)
-    :con***REMOVED***g
-    (gcmh-mode 1))
+  ;; (elpaca-use-package gcmh
+  ;;   :hook (emacs-startup . gcmh-mode)
+  ;;   :con***REMOVED***g
+  ;;  (gcmh-mode 1))
 #+end_src
 
 * End =early-init.el=
