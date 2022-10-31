@@ -112,6 +112,7 @@
     - [[#groovy][Groovy]]
     - [[#csv][CSV]]
     - [[#rust][Rust]]
+    - [[#python][Python]]
   - [[#aggressive-indent-mode][Aggressive indent mode]]
   - [[#tree-sitter][tree-sitter]]
   - [[#dev-container][dev container]]
@@ -636,7 +637,8 @@ Needed only in emacs-mac but not in emacs-plus
 ** Tramp
 #+begin_src emacs-lisp
   (use-package tramp)
-  (setq tramp-default-method "ssh")
+  (setq tramp-default-method "ssh"
+        tramp-verbose 0)
 
   (defun my/vc-off-if-remote ()
     (if (***REMOVED***le-remote-p (buffer-***REMOVED***le-name))
@@ -649,7 +651,9 @@ Needed only in emacs-mac but not in emacs-plus
 *** consult-tramp
 #+begin_src emacs-lisp
   (use-package consult-tramp
-    :straight (:host github :repo "Ladicle/consult-tramp"))
+    :straight (:host github :repo "Ladicle/consult-tramp")
+    :con***REMOVED***g
+    (setq consult-tramp-method "ssh"))
 #+end_src
 
 * Completion
@@ -1469,6 +1473,13 @@ Javascript and Typescript
   (use-package rustic
     :con***REMOVED***g
     (setq rustic-lsp-client 'eglot))
+#+end_src
+
+*** Python
+#+begin_src emacs-lisp
+  (use-package python-black
+    :after python
+    :hook (python-mode . python-black-on-save-mode-enable-dwim))
 #+end_src
 
 ** Aggressive indent mode
