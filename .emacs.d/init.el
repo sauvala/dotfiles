@@ -361,7 +361,8 @@
 (setq kill-do-not-save-duplicates t)
 
 (use-package tramp)
-(setq tramp-default-method "ssh")
+(setq tramp-default-method "ssh"
+      tramp-verbose 0)
 
 (defun my/vc-off-if-remote ()
   (if (***REMOVED***le-remote-p (buffer-***REMOVED***le-name))
@@ -371,7 +372,9 @@
 (setq vc-handled-backends '(Git))
 
 (use-package consult-tramp
-  :straight (:host github :repo "Ladicle/consult-tramp"))
+  :straight (:host github :repo "Ladicle/consult-tramp")
+  :con***REMOVED***g
+  (setq consult-tramp-method "ssh"))
 
 (use-package orderless
   :demand t
@@ -971,6 +974,10 @@ folder, otherwise delete a word"
 (use-package rustic
   :con***REMOVED***g
   (setq rustic-lsp-client 'eglot))
+
+(use-package python-black
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
 (use-package aggressive-indent-mode
   :hook (emacs-lisp-mode-hook clojure-mode org))
