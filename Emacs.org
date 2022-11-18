@@ -1701,7 +1701,7 @@ Javascript and Typescript
     (setq pdf-view-use-scaling t))
 #+end_src
 
-***   Minibuffer tuning
+*** Minibuffer tuning
 #+begin_src emacs-lisp
   (use-package mini-frame)
 #+end_src
@@ -1709,7 +1709,6 @@ Javascript and Typescript
 #+begin_src emacs-lisp
   (use-package mini-popup)
 #+end_src
-
 
 #+begin_src emacs-lisp
   ;;(use-package vertico-posframe)
