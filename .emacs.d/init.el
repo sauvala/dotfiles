@@ -1404,7 +1404,7 @@ folder, otherwise delete a word"
 (elpaca-use-package helpful
   :bind
   (("C-h f" . helpful-callable)
-   ("C-qh v" . 'helpful-variable)
+   ("C-h v" . 'helpful-variable)
    ("C-h k" . helpful-key)
    ("C-c C-d" . helpful-at-point)
    ("C-h F" . helpful-function)
