@@ -434,6 +434,7 @@ NAME and ARGS are in `use-package'."
          ("M-*" . tempel-insert))
 
   :init
+  (setq tempel-path "~/.con***REMOVED***g/emacs/templates")
 
   ;; Setup completion at point
   (defun tempel-setup-capf ()
@@ -454,8 +455,7 @@ NAME and ARGS are in `use-package'."
   ;; Optionally make the Tempel templates available to Abbrev,
   ;; either locally or globally. `expand-abbrev' is bound to C-x '.
   (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
-  (global-tempel-abbrev-mode)
-  )
+  (global-tempel-abbrev-mode))
 
 (use-package embark
   :bind
