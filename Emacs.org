@@ -731,6 +731,7 @@ https://github.com/minad/consult
            ("M-*" . tempel-insert))
 
     :init
+    (setq tempel-path "~/.con***REMOVED***g/emacs/templates")
 
     ;; Setup completion at point
     (defun tempel-setup-capf ()
@@ -751,8 +752,7 @@ https://github.com/minad/consult
     ;; Optionally make the Tempel templates available to Abbrev,
     ;; either locally or globally. `expand-abbrev' is bound to C-x '.
     (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
-    (global-tempel-abbrev-mode)
-    )
+    (global-tempel-abbrev-mode))
 #+end_src
 
 ** Embark
