@@ -35,7 +35,7 @@
     url-history-***REMOVED***le (expand-***REMOVED***le-name "url/history" user-emacs-directory))
 
 ;; Use no-littering to automatically set common paths to the new user-emacs-directory
-(use-package no-littering)
+(elpaca-use-package no-littering)
 
 ;; Keep customization settings in a temporary ***REMOVED***le (thanks Ambrevar!)
 ;(setq custom-***REMOVED***le
@@ -44,8 +44,7 @@
 ;    (expand-***REMOVED***le-name (format "emacs-custom-%s.el" (user-uid)) temporary-***REMOVED***le-directory)))
 ;(load custom-***REMOVED***le t)
 
-(use-package exec-path-from-shell
-  :defer 1
+(elpaca-use-package exec-path-from-shell
   :con***REMOVED***g (cond ((daemonp) (exec-path-from-shell-initialize))
                 ((memq window-system '(mac ns x)) (exec-path-from-shell-initialize))))
 
@@ -57,25 +56,20 @@
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(use-package which-key
-  ;; :init 
-  :diminish which-key-mode
-  :hook (after-init . which-key-mode)
+(elpaca-use-package which-key
+  :hook (emacs-startup . which-key-mode)
+  :init
+  (setq which-key-idle-delay 0.25))
+
+(elpaca-use-package general
+  :demand t
   :con***REMOVED***g
-  (setq which-key-idle-delay 0.3))
+  (progn
+    (general-create-de***REMOVED***ner js/leader-key-def
+      :pre***REMOVED***x "C-c"
+      :global-pre***REMOVED***x "H-SPC")
 
-(use-package general
-  :defer 0.1
-  :con***REMOVED***g
-  (general-create-de***REMOVED***ner js/leader-key-def
-    :pre***REMOVED***x "C-c"
-    :global-pre***REMOVED***x "H-SPC"))
-
-(use-package use-package-chords
-  :disabled
-  :con***REMOVED***g (key-chord-mode 1))
-
-(js/leader-key-def
+    (js/leader-key-def
       "f"   '(:ignore t :which-key "***REMOVED***les")
       "ff"  '(***REMOVED***nd-***REMOVED***le :which-key "open ***REMOVED***le")
       "fs"  'save-buffer
@@ -86,7 +80,11 @@
       "bl"  '(consult-buffer :which-key "list buffers")
       "Pa"  '(pro***REMOVED***ler-start :which-key "pro***REMOVED***ler start")
       "Pe"  '(pro***REMOVED***ler-stop :which-key "pro***REMOVED***ler stop")
-      "Pr"  '(pro***REMOVED***ler-report :which-key "pro***REMOVED***ler report"))
+      "Pr"  '(pro***REMOVED***ler-report :which-key "pro***REMOVED***ler report"))))
+
+(elpaca-use-package use-package-chords
+  :disabled
+  :con***REMOVED***g (key-chord-mode 1))
 
 (pixel-scroll-precision-mode)
 
@@ -237,12 +235,11 @@
   ;; Load the theme of your choice:
   )
 
-(use-package ef-themes
+(elpaca-use-package ef-themes
   :hook (emacs-startup . (lambda ()
                            (progn
                              (mapc #'disable-theme custom-enabled-themes)
-                             (ef-themes-select 'ef-autumn))))
-  :straight (:host github :repo "protesilaos/ef-themes"))
+                             (ef-themes-select 'ef-autumn)))))
 
 (defun js/change-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
@@ -253,7 +250,7 @@
 
 (add-hook 'ns-system-appearance-change-functions #'js/change-theme)
 
-(use-package doom-themes
+(elpaca-use-package doom-themes
 	;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
 	:con***REMOVED***g
 	;; make fringe match the bg
@@ -275,18 +272,18 @@
 (set-frame-parameter (selected-frame) 'alpha '(100 100))
 (add-to-list 'default-frame-alist '(alpha 100 100))
 
-(use-package solaire-mode
+(elpaca-use-package solaire-mode
   :con***REMOVED***g
   (solaire-global-mode +1))
 
 (setq fancy-splash-image (concat default-directory ".emacs.d/img/emacs-e-1-smaller.svg"))
 
-(use-package emojify
+(elpaca-use-package emojify
   :hook (erc-mode . emojify-mode)
   :commands emojify-mode)
 
-(use-package mood-line
-  :hook (after-init . mood-line-mode))
+(elpaca-use-package mood-line
+  :hook (emacs-startup . mood-line-mode))
 
 ;; (defun js/doom-modeline--font-height ()
 ;;   "Calculate the actual char height of the mode-line."
@@ -294,14 +291,14 @@
 
 ;; (advice-add #'doom-modeline--font-height :override #'js/doom-modeline--font-height)
 
-(use-package minions
+(elpaca-use-package minions
   :con***REMOVED***g
   (minions-mode 1)
   ;; :after doom-modeline
   ;; :hook (doom-modeline-mode . minions-mode)
   )
 
-(use-package diminish)
+(elpaca-use-package diminish)
 
 (add-hook 'emacs-startup-hook (lambda ()
                                 (recentf-mode 1)
@@ -316,8 +313,9 @@
   (load user-init-***REMOVED***le nil 'nomessage)
   (message "Reloading init.el... done."))
 
- (use-package restart-emacs
-   :general
+ (elpaca-use-package restart-emacs
+   :defer 1
+   :con***REMOVED***g
    (js/leader-key-def
      "q"   '(:ignore t :which-key "quit")
      "qq"  '(save-buffers-kill-emacs :which-key "quit emacs")
@@ -360,9 +358,19 @@
 
 (setq kill-do-not-save-duplicates t)
 
-(use-package tramp)
-(setq tramp-default-method "ssh"
-      tramp-verbose 0)
+(defmacro use-feature (name &rest args)
+  "Like `use-package' but accounting for asynchronous installation.
+NAME and ARGS are in `use-package'."
+  (declare (indent defun))
+  `(elpaca nil (use-package ,name
+                 :ensure nil
+                 ,@args)))
+
+(use-feature tramp
+  :defer t
+  :con***REMOVED***g
+  (setq tramp-default-method "ssh"
+        tramp-verbose 0))
 
 (defun my/vc-off-if-remote ()
   (if (***REMOVED***le-remote-p (buffer-***REMOVED***le-name))
@@ -399,9 +407,11 @@
 
 (use-package consult-dir
   :bind (("C-x C-d" . consult-dir)
-         :map vertico-map 
+         :map vertico-map
          ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-***REMOVED***le)))
+         ("C-x C-j" . consult-dir-jump-***REMOVED***le))
+  :con***REMOVED***g
+  (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t))
 
 (use-package yasnippet-snippets
   :after (yasnippet))
@@ -483,6 +493,8 @@ folder, otherwise delete a word"
     (backward-kill-word arg)))
 
 (elpaca-use-package vertico
+  :defer 0.1
+  ;:hook (emacs-startup . vertico-mode)
   :bind (:map vertico-map
               ("C-j" . vertico-next)
               ("C-k" . vertico-previous)
@@ -493,12 +505,7 @@ folder, otherwise delete a word"
               ("M-h" . js/minibuffer-backward-kill))
   :custom
   (vertico-cycle nil)
-  ;;:custom-face
-  ;;for doom-one use #3a3f5a
-  ;;(vertico-current ((t (:background "#3c3836"))))
   :con***REMOVED***g
-  (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous)
-  :init
   (vertico-mode))
 
 (use-package savehist
@@ -796,22 +803,22 @@ folder, otherwise delete a word"
   :bind ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
   :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-
-(js/leader-key-def
-  "g"   '(:ignore t :which-key "git")
-  "gs"  'magit-status
-  "gd"  'magit-diff-unstaged
-  "gc"  'magit-branch-or-checkout
-  "gl"   '(:ignore t :which-key "log")
-  "glc" 'magit-log-current
-  "glf" 'magit-log-buffer-***REMOVED***le
-  "gb"  'magit-branch
-  "gP"  'magit-push-current
-  "gp"  'magit-pull-branch
-  "gf"  'magit-fetch
-  "gF"  'magit-fetch-all
-  "gr"  'magit-rebase)
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  :con***REMOVED***g
+  (js/leader-key-def
+    "g"   '(:ignore t :which-key "git")
+    "gs"  'magit-status
+    "gd"  'magit-diff-unstaged
+    "gc"  'magit-branch-or-checkout
+    "gl"   '(:ignore t :which-key "log")
+    "glc" 'magit-log-current
+    "glf" 'magit-log-buffer-***REMOVED***le
+    "gb"  'magit-branch
+    "gP"  'magit-push-current
+    "gp"  'magit-pull-branch
+    "gf"  'magit-fetch
+    "gF"  'magit-fetch-all
+    "gr"  'magit-rebase))
 
 (use-package forge
   :after (magit))
@@ -831,10 +838,10 @@ folder, otherwise delete a word"
 
 (use-package why-this)
 
-(use-package project
+(use-feature project
+  :defer 1
   :con***REMOVED***g
   (add-to-list 'project-switch-commands '(magit-status "Magit status" ?m))
-  :general
   (js/leader-key-def
     "p"   '(:ignore t :which-key "project")
     "pf"  'project-***REMOVED***nd-***REMOVED***le
@@ -845,8 +852,7 @@ folder, otherwise delete a word"
     "pd"  'project-dired
     "pb"  'project-switch-to-buffer))
 
-(use-package treemacs
-  :defer 1.5
+(elpaca-use-package treemacs
   :con***REMOVED***g
   (progn
     (js/leader-key-def
@@ -962,7 +968,7 @@ folder, otherwise delete a word"
 
 (use-package docker
   :ensure t
-  :general
+  :con***REMOVED***g
   (js/leader-key-def
     "c" 'docker))
 
@@ -1025,7 +1031,7 @@ folder, otherwise delete a word"
    ("H-s"   . 'avy-goto-char-timer)
    ("M-g h" . 'avy-org-goto-heading-timer)
    ("M-g l" . 'avy-goto-line))
-  :general
+  :con***REMOVED***g
   (js/leader-key-def
     "j"   '(:ignore t :which-key "jump")
     "jt"  '(avy-goto-char-timer :which-key "timer"))
@@ -1083,19 +1089,17 @@ folder, otherwise delete a word"
 
 (use-package ag)
 
-(use-package dogears
-  :straight (:host github :type git :repo "alphapapa/dogears.el")
-  :defer 3
+(elpaca-use-package (dogears :host github :repo "alphapapa/dogears.el" :protocol ssh)
   :con***REMOVED***g
-  (dogears-mode)
-  :general
-  (js/leader-key-def
-    "d"   '(:ignore t :which-key "dogears")
-    "dg"  '(dogears-go :which-key "go")
-    "db"  '(dogears-back :which-key "back")
-    "df"  '(dogears-forward :which-key "forward")
-    "dl"  '(dogears-list :which-key "list")
-    "ds"  '(dogears-sidebar :which-key "sidebar")))
+  (progn
+    (dogears-mode)
+    (js/leader-key-def
+      "d"   '(:ignore t :which-key "dogears")
+      "dg"  '(dogears-go :which-key "go")
+      "db"  '(dogears-back :which-key "back")
+      "df"  '(dogears-forward :which-key "forward")
+      "dl"  '(dogears-list :which-key "list")
+      "ds"  '(dogears-sidebar :which-key "sidebar"))))
 
 (use-package pomm
   :con***REMOVED***g
@@ -1105,7 +1109,7 @@ folder, otherwise delete a word"
 (use-package denote)
 
 (use-package detached
-  :init
+  :con***REMOVED***g
   (detached-init)
   :bind (;; Replace `async-shell-command' with `detached-shell-command'
          ([remap async-shell-command] . detached-shell-command)
@@ -1209,7 +1213,7 @@ folder, otherwise delete a word"
 					;; ol-eww
 					))
 	:hook (org-mode . js/org-mode-setup)
-	:general
+	:con***REMOVED***g
 	(js/leader-key-def
 		"o"   '(:ignore t :which-key "org")
 		"ot"  '(org-babel-tangle :which-key "tangle")
@@ -1252,8 +1256,7 @@ folder, otherwise delete a word"
 	 (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
 	 (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
 	 (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-	 (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
-	)
+	 (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
 
 (use-package org-modern
   :hook ((org-mode . org-modern-mode)
@@ -1270,7 +1273,7 @@ folder, otherwise delete a word"
 
 (use-package org-pomodoro
   ;:after org-mode
-  :general
+  :con***REMOVED***g
   (js/leader-key-def
     "op"  '(org-pomodoro :which-key "pomodoro")))
 
@@ -1319,18 +1322,18 @@ folder, otherwise delete a word"
 (use-package org-roam
   :custom
   (org-roam-directory (***REMOVED***le-truename "/Volumes/GoogleDrive/My Drive/Org/org-roam"))
-  :general
-  (js/leader-key-def
-    "or"    '(:ignore t :which-key "org-roam")
-    "orb"   '(org-roam-buffer-toggle :which-key "toggle-buffer")
-    "orf"   '(org-roam-node-***REMOVED***nd :which-key "***REMOVED***nd-node")
-    "org"   '(org-roam-graph :which-key "graph")
-    "ori"   '(org-roam-node-insert :which-key "insert-node")
-    "orc"   '(org-roam-capture :which-key "capture")
-    "ort"  '(org-roam-dailies-capture-today :which-key "capture-today"))
   :con***REMOVED***g
-  (setq org-roam-v2-ack t)
-  (org-roam-setup))
+  (progn
+    (setq org-roam-v2-ack t)
+    (org-roam-setup)
+    (js/leader-key-def
+      "or"    '(:ignore t :which-key "org-roam")
+      "orb"   '(org-roam-buffer-toggle :which-key "toggle-buffer")
+      "orf"   '(org-roam-node-***REMOVED***nd :which-key "***REMOVED***nd-node")
+      "org"   '(org-roam-graph :which-key "graph")
+      "ori"   '(org-roam-node-insert :which-key "insert-node")
+      "orc"   '(org-roam-capture :which-key "capture")
+      "ort"  '(org-roam-dailies-capture-today :which-key "capture-today"))))
 
 (use-package org-brain
   :init
