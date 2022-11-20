@@ -18,7 +18,6 @@
   - [[#which-key][which-key]]
   - [[#leader-bindings-with-generalel][Leader bindings with general.el]]
   - [[#enable-keychord-bind-with-use-package][Enable keychord bind with use-package]]
-  - [[#custom-keybindings-with-generalel][Custom keybindings with General.el]]
 - [[#general-con***REMOVED***guration][General con***REMOVED***guration]]
   - [[#improve-scrolling][Improve scrolling]]
   - [[#line-numbers][Line numbers]]
@@ -208,7 +207,7 @@
       url-history-***REMOVED***le (expand-***REMOVED***le-name "url/history" user-emacs-directory))
   
   ;; Use no-littering to automatically set common paths to the new user-emacs-directory
-  (use-package no-littering)
+  (elpaca-use-package no-littering)
   
   ;; Keep customization settings in a temporary ***REMOVED***le (thanks Ambrevar!)
   ;(setq custom-***REMOVED***le
@@ -220,8 +219,7 @@
 
 * Setup path from shell
 #+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :defer 1
+  (elpaca-use-package exec-path-from-shell
     :con***REMOVED***g (cond ((daemonp) (exec-path-from-shell-initialize))
                   ((memq window-system '(mac ns x)) (exec-path-from-shell-initialize))))
 #+end_src
@@ -243,34 +241,23 @@
 
 ** which-key
 #+begin_src emacs-lisp
-  (use-package which-key
-    ;; :init 
-    :diminish which-key-mode
-    :hook (after-init . which-key-mode)
-    :con***REMOVED***g
-    (setq which-key-idle-delay 0.3))
+  (elpaca-use-package which-key
+    :hook (emacs-startup . which-key-mode)
+    :init
+    (setq which-key-idle-delay 0.25))
 #+end_src
 
 ** Leader bindings with general.el
 #+begin_src emacs-lisp
-  (use-package general
-    :defer 0.1
+  (elpaca-use-package general
+    :demand t
     :con***REMOVED***g
-    (general-create-de***REMOVED***ner js/leader-key-def
-      :pre***REMOVED***x "C-c"
-      :global-pre***REMOVED***x "H-SPC"))
-#+end_src
+    (progn
+      (general-create-de***REMOVED***ner js/leader-key-def
+        :pre***REMOVED***x "C-c"
+        :global-pre***REMOVED***x "H-SPC")
 
-** Enable keychord bind with use-package
-#+begin_src emacs-lisp
-  (use-package use-package-chords
-    :disabled
-    :con***REMOVED***g (key-chord-mode 1))
-#+end_src
-
-** Custom keybindings with General.el
-#+begin_src emacs-lisp
-  (js/leader-key-def
+      (js/leader-key-def
         "f"   '(:ignore t :which-key "***REMOVED***les")
         "ff"  '(***REMOVED***nd-***REMOVED***le :which-key "open ***REMOVED***le")
         "fs"  'save-buffer
@@ -281,7 +268,14 @@
         "bl"  '(consult-buffer :which-key "list buffers")
         "Pa"  '(pro***REMOVED***ler-start :which-key "pro***REMOVED***ler start")
         "Pe"  '(pro***REMOVED***ler-stop :which-key "pro***REMOVED***ler stop")
-        "Pr"  '(pro***REMOVED***ler-report :which-key "pro***REMOVED***ler report"))
+        "Pr"  '(pro***REMOVED***ler-report :which-key "pro***REMOVED***ler report"))))
+#+end_src
+
+** Enable keychord bind with use-package
+#+begin_src emacs-lisp
+  (elpaca-use-package use-package-chords
+    :disabled
+    :con***REMOVED***g (key-chord-mode 1))
 #+end_src
 
 * General con***REMOVED***guration
@@ -446,12 +440,11 @@
 
 *** ef-themes
 #+begin_src emacs-lisp
-  (use-package ef-themes
+  (elpaca-use-package ef-themes
     :hook (emacs-startup . (lambda ()
                              (progn
                                (mapc #'disable-theme custom-enabled-themes)
-                               (ef-themes-select 'ef-autumn))))
-    :straight (:host github :repo "protesilaos/ef-themes"))
+                               (ef-themes-select 'ef-autumn)))))
 #+end_src
 **** System appearance change
 #+begin_src emacs-lisp
@@ -467,7 +460,7 @@
 
 *** Doom theme
 #+begin_src emacs-lisp
-	(use-package doom-themes
+	(elpaca-use-package doom-themes
 		;; :hook (emacs-startup . (lambda () (load-theme 'doom-one t)))
 		:con***REMOVED***g
 		;; make fringe match the bg
@@ -495,7 +488,7 @@
 
 ** Solaire mode
 #+begin_src emacs-lisp
-  (use-package solaire-mode
+  (elpaca-use-package solaire-mode
     :con***REMOVED***g
     (solaire-global-mode +1))
 #+end_src
@@ -508,7 +501,7 @@ Image found from https://github.com/tecosaur/emacs-con***REMOVED***g/blob/master
 
 ** Emojis in buffers
 #+begin_src emacs-lisp
-  (use-package emojify
+  (elpaca-use-package emojify
     :hook (erc-mode . emojify-mode)
     :commands emojify-mode)
 #+end_src
@@ -516,8 +509,8 @@ Image found from https://github.com/tecosaur/emacs-con***REMOVED***g/blob/master
 ** Modeline
 Run =all-the-icons-install-fonts= after installing this package
 #+begin_src emacs-lisp
-  (use-package mood-line
-    :hook (after-init . mood-line-mode))
+  (elpaca-use-package mood-line
+    :hook (emacs-startup . mood-line-mode))
 #+end_src
 
 Change modeline font size to match modeline's height
@@ -532,7 +525,7 @@ Change modeline font size to match modeline's height
 
 *** Minions
 #+begin_src emacs-lisp  
-  (use-package minions
+  (elpaca-use-package minions
     :con***REMOVED***g
     (minions-mode 1)
     ;; :after doom-modeline
@@ -542,7 +535,7 @@ Change modeline font size to match modeline's height
 
 *** Mode diminishing
 #+begin_src emacs-lisp
-  (use-package diminish)
+  (elpaca-use-package diminish)
 #+end_src
 
 ** Recent ***REMOVED***les
@@ -563,8 +556,9 @@ Change modeline font size to match modeline's height
     (load user-init-***REMOVED***le nil 'nomessage)
     (message "Reloading init.el... done."))
 
-   (use-package restart-emacs
-     :general
+   (elpaca-use-package restart-emacs
+     :defer 1
+     :con***REMOVED***g
      (js/leader-key-def
        "q"   '(:ignore t :which-key "quit")
        "qq"  '(save-buffers-kill-emacs :which-key "quit emacs")
@@ -638,9 +632,19 @@ Needed only in emacs-mac but not in emacs-plus
 
 ** Tramp
 #+begin_src emacs-lisp
-  (use-package tramp)
-  (setq tramp-default-method "ssh"
-        tramp-verbose 0)
+  (defmacro use-feature (name &rest args)
+    "Like `use-package' but accounting for asynchronous installation.
+  NAME and ARGS are in `use-package'."
+    (declare (indent defun))
+    `(elpaca nil (use-package ,name
+                   :ensure nil
+                   ,@args)))
+
+  (use-feature tramp
+    :defer t
+    :con***REMOVED***g
+    (setq tramp-default-method "ssh"
+          tramp-verbose 0))
 
   (defun my/vc-off-if-remote ()
     (if (***REMOVED***le-remote-p (buffer-***REMOVED***le-name))
@@ -679,28 +683,30 @@ https://github.com/oantolin/orderless
 "Consult provides various practical commands based on the Emacs completion function completing-read, which allows to quickly select an item from a list of candidates with completion."
 https://github.com/minad/consult
 #+begin_src emacs-lisp
-  (defun js/get-project-root ()
-    (when-let (project (project-current))
-      (car (project-roots project))))
+    (defun js/get-project-root ()
+      (when-let (project (project-current))
+        (car (project-roots project))))
 
-  (use-package consult
-    :bind (("C-s" . consult-line)
-     ("C-M-l" . consult-imenu)
-     ("M-p" . consult-yank-from-kill-ring)
-     :map minibuffer-local-map
-     ("C-r" . consult-history))
-    :custom
-    (consult-project-root-function #'js/get-project-root)
-    (completion-in-region-function #'consult-completion-in-region))
+    (use-package consult
+      :bind (("C-s" . consult-line)
+       ("C-M-l" . consult-imenu)
+       ("M-p" . consult-yank-from-kill-ring)
+       :map minibuffer-local-map
+       ("C-r" . consult-history))
+      :custom
+      (consult-project-root-function #'js/get-project-root)
+      (completion-in-region-function #'consult-completion-in-region))
 #+end_src
 
 *** Consult-dir
 #+begin_src emacs-lisp
   (use-package consult-dir
     :bind (("C-x C-d" . consult-dir)
-           :map vertico-map 
+           :map vertico-map
            ("C-x C-d" . consult-dir)
-           ("C-x C-j" . consult-dir-jump-***REMOVED***le)))
+           ("C-x C-j" . consult-dir-jump-***REMOVED***le))
+    :con***REMOVED***g
+    (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t))
 #+end_src
 
 ** Yasnippet
@@ -796,6 +802,8 @@ https://github.com/oantolin/embark
       (backward-kill-word arg)))
 
   (elpaca-use-package vertico
+    :defer 0.1
+    ;:hook (emacs-startup . vertico-mode)
     :bind (:map vertico-map
                 ("C-j" . vertico-next)
                 ("C-k" . vertico-previous)
@@ -806,12 +814,7 @@ https://github.com/oantolin/embark
                 ("M-h" . js/minibuffer-backward-kill))
     :custom
     (vertico-cycle nil)
-    ;;:custom-face
-    ;;for doom-one use #3a3f5a
-    ;;(vertico-current ((t (:background "#3c3836"))))
     :con***REMOVED***g
-    (de***REMOVED***ne-key vertico-map (kbd "C-k") 'vertico-previous)
-    :init
     (vertico-mode))
 #+end_src
 
@@ -1121,48 +1124,48 @@ hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_
 
 ** Pulsar
 #+begin_src emacs-lisp
-          (use-package pulsar
-            :straight (:host gitlab :type git :repo "protesilaos/pulsar")
-            :con***REMOVED***g
-            (customize-set-variable
-             'pulsar-pulse-functions ; Read the doc string for why not `setq'
-             '(recenter-top-bottom
-               move-to-window-line-top-bottom
-               reposition-window
-               bookmark-jump
-               other-window
-               delete-window
-               delete-other-windows
-               forward-page
-               backward-page
-               scroll-up-command
-               scroll-down-command
-               windmove-right
-               windmove-left
-               windmove-up
-               windmove-down
-               windmove-swap-states-right
-               windmove-swap-states-left
-               windmove-swap-states-up
-               windmove-swap-states-down
-               tab-new
-               tab-close
-               tab-next
-               org-next-visible-heading
-               org-previous-visible-heading
-               org-forward-heading-same-level
-               org-backward-heading-same-level
-               outline-backward-same-level
-               outline-forward-same-level
-               outline-next-visible-heading
-               outline-previous-visible-heading
-               outline-up-heading))
+  (use-package pulsar
+    :straight (:host gitlab :type git :repo "protesilaos/pulsar")
+    :con***REMOVED***g
+    (customize-set-variable
+     'pulsar-pulse-functions ; Read the doc string for why not `setq'
+     '(recenter-top-bottom
+       move-to-window-line-top-bottom
+       reposition-window
+       bookmark-jump
+       other-window
+       delete-window
+       delete-other-windows
+       forward-page
+       backward-page
+       scroll-up-command
+       scroll-down-command
+       windmove-right
+       windmove-left
+       windmove-up
+       windmove-down
+       windmove-swap-states-right
+       windmove-swap-states-left
+       windmove-swap-states-up
+       windmove-swap-states-down
+       tab-new
+       tab-close
+       tab-next
+       org-next-visible-heading
+       org-previous-visible-heading
+       org-forward-heading-same-level
+       org-backward-heading-same-level
+       outline-backward-same-level
+       outline-forward-same-level
+       outline-next-visible-heading
+       outline-previous-visible-heading
+       outline-up-heading))
 
-            (setq pulsar-pulse t)
-            (setq pulsar-delay 0.055)
-            (setq pulsar-iterations 10)
-            (setq pulsar-face 'pulsar-magenta)
-            (setq pulsar-highlight-face 'pulsar-yellow))
+    (setq pulsar-pulse t)
+    (setq pulsar-delay 0.055)
+    (setq pulsar-iterations 10)
+    (setq pulsar-face 'pulsar-magenta)
+    (setq pulsar-highlight-face 'pulsar-yellow))
 #+end_src
 
 ** Undo-hl
@@ -1233,22 +1236,22 @@ hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_
     :bind ("C-M-;" . magit-status)
     :commands (magit-status magit-get-current-branch)
     :custom
-    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-  
-  (js/leader-key-def
-    "g"   '(:ignore t :which-key "git")
-    "gs"  'magit-status
-    "gd"  'magit-diff-unstaged
-    "gc"  'magit-branch-or-checkout
-    "gl"   '(:ignore t :which-key "log")
-    "glc" 'magit-log-current
-    "glf" 'magit-log-buffer-***REMOVED***le
-    "gb"  'magit-branch
-    "gP"  'magit-push-current
-    "gp"  'magit-pull-branch
-    "gf"  'magit-fetch
-    "gF"  'magit-fetch-all
-    "gr"  'magit-rebase)
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+    :con***REMOVED***g
+    (js/leader-key-def
+      "g"   '(:ignore t :which-key "git")
+      "gs"  'magit-status
+      "gd"  'magit-diff-unstaged
+      "gc"  'magit-branch-or-checkout
+      "gl"   '(:ignore t :which-key "log")
+      "glc" 'magit-log-current
+      "glf" 'magit-log-buffer-***REMOVED***le
+      "gb"  'magit-branch
+      "gP"  'magit-push-current
+      "gp"  'magit-pull-branch
+      "gf"  'magit-fetch
+      "gF"  'magit-fetch-all
+      "gr"  'magit-rebase))
 #+end_src
 
 ** Forge
@@ -1282,10 +1285,10 @@ hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_
 
 ** Project.el
 #+begin_src emacs-lisp
-  (use-package project
+  (use-feature project
+    :defer 1
     :con***REMOVED***g
     (add-to-list 'project-switch-commands '(magit-status "Magit status" ?m))
-    :general
     (js/leader-key-def
       "p"   '(:ignore t :which-key "project")
       "pf"  'project-***REMOVED***nd-***REMOVED***le
@@ -1299,8 +1302,7 @@ hlissner has [[https://www.reddit.com/r/emacs/comments/f3ed3r/how_is_doom_emacs_
 
 ** Treemacs
 #+begin_src emacs-lisp
-  (use-package treemacs
-    :defer 1.5
+  (elpaca-use-package treemacs
     :con***REMOVED***g
     (progn
       (js/leader-key-def
@@ -1451,7 +1453,7 @@ Javascript and Typescript
 #+begin_src emacs-lisp
   (use-package docker
     :ensure t
-    :general
+    :con***REMOVED***g
     (js/leader-key-def
       "c" 'docker))
 #+end_src
@@ -1559,7 +1561,7 @@ Javascript and Typescript
      ("H-s"   . 'avy-goto-char-timer)
      ("M-g h" . 'avy-org-goto-heading-timer)
      ("M-g l" . 'avy-goto-line))
-    :general
+    :con***REMOVED***g
     (js/leader-key-def
       "j"   '(:ignore t :which-key "jump")
       "jt"  '(avy-goto-char-timer :which-key "timer"))
@@ -1650,19 +1652,17 @@ Javascript and Typescript
 
 *** Dogears.el
 #+begin_src emacs-lisp
-  (use-package dogears
-    :straight (:host github :type git :repo "alphapapa/dogears.el")
-    :defer 3
+  (elpaca-use-package (dogears :host github :repo "alphapapa/dogears.el" :protocol ssh)
     :con***REMOVED***g
-    (dogears-mode)
-    :general
-    (js/leader-key-def
-      "d"   '(:ignore t :which-key "dogears")
-      "dg"  '(dogears-go :which-key "go")
-      "db"  '(dogears-back :which-key "back")
-      "df"  '(dogears-forward :which-key "forward")
-      "dl"  '(dogears-list :which-key "list")
-      "ds"  '(dogears-sidebar :which-key "sidebar")))
+    (progn
+      (dogears-mode)
+      (js/leader-key-def
+        "d"   '(:ignore t :which-key "dogears")
+        "dg"  '(dogears-go :which-key "go")
+        "db"  '(dogears-back :which-key "back")
+        "df"  '(dogears-forward :which-key "forward")
+        "dl"  '(dogears-list :which-key "list")
+        "ds"  '(dogears-sidebar :which-key "sidebar"))))
 #+end_src
 
 *** Pomm
@@ -1681,7 +1681,7 @@ Javascript and Typescript
 *** detached
 #+begin_src emacs-lisp
   (use-package detached
-    :init
+    :con***REMOVED***g
     (detached-init)
     :bind (;; Replace `async-shell-command' with `detached-shell-command'
            ([remap async-shell-command] . detached-shell-command)
@@ -1803,7 +1803,7 @@ Javascript and Typescript
 								;; ol-eww
 								))
 				:hook (org-mode . js/org-mode-setup)
-				:general
+				:con***REMOVED***g
 				(js/leader-key-def
 					"o"   '(:ignore t :which-key "org")
 					"ot"  '(org-babel-tangle :which-key "tangle")
@@ -1846,8 +1846,7 @@ Javascript and Typescript
 				 (org-level-5 ((t (:inherit 'outline-5 :weight medium :height 1.1))))
 				 (org-level-6 ((t (:inherit 'outline-6 :weight medium :height 1.1))))
 				 (org-level-7 ((t (:inherit 'outline-7 :weight medium :height 1.1))))
-				 (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1))))
-				)
+				 (org-level-8 ((t (:inherit 'outline-8 :weight medium :height 1.1)))))
  #+end_src
 
 ** org-modern
@@ -1875,7 +1874,7 @@ Javascript and Typescript
 #+begin_src emacs-lisp
   (use-package org-pomodoro
     ;:after org-mode
-    :general
+    :con***REMOVED***g
     (js/leader-key-def
       "op"  '(org-pomodoro :which-key "pomodoro")))
 #+end_src
@@ -1936,18 +1935,18 @@ Javascript and Typescript
   (use-package org-roam
     :custom
     (org-roam-directory (***REMOVED***le-truename "/Volumes/GoogleDrive/My Drive/Org/org-roam"))
-    :general
-    (js/leader-key-def
-      "or"    '(:ignore t :which-key "org-roam")
-      "orb"   '(org-roam-buffer-toggle :which-key "toggle-buffer")
-      "orf"   '(org-roam-node-***REMOVED***nd :which-key "***REMOVED***nd-node")
-      "org"   '(org-roam-graph :which-key "graph")
-      "ori"   '(org-roam-node-insert :which-key "insert-node")
-      "orc"   '(org-roam-capture :which-key "capture")
-      "ort"  '(org-roam-dailies-capture-today :which-key "capture-today"))
     :con***REMOVED***g
-    (setq org-roam-v2-ack t)
-    (org-roam-setup))
+    (progn
+      (setq org-roam-v2-ack t)
+      (org-roam-setup)
+      (js/leader-key-def
+        "or"    '(:ignore t :which-key "org-roam")
+        "orb"   '(org-roam-buffer-toggle :which-key "toggle-buffer")
+        "orf"   '(org-roam-node-***REMOVED***nd :which-key "***REMOVED***nd-node")
+        "org"   '(org-roam-graph :which-key "graph")
+        "ori"   '(org-roam-node-insert :which-key "insert-node")
+        "orc"   '(org-roam-capture :which-key "capture")
+        "ort"  '(org-roam-dailies-capture-today :which-key "capture-today"))))
 #+end_src
 
 ** Org-brain
