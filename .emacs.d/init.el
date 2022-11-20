@@ -379,11 +379,6 @@ NAME and ARGS are in `use-package'."
 
 (setq vc-handled-backends '(Git))
 
-(use-package consult-tramp
-  :straight (:host github :repo "Ladicle/consult-tramp")
-  :con***REMOVED***g
-  (setq consult-tramp-method "ssh"))
-
 (use-package orderless
   :demand t
   :init
