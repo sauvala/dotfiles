@@ -794,15 +794,16 @@ folder, otherwise delete a word"
   :init
   (global-undo-tree-mode 1))
 
-(use-package magit
-  :bind ("C-M-;" . magit-status)
+(elpaca-use-package magit
+  :bind
+  ("C-M-;" . magit-status)
   :commands (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-  :con***REMOVED***g
+  :general
   (js/leader-key-def
     "g"   '(:ignore t :which-key "git")
-    "gs"  'magit-status
+    "gs" 'magit-status
     "gd"  'magit-diff-unstaged
     "gc"  'magit-branch-or-checkout
     "gl"   '(:ignore t :which-key "log")
