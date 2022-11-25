@@ -5,6 +5,9 @@
 (setq inhibit-compacting-font-caches t)
 (setq read-process-output-max 65536) ; (* 64 1024)
 
+;;; Prefer loading newest compiled .el ***REMOVED***le
+(customize-set-variable 'load-prefer-newer noninteractive)
+
 ;;; Packages
 (setq package-enable-at-startup nil)
 
@@ -29,13 +32,13 @@
       visible-bell t
       frame-inhibit-implied-resize t
       initial-major-mode 'fundamental-mode
+      initial-scratch-message nil
       ns-use-proxy-icon nil)
 
 
 
-(add-hook 'after-init-hook (lambda () (load-theme 'doom-solarized-dark)))
+;; (add-hook 'after-init-hook (lambda () (load-theme 'doom-solarized-dark)))
 
-(setq initial-scratch-message nil)
 ;; (customize-set-variable 'initial-major-mode 'fundamental-mode)
 
 
