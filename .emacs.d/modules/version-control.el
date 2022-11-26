@@ -1,4 +1,4 @@
-;;;; version-control.el --- Autocompile emacs-lisp code  -*- lexical-binding: t; -*-
+;;;; version-control.el -*- lexical-binding: t; -*-
 
 (elpaca-use-package magit)
 
