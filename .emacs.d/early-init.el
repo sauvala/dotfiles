@@ -37,6 +37,7 @@
       initial-scratch-message nil
       visible-bell t
       frame-inhibit-implied-resize t
+      frame-resize-pixelwise t
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil
       ns-use-proxy-icon nil)
