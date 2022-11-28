@@ -31,4 +31,12 @@
 (elpaca (elpaca :host github :repo "progfolio/elpaca"))
 (elpaca use-package (require 'use-package))
 
+(defmacro elpaca-use-feature (name &rest args)
+  "Like `use-package' but accounting for asynchronous installation.
+NAME and ARGS are in `use-package'."
+  (declare (indent defun))
+  `(elpaca nil (use-package ,name
+                 :ensure nil
+                 ,@args)))
+
 (provide 'package-management)
