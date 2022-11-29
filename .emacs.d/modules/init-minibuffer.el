@@ -1,4 +1,4 @@
-;;;; init-minibuffer.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
+;;;; init-minibuffer.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 (setq enable-recursive-minibuffers t)
 

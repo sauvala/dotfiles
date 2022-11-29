@@ -1,4 +1,4 @@
-;;;; init.el -*- lexical-binding: t -*- no-byte-compile: t -*-
+;;;; init.el -*- lexical-binding: t;  no-byte-compile: t; -*-
 (add-to-list 'load-path (expand-***REMOVED***le-name "modules" user-emacs-directory))
 
 ;; Load modules

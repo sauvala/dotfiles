@@ -1,4 +1,4 @@
-;;;; init-completion.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
+;;;; init-completion.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 (elpaca-use-package orderless
   :defer 0.1
