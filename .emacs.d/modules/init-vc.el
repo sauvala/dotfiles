@@ -1,6 +1,6 @@
 ;;;; init-vc.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
-(setq vc-follow-symlinks t)
+(customize-set-variable 'vc-follow-symlinks t)
 
 (elpaca-use-package magit)
 
