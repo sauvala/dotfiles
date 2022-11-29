@@ -1,18 +1,18 @@
-;;; early-init.el -*- lexical-binding: t; -*-
+;;;; early-init.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
 
-;;; Garbage collection and perf tuning
+;; Garbage collection and perf tuning
 (setq gc-cons-threshold (* 50 1000 1000))
 (setq read-process-output-max 65536) ; (* 64 1024)
 (setq inhibit-compacting-font-caches t)
 
-;;; Emacs lisp source/compiled preference
-;;; Prefer loading newest compiled .el ***REMOVED***le
-(customize-set-variable 'load-prefer-newer noninteractive)
+;; Emacs lisp source/compiled preference
+;; Prefer loading newest compiled .el ***REMOVED***le
+(customize-set-variable 'load-prefer-newer t)
 
-;;; Packages
+;; Packages
 (setq package-enable-at-startup nil)
 
-;;; UI
+;; UI
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)

@@ -1,4 +1,4 @@
-;;;; init-vc.el -*- lexical-binding: t; -*-
+;;;; init-vc.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
 
 (setq vc-follow-symlinks t)
 
