@@ -1,4 +1,4 @@
-;;;; init-org.el -*- lexical-binding: t; -*-
+;;;; init-org.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
 
 (elpaca-use-package org)
 
