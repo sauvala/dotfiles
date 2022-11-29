@@ -31,6 +31,8 @@
 (elpaca (elpaca :host github :repo "progfolio/elpaca"))
 (elpaca use-package (require 'use-package))
 
+(customize-set-variable 'use-package-always-defer t)
+
 (defmacro elpaca-use-feature (name &rest args)
   "Like `use-package' but accounting for asynchronous installation.
 NAME and ARGS are in `use-package'."
