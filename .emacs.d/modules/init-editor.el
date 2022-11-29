@@ -1,4 +1,4 @@
-;;;; init-editor.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
+;;;; init-editor.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 (setq create-lock***REMOVED***les nil
       make-backup-***REMOVED***les t

@@ -1,4 +1,4 @@
-;;;; init-macos.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
+;;;; init-macos.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 (when (featurep 'ns)
   (customize-set-variable 'ns-command-modi***REMOVED***er 'meta)

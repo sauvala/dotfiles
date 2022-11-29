@@ -1,4 +1,4 @@
-;;;; early-init.el -*- lexical-binding: t; -*- no-byte-compile: t -*-
+;;;; early-init.el -*- lexical-binding: t;  no-byte-compile: t; -*-
 
 ;; Garbage collection and perf tuning
 (setq gc-cons-threshold (* 50 1000 1000))
