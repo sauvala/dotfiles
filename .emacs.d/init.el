@@ -1,23 +1,26 @@
 ;;;; init.el -*- lexical-binding: t;  no-byte-compile: t; -*-
-(add-to-list 'load-path (expand-***REMOVED***le-name "modules" user-emacs-directory))
+
+;; Set ***REMOVED***le for customize
+(setq custom-***REMOVED***le (locate-user-emacs-***REMOVED***le "custom.el"))
+
+;; Keep customization settings in a separate ***REMOVED***le
+(setq custom-***REMOVED***le
+    (if (boundp 'server-socket-dir)
+        (expand-***REMOVED***le-name "custom.el" server-socket-dir)
+    (expand-***REMOVED***le-name (format "emacs-custom-%s.el" (user-uid)) temporary-***REMOVED***le-directory)))
+
+(load custom-***REMOVED***le t)
 
 ;; Load modules
-(require 'init-org)
+(add-to-list 'load-path (expand-***REMOVED***le-name "modules" user-emacs-directory))
+
 (require 'init-completion)
 (require 'init-minibuffer)
-(require 'init-vc)
 (require 'init-editor)
 (require 'init-macos)
-
-
-;; Try if disabling setting and loading custom.el helps
-
-;;(setq custom-***REMOVED***le (locate-user-emacs-***REMOVED***le "custom.el"))
-
-;; Load custom values
-;;(when (***REMOVED***le-exists-p custom-***REMOVED***le)
-;;  (load custom-***REMOVED***le))
+(require 'init-vc)
+(require 'init-org)
+(require 'init-ide)
 
 ;; Make GC pauses faster by decreasing the threshold
 (setq gc-cons-threshold (* 2 1000 1000))
-
