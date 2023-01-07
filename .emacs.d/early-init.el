@@ -46,7 +46,7 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
             (custom-set-faces
-             `(default ((t (:font "Iosevka Comfy 16"))))
+             `(default ((t (:font "Jetbrains Mono 16"))))
              `(***REMOVED***xed-pitch ((t (:inherit (default)))))
              `(***REMOVED***xed-pitch-serif ((t (:inherit (default)))))
              `(variable-pitch ((t (:font "Iosevka Comfy Duo 16")))))))
