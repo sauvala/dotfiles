@@ -13,10 +13,10 @@
 
 (elpaca-use-package consult
   :bind (("C-s" . consult-line)
-	       ("C-M-l" . consult-imenu)
-	       ("M-p" . consult-yank-from-kill-ring)
-	       :map minibuffer-local-map
-	       ("C-r" . consult-history))
+	 ("C-M-l" . consult-imenu)
+	 ("M-p" . consult-yank-from-kill-ring)
+	 :map minibuffer-local-map
+	 ("C-r" . consult-history))
   :custom
   (consult-project-root-function #'js/get-project-root)
   (completion-in-region-function #'consult-completion-in-region))
