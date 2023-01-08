@@ -35,7 +35,7 @@
   :init
   (setq which-key-idle-delay 0.25))
 
-(use-package corfu
+(elpaca-use-package corfu
   :hook ((prog-mode . corfu-mode)
          (shell-mode . corfu-mode)
          (eshell-mode . corfu-mode))
@@ -56,7 +56,7 @@
   (corfu-preview-current 'insert)
   (corfu-echo-documentation '(1.0 . 0.2))
   (corfu-preselect-***REMOVED***rst t)
-  :init
+  :con***REMOVED***g
   (global-corfu-mode))
 
 (elpaca-use-package corfu-doc
