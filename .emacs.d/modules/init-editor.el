@@ -25,10 +25,11 @@
   :hook prog-mode
   :delight highlight-indent-guides-mode
   :init
-  (setq highlight-indent-guides-method 'character
+  (setq highlight-indent-guides-method 'bitmap
         ;; default is \x2502 but it is very slow on Mac
-        highlight-indent-guides-character ?\xFFE8
-        highlight-indent-guides-responsive 'top))
+        ;;highlight-indent-guides-character ?\xFFE8
+        highlight-indent-guides-responsive 'top
+        highlight-indent-guides-bitmap-function 'highlight-indent-guides--bitmap-line))
 
 ;; Backups
 (customize-set-variable 'create-lock***REMOVED***les nil)
