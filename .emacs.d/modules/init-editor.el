@@ -42,7 +42,7 @@
 (customize-set-variable 'tramp-backup-directory-alist backup-directory-alist)
 
 ;; History
-(elpaca-use-package recentf
+(elpaca-use-feature recentf
   :hook (emacs-startup . recentf-mode)
   :custom
   (recentf-max-menu-items 25)
