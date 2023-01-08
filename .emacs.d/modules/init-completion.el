@@ -68,7 +68,7 @@
 (elpaca-use-package svg-lib)
 
 (elpaca-use-package kind-icon
-  :after corfu
+  :after (corfu)
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   ;; (kind-icon-blend-frac 0.08)
