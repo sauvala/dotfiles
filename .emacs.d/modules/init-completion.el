@@ -1,6 +1,6 @@
 ;;;; init-completion.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
-(use-package emacs-completion
+(elpaca-use-package emacs-completion
   :ensure nil
   :custom
   (completion-auto-help 'always))
