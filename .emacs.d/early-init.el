@@ -49,7 +49,7 @@
              `(default ((t (:font "Jetbrains Mono 16"))))
              `(***REMOVED***xed-pitch ((t (:inherit (default)))))
              `(***REMOVED***xed-pitch-serif ((t (:inherit (default)))))
-             `(variable-pitch ((t (:font "Iosevka Comfy Duo 16")))))))
+             `(variable-pitch ((t (:font "Iosevka SS14 16")))))))
 
 ;; Setup package management
 (add-to-list 'load-path (expand-***REMOVED***le-name "bootstrap" user-emacs-directory))
