@@ -21,6 +21,3 @@
 (require 'init-vc)
 (require 'init-org)
 (require 'init-ide)
-
-;; Make GC pauses faster by decreasing the threshold
-(setq gc-cons-threshold (* 2 1000 1000))
