@@ -27,9 +27,11 @@
   :hook (emacs-startup . marginalia-mode)
   :init (marginalia-mode))
 
-(elpaca-use-package
-    (all-the-icons-completion :host github :repo "MintSoup/all-the-icons-completion" :protocol ssh)
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
+(elpaca-use-package all-the-icons
+  :if (display-graphic-p))
+
+(elpaca-use-package (all-the-icons-completion :host github :repo "MintSoup/all-the-icons-completion" :protocol ssh)
+ :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
 
 (elpaca-use-package
     (el-mock :host github :repo "rejeep/el-mock.el"))
