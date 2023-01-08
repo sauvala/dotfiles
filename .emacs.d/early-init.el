@@ -5,6 +5,10 @@
 (setq read-process-output-max 65536) ; (* 64 1024)
 (setq inhibit-compacting-font-caches t)
 
+;; Make GC pauses faster by decreasing the threshold
+(add-hook 'emacs-startup-hook (lambda ()
+                                (customize-set-variable 'gc-cons-threshold (* 2 1000 1000))))
+
 ;; Emacs lisp source/compiled preference
 ;; Prefer loading newest compiled .el ***REMOVED***le
 (customize-set-variable 'load-prefer-newer t)
