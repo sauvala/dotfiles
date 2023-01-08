@@ -1,24 +1,25 @@
 ;;;; init-completion.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
-(elpaca-use-package orderless
-  :defer 0.1
-  :init
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((***REMOVED***le (styles . (partial-completion))))))
+(use-package emacs-completion
+  :ensure nil
+  :custom
+  (completion-auto-help 'always))
 
-(defun js/get-project-root ()
-  (when-let (project (project-current))
-    (car (project-roots project))))
+(elpaca-use-package orderless
+  :hook (emacs-startup . which-key-mode)
+  :init
+  (setq completion-category-defaults nil)
+  :custom
+  (completion-styles '(orderless))
+  (completion-category-overrides '((***REMOVED***le (styles . (partial-completion))))))
 
 (elpaca-use-package consult
   :bind (("C-s" . consult-line)
-	 ("C-M-l" . consult-imenu)
-	 ("M-p" . consult-yank-from-kill-ring)
-	 :map minibuffer-local-map
-	 ("C-r" . consult-history))
+	       ("C-M-l" . consult-imenu)
+	       ("M-p" . consult-yank-from-kill-ring)
+	       :map minibuffer-local-map
+	       ("C-r" . consult-history))
   :custom
-  (consult-project-root-function #'js/get-project-root)
   (completion-in-region-function #'consult-completion-in-region))
 
 (elpaca-use-package consult-dir
