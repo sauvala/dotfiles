@@ -66,10 +66,10 @@
   :diminish super-save-mode
   :con***REMOVED***g
   (super-save-mode +1)
-  (setq super-save-exclude '(".go"))
-  (setq super-save-remote-***REMOVED***les nil)
-  (setq auto-save-default nil)
   :custom
+  (super-save-exclude '(".go"))
+  (super-save-remote-***REMOVED***les nil)
+  (auto-save-default nil)
   (super-save-auto-save-when-idle t))
 
 ;; Center content
