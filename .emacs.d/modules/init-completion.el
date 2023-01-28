@@ -6,7 +6,7 @@
   (completion-auto-help 'always))
 
 (elpaca-use-package orderless
-  :hook (emacs-startup . which-key-mode)
+  :defer 1
   :init
   (setq completion-category-defaults nil)
   :custom
@@ -56,9 +56,7 @@
   (corfu-on-exact-match 'insert)
   (corfu-preview-current 'insert)
   (corfu-echo-documentation '(1.0 . 0.2))
-  (corfu-preselect-***REMOVED***rst t)
-  :con***REMOVED***g
-  (global-corfu-mode))
+  (corfu-preselect-***REMOVED***rst t))
 
 (elpaca-use-package corfu-doc
   :after (corfu)
