@@ -72,4 +72,23 @@
   :custom
   (super-save-auto-save-when-idle t))
 
+;; Center content
+(elpaca-use-package perfect-margin
+  :custom
+  (perfect-margin-visible-width 128)
+  ;; auto-center minibuffer windows
+  (perfect-margin-ignore-***REMOVED***lters nil)
+  ;; auto-center special windows
+  (perfect-margin-ignore-regexps nil)
+  :con***REMOVED***g
+  ;; enable perfect-mode
+  (perfect-margin-mode t)
+  ;; add additinal binding on margin area
+  (dolist (margin '("<left-margin> " "<right-margin> "))
+  (global-set-key (kbd (concat margin "<mouse-1>")) 'ignore)
+  (global-set-key (kbd (concat margin "<mouse-3>")) 'ignore)
+  (dolist (multiple '("" "double-" "triple-"))
+      (global-set-key (kbd (concat margin "<" multiple "wheel-up>")) 'mwheel-scroll)
+      (global-set-key (kbd (concat margin "<" multiple "wheel-down>")) 'mwheel-scroll))))
+
 (provide 'init-editor)
