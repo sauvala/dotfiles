@@ -17,10 +17,17 @@
   :bind (("C-s" . consult-line)
 	       ("C-M-l" . consult-imenu)
 	       ("M-p" . consult-yank-from-kill-ring)
+         ("C-c f r" . consult-recent-***REMOVED***le)
+         ("C-x b" . consult-buffer)
 	       :map minibuffer-local-map
 	       ("C-r" . consult-history))
   :custom
-  (completion-in-region-function #'consult-completion-in-region))
+  (completion-in-region-function #'consult-completion-in-region)
+  (xref-show-xrefs-function #'consult-xref)
+  (xref-show-de***REMOVED***nitions-function #'consult-xref)
+  :con***REMOVED***g
+  (require 'consult-imenu)
+  (require 'consult-xref))
 
 (elpaca-use-package consult-dir
   :after (consult)

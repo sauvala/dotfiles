@@ -22,7 +22,6 @@
 
 ;; Indentation guides
 (elpaca-use-package highlight-indent-guides
-  :hook prog-mode
   :delight highlight-indent-guides-mode
   :init
   (setq highlight-indent-guides-method 'bitmap
