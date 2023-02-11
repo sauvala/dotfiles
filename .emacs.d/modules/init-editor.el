@@ -20,8 +20,23 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+;; Undoing window con***REMOVED***guration changes
+(use-package winner
+  :hook emacs-startup)
+
+;; Window movement
+(use-package windmove
+  :defer 1.5
+  :con***REMOVED***g
+  (windmove-default-keybindings))
+
+(use-package window
+  :ensure nil
+  :defer 1.5
+  :bind ("M-o" . other-window))
+
 ;; Indentation guides
-(elpaca-use-package highlight-indent-guides
+(use-package highlight-indent-guides
   :delight highlight-indent-guides-mode
   :init
   (setq highlight-indent-guides-method 'bitmap
@@ -42,7 +57,7 @@
 (customize-set-variable 'tramp-backup-directory-alist backup-directory-alist)
 
 ;; History
-(elpaca-use-feature recentf
+(use-package recentf
   :hook (emacs-startup . recentf-mode)
   :custom
   (recentf-max-menu-items 25)
@@ -50,7 +65,7 @@
   :con***REMOVED***g
   (run-at-time nil (* 5 60) 'recentf-save-list))
 
-(elpaca-use-feature savehist
+(use-package savehist
   :hook (emacs-startup . savehist-mode)
   :custom
   (savehist-save-minibuffer-history t)
@@ -60,7 +75,7 @@
                                    mark-ring global-mark-ring
                                    search-ring regexp-search-ring)))
 
-(elpaca-use-package super-save
+(use-package super-save
   :defer 2
   :diminish super-save-mode
   :con***REMOVED***g
@@ -72,7 +87,7 @@
   (super-save-auto-save-when-idle t))
 
 ;; Center content
-(elpaca-use-package perfect-margin
+(use-package perfect-margin
   :custom
   (perfect-margin-visible-width 128)
   ;; auto-center minibuffer windows

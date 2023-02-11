@@ -2,7 +2,7 @@
 
 (customize-set-variable 'vc-follow-symlinks t)
 
-(elpaca-use-package magit
+(use-package magit
   :bind ("C-x g" . magit-status))
 
 (provide 'init-vc)

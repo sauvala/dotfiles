@@ -1,5 +1,8 @@
 ;;;; init.el -*- lexical-binding: t;  no-byte-compile: t; -*-
 
+(add-to-list 'load-path (expand-***REMOVED***le-name "bootstrap" user-emacs-directory))
+(require 'package-management)
+
 ;; Set ***REMOVED***le for customize
 (setq custom-***REMOVED***le (locate-user-emacs-***REMOVED***le "custom.el"))
 
@@ -21,3 +24,4 @@
 (require 'init-vc)
 (require 'init-org)
 (require 'init-ide)
+
