@@ -14,7 +14,7 @@
 (customize-set-variable 'load-prefer-newer t)
 
 ;; Packages
-(setq package-enable-at-startup nil)
+;(setq package-enable-at-startup nil)
 
 ;; UI
 (push '(tool-bar-lines . 0) default-frame-alist)
@@ -56,8 +56,8 @@
              `(variable-pitch ((t (:font "Iosevka SS14 16")))))))
 
 ;; Setup package management
-(add-to-list 'load-path (expand-***REMOVED***le-name "bootstrap" user-emacs-directory))
-(require 'package-management)
+;(add-to-list 'load-path (expand-***REMOVED***le-name "bootstrap" user-emacs-directory))
+;(require 'package-management)
 
 
 ;; (add-hook 'after-init-hook (lambda () (load-theme 'doom-solarized-dark)))

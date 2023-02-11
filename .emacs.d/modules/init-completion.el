@@ -1,11 +1,12 @@
 ;;;; init-completion.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
-(elpaca-use-package emacs-completion
+(use-package emacs-completion
   :ensure nil
+  :defer 1
   :custom
   (completion-auto-help 'always))
 
-(elpaca-use-package orderless
+(use-package orderless
   :defer 1
   :init
   (setq completion-category-defaults nil)
@@ -13,12 +14,14 @@
   (completion-styles '(orderless))
   (completion-category-overrides '((***REMOVED***le (styles . (partial-completion))))))
 
-(elpaca-use-package consult
+(use-package consult
+  :defer 1
   :bind (("C-s" . consult-line)
 	       ("C-M-l" . consult-imenu)
 	       ("M-p" . consult-yank-from-kill-ring)
          ("C-c f r" . consult-recent-***REMOVED***le)
          ("C-x b" . consult-buffer)
+         ("C-c b" . consult-bookmark)
 	       :map minibuffer-local-map
 	       ("C-r" . consult-history))
   :custom
@@ -29,7 +32,7 @@
   (require 'consult-imenu)
   (require 'consult-xref))
 
-(elpaca-use-package consult-dir
+(use-package consult-dir
   :after (consult)
   :bind (("C-x C-d" . consult-dir)
          :map vertico-map
@@ -38,12 +41,12 @@
   :con***REMOVED***g
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t))
 
-(elpaca-use-package which-key
+(use-package which-key
   :hook (emacs-startup . which-key-mode)
   :init
   (setq which-key-idle-delay 0.25))
 
-(elpaca-use-package corfu
+(use-package corfu
   :hook ((prog-mode . corfu-mode)
          (shell-mode . corfu-mode)
          (eshell-mode . corfu-mode))
@@ -65,14 +68,14 @@
   (corfu-echo-documentation '(1.0 . 0.2))
   (corfu-preselect-***REMOVED***rst t))
 
-(elpaca-use-package corfu-doc
+(use-package corfu-doc
   :after (corfu)
   :con***REMOVED***g
   (corfu-doc-mode))
 
-(elpaca-use-package svg-lib)
+(use-package svg-lib)
 
-(elpaca-use-package kind-icon
+(use-package kind-icon
   :after (corfu)
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
@@ -81,7 +84,7 @@
   :con***REMOVED***g
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(elpaca-use-package cape
+(use-package cape
   :bind (("C-c p p" . completion-at-point) ;; capf
          ("C-c p t" . complete-tag)        ;; etags
          ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion

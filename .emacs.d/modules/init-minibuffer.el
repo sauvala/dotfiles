@@ -5,7 +5,7 @@
 (if (boundp 'use-short-answers)
     (setq use-short-answers t))
 
-(elpaca-use-package vertico
+(use-package vertico
   :defer 0.1
   :bind (:map vertico-map
               ("C-j" . vertico-next)
@@ -20,20 +20,17 @@
   :con***REMOVED***g
   (vertico-mode))
 
-(elpaca-use-package marginalia
+(use-package marginalia
   :after (vertico)
   ;; :custom
   ;; (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :hook (emacs-startup . marginalia-mode)
   :init (marginalia-mode))
 
-(elpaca-use-package all-the-icons
+(use-package all-the-icons
   :if (display-graphic-p))
 
-(elpaca-use-package (all-the-icons-completion :host github :repo "MintSoup/all-the-icons-completion" :protocol ssh)
- :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
-
-(elpaca-use-package
-    (el-mock :host github :repo "rejeep/el-mock.el"))
+(use-package all-the-icons-completion
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
 
 (provide 'init-minibuffer)
