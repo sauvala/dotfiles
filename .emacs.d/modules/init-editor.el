@@ -28,12 +28,17 @@
 (use-package windmove
   :defer 1.5
   :con***REMOVED***g
-  (windmove-default-keybindings))
+  (windmove-default-keybindings 'control))
 
 (use-package window
   :ensure nil
   :defer 1.5
   :bind ("M-o" . other-window))
+
+(use-package avy
+  :defer 1.5
+  :bind (("C-:" . avy-goto-char)
+         ("C-'" . avy-goto-char-2)))
 
 ;; Indentation guides
 (use-package highlight-indent-guides
