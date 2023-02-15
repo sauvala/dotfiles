@@ -13,8 +13,14 @@
 
 ;; LSP
 (use-package eglot
+  :preface
+  (defun js-eglot-eldoc ()
+    (setq eldoc-documentation-strategy
+          'eldoc-documentation-compose-eagerly))
+  :hook
+  ((eglot-managed-mode . js-eglot-eldoc))
   :custom
-  (setq eglot-connect-timeout 10)
+  (eglot-connect-timeout 10)
   :con***REMOVED***g
   (setq eglot-workspace-con***REMOVED***guration
         '((:gopls . (:usePlaceholders t))
@@ -28,11 +34,18 @@
 
 (use-package lsp-ui)
 
-;; Snippets / placeholders
-(use-package yasnippet)
+;; Snippets & placeholders
+(use-package yasnippet
+  :after eglot
+  :con***REMOVED***g
+  (yas-global-mode 1))
 
 ;; Sidebar
 (use-package dired-sidebar
   :commands (dired-sidebar-toggle-sidebar))
+
+;; Icons for Dired and dired-sidebar
+(use-package all-the-icons-dired
+  :hook (dired-mode-hook . all-the-icons-dired-mode))
 
 (provide 'init-ide)

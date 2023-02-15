@@ -24,4 +24,5 @@
 (require 'init-vc)
 (require 'init-org)
 (require 'init-ide)
-
+(require 'init-terminal)
+(require 'init-ui)
