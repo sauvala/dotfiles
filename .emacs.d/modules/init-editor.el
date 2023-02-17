@@ -1,4 +1,4 @@
-;;;; init-editor.el -*- lexical-binding: t; no-byte-compile: t; -*-
+ ;;;; init-editor.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 ;; Set tab behaviour
 (customize-set-variable 'tab-width 2)
@@ -19,6 +19,12 @@
 ;; Override some modes which derive from the above
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(use-package paragraphs
+  :ensure nil
+  :bind
+  (("M-{" . forward-paragraph)
+   ("M-}" . backward-paragraph)))
 
 ;; Undoing window con***REMOVED***guration changes
 (use-package winner

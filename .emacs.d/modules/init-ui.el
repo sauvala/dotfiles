@@ -22,6 +22,6 @@
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode))
 
-(use-package catppuccin)
+(use-package catppuccin-theme)
 
 (provide 'init-ui)

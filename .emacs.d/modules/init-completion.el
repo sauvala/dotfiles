@@ -47,16 +47,22 @@
   (setq which-key-idle-delay 0.25))
 
 (use-package corfu
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode))
+  :demand t
+  ;; :defer 1
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
   :bind
   (:map corfu-map
         ("C-j" . corfu-next)
         ("C-k" . corfu-previous)
         ("H-j" . corfu-next)
         ("H-k" . corfu-previous)
-        ("TAB" . corfu-insert))
+        ("TAB" . corfu-insert)
+        ("<return>" . corfu-insert)
+        ("<escape>" . corfu-quit)
+        ("M-d" . corfu-info-documentation)
+        ("M-l" . corfu-info-location))
   :custom
   (corfu-auto t)
   (corfu-cycle nil)
@@ -68,18 +74,13 @@
   (corfu-echo-documentation '(1.0 . 0.2))
   (corfu-preselect-***REMOVED***rst t))
 
-(use-package corfu-doc
-  :after (corfu)
-  :con***REMOVED***g
-  (corfu-doc-mode))
-
 (use-package svg-lib)
 
 (use-package kind-icon
-  :after (corfu)
+  :after corfu
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  ;; (kind-icon-blend-frac 0.08)
+  (kind-icon-blend-frac 0.08)
   ;; (svg-lib-icons-dir (no-littering-expand-var-***REMOVED***le-name "svg-lib/cache/")) ; Change cache dir
   :con***REMOVED***g
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
