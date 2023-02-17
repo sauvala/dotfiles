@@ -34,6 +34,8 @@
 
 (use-package lsp-ui)
 
+(use-package terraform-mode)
+
 ;; Snippets & placeholders
 (use-package yasnippet
   :after eglot

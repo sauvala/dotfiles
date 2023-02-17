@@ -26,3 +26,4 @@
 (require 'init-ide)
 (require 'init-terminal)
 (require 'init-ui)
+(require 'init-notes)
