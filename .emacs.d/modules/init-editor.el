@@ -20,6 +20,9 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
+
 (use-package paragraphs
   :ensure nil
   :bind
