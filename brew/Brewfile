@@ -59,7 +59,7 @@ brew "docker-compose"
 brew "readline"
 brew "librdkafka"
 brew "openssl"
-brew "pkg-con***REMOVED***g"
+brew "pkg-config"
 brew "redis"
 brew "fzf"
 brew "nnn"
@@ -93,5 +93,5 @@ mas "AdGuard for Safari", id: 1440147259
 mas "Vimari", id: 1480933944
 mas "Amphetamine", id: 937984704
 mas "Infuse 7", id: 1136220934
-mas "PiPi***REMOVED***er", id: 1160374471
+mas "PiPifier", id: 1160374471
 mas "Xcode", id: 497799835

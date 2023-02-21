@@ -17,7 +17,7 @@
               ("M-h" . js/minibuffer-backward-kill))
   :custom
   (vertico-cycle nil)
-  :con***REMOVED***g
+  :config
   (vertico-mode))
 
 (use-package marginalia

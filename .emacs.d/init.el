@@ -1,21 +1,21 @@
 ;;;; init.el -*- lexical-binding: t;  no-byte-compile: t; -*-
 
-(add-to-list 'load-path (expand-***REMOVED***le-name "bootstrap" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "bootstrap" user-emacs-directory))
 (require 'package-management)
 
-;; Set ***REMOVED***le for customize
-(setq custom-***REMOVED***le (locate-user-emacs-***REMOVED***le "custom.el"))
+;; Set file for customize
+(setq custom-file (locate-user-emacs-file "custom.el"))
 
-;; Keep customization settings in a separate ***REMOVED***le
-(setq custom-***REMOVED***le
+;; Keep customization settings in a separate file
+(setq custom-file
     (if (boundp 'server-socket-dir)
-        (expand-***REMOVED***le-name "custom.el" server-socket-dir)
-    (expand-***REMOVED***le-name (format "emacs-custom-%s.el" (user-uid)) temporary-***REMOVED***le-directory)))
+        (expand-file-name "custom.el" server-socket-dir)
+    (expand-file-name (format "emacs-custom-%s.el" (user-uid)) temporary-file-directory)))
 
-(load custom-***REMOVED***le t)
+(load custom-file t)
 
 ;; Load modules
-(add-to-list 'load-path (expand-***REMOVED***le-name "modules" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "modules" user-emacs-directory))
 
 (require 'init-completion)
 (require 'init-minibuffer)

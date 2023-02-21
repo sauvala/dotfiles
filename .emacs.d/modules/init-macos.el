@@ -1,9 +1,9 @@
 ;;;; init-macos.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 (when (featurep 'ns)
-  (customize-set-variable 'ns-command-modi***REMOVED***er 'meta)
-  (customize-set-variable 'ns-right-option-modi***REMOVED***er nil)
-  (customize-set-variable 'ns-option-modi***REMOVED***er 'super)
-  (customize-set-variable 'ns-function-modi***REMOVED***er 'hyper))
+  (customize-set-variable 'ns-command-modifier 'meta)
+  (customize-set-variable 'ns-right-option-modifier nil)
+  (customize-set-variable 'ns-option-modifier 'super)
+  (customize-set-variable 'ns-function-modifier 'hyper))
 
 (provide 'init-macos)
