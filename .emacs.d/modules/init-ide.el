@@ -21,15 +21,15 @@
   ((eglot-managed-mode . js-eglot-eldoc))
   :custom
   (eglot-connect-timeout 10)
-  :con***REMOVED***g
-  (setq eglot-workspace-con***REMOVED***guration
+  :config
+  (setq eglot-workspace-configuration
         '((:gopls . (:usePlaceholders t))
           (:jdtsl . (:usePlaceholders t)))))
 
 (use-package lsp-mode
   :custom
   (lsp-rust-analyzer-server-display-inlay-hints t)
-  :con***REMOVED***g
+  :config
   (lsp-rust-analyzer-inlay-hints-mode))
 
 (use-package lsp-ui)
@@ -39,7 +39,7 @@
 ;; Snippets & placeholders
 (use-package yasnippet
   :after eglot
-  :con***REMOVED***g
+  :config
   (yas-global-mode 1))
 
 ;; Sidebar
@@ -51,7 +51,7 @@
   :hook (dired-mode-hook . all-the-icons-dired-mode))
 
 (use-package treesit-auto
-  :con***REMOVED***g
+  :config
   (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
 

@@ -12,14 +12,14 @@
   (setq completion-category-defaults nil)
   :custom
   (completion-styles '(orderless))
-  (completion-category-overrides '((***REMOVED***le (styles . (partial-completion))))))
+  (completion-category-overrides '((file (styles . (partial-completion))))))
 
 (use-package consult
   :defer 1
   :bind (("C-s" . consult-line)
 	       ("C-M-l" . consult-imenu)
 	       ("M-p" . consult-yank-from-kill-ring)
-         ("C-c f r" . consult-recent-***REMOVED***le)
+         ("C-c f r" . consult-recent-file)
          ("C-x b" . consult-buffer)
          ("C-c b" . consult-bookmark)
 	       :map minibuffer-local-map
@@ -27,8 +27,8 @@
   :custom
   (completion-in-region-function #'consult-completion-in-region)
   (xref-show-xrefs-function #'consult-xref)
-  (xref-show-de***REMOVED***nitions-function #'consult-xref)
-  :con***REMOVED***g
+  (xref-show-definitions-function #'consult-xref)
+  :config
   (require 'consult-imenu)
   (require 'consult-xref))
 
@@ -37,8 +37,8 @@
   :bind (("C-x C-d" . consult-dir)
          :map vertico-map
          ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-***REMOVED***le))
-  :con***REMOVED***g
+         ("C-x C-j" . consult-dir-jump-file))
+  :config
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t))
 
 (use-package which-key
@@ -72,7 +72,7 @@
   (corfu-on-exact-match 'insert)
   (corfu-preview-current 'insert)
   (corfu-echo-documentation '(1.0 . 0.2))
-  (corfu-preselect-***REMOVED***rst t))
+  (corfu-preselect-first t))
 
 (use-package svg-lib)
 
@@ -81,15 +81,15 @@
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   (kind-icon-blend-frac 0.08)
-  ;; (svg-lib-icons-dir (no-littering-expand-var-***REMOVED***le-name "svg-lib/cache/")) ; Change cache dir
-  :con***REMOVED***g
+  ;; (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
+  :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package cape
   :bind (("C-c p p" . completion-at-point) ;; capf
          ("C-c p t" . complete-tag)        ;; etags
          ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
-         ("C-c p f" . cape-***REMOVED***le)
+         ("C-c p f" . cape-file)
          ("C-c p k" . cape-keyword)
          ("C-c p s" . cape-symbol)
          ("C-c p a" . cape-abbrev)
@@ -101,7 +101,7 @@
          ("C-c p r" . cape-rfc1345))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-***REMOVED***le)
+  (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-tex)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)

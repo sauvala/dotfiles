@@ -10,7 +10,7 @@
                                 (customize-set-variable 'gc-cons-threshold (* 2 1000 1000))))
 
 ;; Emacs lisp source/compiled preference
-;; Prefer loading newest compiled .el ***REMOVED***le
+;; Prefer loading newest compiled .el file
 (customize-set-variable 'load-prefer-newer t)
 
 ;; Packages
@@ -51,12 +51,12 @@
           (lambda ()
             (custom-set-faces
              `(default ((t (:font "Jetbrains Mono 16"))))
-             `(***REMOVED***xed-pitch ((t (:inherit (default)))))
-             `(***REMOVED***xed-pitch-serif ((t (:inherit (default)))))
+             `(fixed-pitch ((t (:inherit (default)))))
+             `(fixed-pitch-serif ((t (:inherit (default)))))
              `(variable-pitch ((t (:font "Iosevka SS14 16")))))))
 
 ;; Setup package management
-;(add-to-list 'load-path (expand-***REMOVED***le-name "bootstrap" user-emacs-directory))
+;(add-to-list 'load-path (expand-file-name "bootstrap" user-emacs-directory))
 ;(require 'package-management)
 
 

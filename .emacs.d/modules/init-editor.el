@@ -29,14 +29,14 @@
   (("M-{" . forward-paragraph)
    ("M-}" . backward-paragraph)))
 
-;; Undoing window con***REMOVED***guration changes
+;; Undoing window configuration changes
 (use-package winner
   :hook emacs-startup)
 
 ;; Window movement
 (use-package windmove
   :defer 1.5
-  :con***REMOVED***g
+  :config
   (windmove-default-keybindings 'control))
 
 (use-package window
@@ -60,8 +60,8 @@
         highlight-indent-guides-bitmap-function 'highlight-indent-guides--bitmap-line))
 
 ;; Backups
-(customize-set-variable 'create-lock***REMOVED***les nil)
-(customize-set-variable 'make-backup-***REMOVED***les t)
+(customize-set-variable 'create-lockfiles nil)
+(customize-set-variable 'make-backup-files t)
 (customize-set-variable 'version-control t)
 (customize-set-variable 'backup-by-copying t)
 (customize-set-variable 'delete-old-versions t)
@@ -76,7 +76,7 @@
   :custom
   (recentf-max-menu-items 25)
   (recentf-max-saved-items 25)
-  :con***REMOVED***g
+  :config
   (run-at-time nil (* 5 60) 'recentf-save-list))
 
 (use-package savehist
@@ -92,11 +92,11 @@
 (use-package super-save
   :defer 2
   :diminish super-save-mode
-  :con***REMOVED***g
+  :config
   (super-save-mode +1)
   :custom
   (super-save-exclude '(".go"))
-  (super-save-remote-***REMOVED***les nil)
+  (super-save-remote-files nil)
   (auto-save-default nil)
   (super-save-auto-save-when-idle t))
 
@@ -105,10 +105,10 @@
   :custom
   (perfect-margin-visible-width 128)
   ;; auto-center minibuffer windows
-  (perfect-margin-ignore-***REMOVED***lters nil)
+  (perfect-margin-ignore-filters nil)
   ;; auto-center special windows
   (perfect-margin-ignore-regexps nil)
-  :con***REMOVED***g
+  :config
   ;; enable perfect-mode
   (perfect-margin-mode t)
   ;; add additinal binding on margin area
