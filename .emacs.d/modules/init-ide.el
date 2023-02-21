@@ -50,4 +50,9 @@
 (use-package all-the-icons-dired
   :hook (dired-mode-hook . all-the-icons-dired-mode))
 
+(use-package treesit-auto
+  :con***REMOVED***g
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode))
+
 (provide 'init-ide)
