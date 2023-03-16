@@ -17,6 +17,7 @@
 ;; Load modules
 (add-to-list 'load-path (expand-file-name "modules" user-emacs-directory))
 
+(require 'init-core)
 (require 'init-completion)
 (require 'init-minibuffer)
 (require 'init-editor)
@@ -27,3 +28,4 @@
 (require 'init-terminal)
 (require 'init-ui)
 (require 'init-notes)
+(require 'init-media)

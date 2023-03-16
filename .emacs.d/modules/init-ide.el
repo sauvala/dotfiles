@@ -4,6 +4,12 @@
 (use-package go-mode)
 (use-package gotest)
 
+;; Javascript
+(use-package js
+  :ensure nil
+  :bind (("M-." . xref-find-definitions)))
+(use-package js2-mode)
+
 ;; Rust
 (use-package rustic)
   ;;:custom
@@ -19,12 +25,24 @@
           'eldoc-documentation-compose-eagerly))
   :hook
   ((eglot-managed-mode . js-eglot-eldoc))
+  :bind
+  (("M-." . xref-find-definitions))
   :custom
   (eglot-connect-timeout 10)
   :config
   (setq eglot-workspace-configuration
         '((:gopls . (:usePlaceholders t))
-          (:jdtsl . (:usePlaceholders t)))))
+          (:jdtsl . (:usePlaceholders t))))
+  (add-to-list 'eglot-server-programs '((go-mode go-ts-mode) .
+    ("gopls" :initializationOptions
+      (:hints (:parameterNames t
+               :rangeVariableTypes t
+               :functionTypeParameters t
+               :assignVariableTypes t
+               :compositeLiteralFields t
+               :compositeLiteralTypes t
+               :constantValues t)))))
+  (add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode))
 
 (use-package lsp-mode
   :custom
@@ -35,6 +53,10 @@
 (use-package lsp-ui)
 
 (use-package terraform-mode)
+
+(use-package protobuf-mode)
+
+(use-package protobuf-ts-mode)
 
 ;; Snippets & placeholders
 (use-package yasnippet
