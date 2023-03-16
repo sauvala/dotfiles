@@ -47,7 +47,7 @@
   (setq which-key-idle-delay 0.25))
 
 (use-package corfu
-  :demand t
+  :defer 2
   ;; :defer 1
   ;; :hook ((prog-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
@@ -72,7 +72,9 @@
   (corfu-on-exact-match 'insert)
   (corfu-preview-current 'insert)
   (corfu-echo-documentation '(1.0 . 0.2))
-  (corfu-preselect-first t))
+  (corfu-preselect-first t)
+  :config
+  (global-corfu-mode))
 
 (use-package svg-lib)
 
@@ -112,6 +114,84 @@
   ;;(add-to-list 'completion-at-point-functions #'cape-dict)
   ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
-)
+  )
+
+(defun embark-which-key-indicator ()
+  "An embark indicator that displays keymaps using which-key.
+The which-key help message will show the type and value of the
+current target followed by an ellipsis if there are further
+targets."
+  (lambda (&optional keymap targets prefix)
+    (if (null keymap)
+        (which-key--hide-popup-ignore-command)
+      (which-key--show-keymap
+       (if (eq (plist-get (car targets) :type) 'embark-become)
+           "Become"
+         (format "Act on %s '%s'%s"
+                 (plist-get (car targets) :type)
+                 (embark--truncate-target (plist-get (car targets) :target))
+                 (if (cdr targets) "…" "")))
+       (if prefix
+           (pcase (lookup-key keymap prefix 'accept-default)
+             ((and (pred keymapp) km) km)
+             (_ (key-binding prefix 'accept-default)))
+         keymap)
+       nil nil t (lambda (binding)
+                   (not (string-suffix-p "-argument" (cdr binding))))))))
+
+
+(defun embark-hide-which-key-indicator (fn &rest args)
+  "Hide the which-key indicator immediately when using the completing-read prompter."
+  (which-key--hide-popup-ignore-command)
+  (let ((embark-indicators
+         (remq #'embark-which-key-indicator embark-indicators)))
+      (apply fn args)))
+
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package embark
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)  ;; alternative for `describe-bindings'
+   :map embark-file-map
+   ("s" . sudo-edit)
+   ("l" . vlf)
+   :map minibuffer-local-map
+   ("M-SPC" . embark-act-noexit)
+   ("C-M-SPC" . embark-act)
+   :map embark-symbol-map
+   ("h" . helpful-symbol)
+   :map embark-become-help-map
+   ("v" . helpful-variable)
+   ("f" . helpful-function)
+   ("s" . helpful-symbol)
+   :map embark-meta-map
+   ("C-M-a" . marginalia-cycle))
+
+  :config
+  (setq embark-indicators
+        '(embark-which-key-indicator
+          embark-highlight-indicator
+          embark-isearch-highlight-indicator))
+  
+  (advice-add #'embark-completing-read-prompter
+             :around #'embark-hide-which-key-indicator)
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc. You may adjust the Eldoc
+  ;; strategy, if you want to see the documentation from multiple providers.
+  ;; (remove-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose)
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
 
 (provide 'init-completion)

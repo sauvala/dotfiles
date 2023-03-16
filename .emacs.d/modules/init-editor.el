@@ -20,6 +20,13 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(use-package sudo-edit
+  :commands sudo-edit)
+
+;; Very large files
+(use-package vlf
+  :commands vlf)
+
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
@@ -99,7 +106,7 @@
   (super-save-remote-files nil)
   (auto-save-default nil)
   (super-save-auto-save-when-idle t))
-
+g
 ;; Center content
 (use-package perfect-margin
   :custom
@@ -118,5 +125,7 @@
   (dolist (multiple '("" "double-" "triple-"))
       (global-set-key (kbd (concat margin "<" multiple "wheel-up>")) 'mwheel-scroll)
       (global-set-key (kbd (concat margin "<" multiple "wheel-down>")) 'mwheel-scroll))))
+
+(use-package rg)
 
 (provide 'init-editor)
