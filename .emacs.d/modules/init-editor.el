@@ -7,6 +7,12 @@
 ;; Smooth scrolling
 (pixel-scroll-precision-mode)
 
+;; Truncate lines by default
+(set-default 'truncate-lines t)
+
+;; Hide truncated lines indicatr
+(setq-default fringe-indicator-alist (assq-delete-all 'truncation fringe-indicator-alist))
+
 ;; Line numbers
 (column-number-mode)
 
