@@ -7,7 +7,8 @@
 ;; Javascript
 (use-package js
   :ensure nil
-  :bind (("M-." . xref-find-definitions)))
+  :bind ([remap js-find-symbol] . xref-find-definitions)
+  :custom (js-indent-level 2))
 (use-package js2-mode)
 
 ;; Rust
@@ -66,7 +67,10 @@
 
 ;; Sidebar
 (use-package dired-sidebar
-  :commands (dired-sidebar-toggle-sidebar))
+  :commands (dired-sidebar-toggle-sidebar)
+  :custom
+  (dired-sidebar-with 45)
+  (dired-sidebar-should-follow-file t))
 
 ;; Icons for Dired and dired-sidebar
 (use-package all-the-icons-dired
