@@ -115,7 +115,7 @@
   (super-save-remote-files nil)
   (auto-save-default nil)
   (super-save-auto-save-when-idle t))
-g
+
 ;; Center content
 (use-package perfect-margin
   :custom
