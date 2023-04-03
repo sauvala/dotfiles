@@ -28,4 +28,5 @@
 (require 'init-terminal)
 (require 'init-ui)
 (require 'init-notes)
+(require 'init-gpt)
 (require 'init-media)
