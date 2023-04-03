@@ -22,6 +22,8 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
+(use-package org-modern)
+
 (use-package grip-mode)
 
 (provide 'init-notes)
