@@ -48,4 +48,8 @@
 
 (use-package catppuccin-theme)
 
+(use-package buffer-move)
+
+(use-package transpose-frame)
+
 (provide 'init-ui)
