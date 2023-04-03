@@ -29,6 +29,8 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
+(desktop-save-mode 1)
+
 (use-package sudo-edit
   :commands sudo-edit)
 
