@@ -69,7 +69,7 @@
 (use-package dired-sidebar
   :commands (dired-sidebar-toggle-sidebar)
   :custom
-  (dired-sidebar-with 45)
+  (dired-sidebar-width 40)
   (dired-sidebar-should-follow-file t))
 
 ;; Icons for Dired and dired-sidebar
@@ -80,5 +80,13 @@
   :config
   (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
+
+(use-package dumb-jump
+  :custom
+  (dumb-jump-prefer-searcher 'rg)
+  (dumb-jump-force-searcher 'rg)
+  (xref-show-definitions-function #'consult-xref)
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (provide 'init-ide)

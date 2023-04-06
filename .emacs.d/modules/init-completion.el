@@ -42,9 +42,9 @@
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t))
 
 (use-package which-key
-  :hook (emacs-startup . which-key-mode)
-  :init
-  (setq which-key-idle-delay 0.25))
+  :custom
+  (which-key-idle-delay 0.75)
+  :hook (emacs-startup . which-key-mode))
 
 (use-package corfu
   :defer 2
