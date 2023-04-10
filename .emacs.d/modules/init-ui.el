@@ -24,6 +24,8 @@
    ;; look at interactive functions.
    ("C-h C" . helpful-command)))
 
+(use-package ef-themes)
+
 (use-package doom-themes
   :custom
   (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
@@ -40,10 +42,11 @@
 (use-package doom-modeline
   :custom
   (doom-modeline-height 20)
-  :hook (after-init . doom-modeline-mode)
-  :config
-  (set-face-attribute 'mode-line nil :height 155)
-  (set-face-attribute 'mode-line-inactive nil :height 155))
+  :hook (after-init . doom-modeline-mode))
+
+;; Make modeline a little narrower
+(set-face-attribute 'mode-line nil :height 155)
+(set-face-attribute 'mode-line-inactive nil :height 155)
 
 (use-package catppuccin-theme)
 
