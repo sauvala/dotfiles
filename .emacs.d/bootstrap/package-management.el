@@ -1,15 +1,17 @@
-;;;; package-management.el --- Autocompile emacs-lisp code  -*- lexical-binding: t; -*-
+;;;; package-management.el --- Setup package management -*- lexical-binding: t; -*-
+
+(use-package package
+  :custom
+  (use-package-always-defer t)
+  (use-package-always-ensure t)
+  :config
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")))
 
 ;; Disable native compilation warnings
-(use-package native-compilation
+(use-package js-native-compilation
   :ensure nil
   :custom
   (native-comp-async-report-warnings-errors nil))
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(setq use-package-always-defer t)
-(setq use-package-always-ensure t)
 
 (unless (package-installed-p 'vc-use-package)
   (package-vc-install "https://github.com/slotThe/vc-use-package"))
