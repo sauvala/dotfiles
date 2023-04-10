@@ -91,6 +91,7 @@
 
 (use-package js-elisp-mode
   :ensure nil
+  :defer 4
   :config
   (define-advice elisp-get-fnsym-args-string (:around (orig-fun sym &rest r) docstring)
   "If SYM is a function, append its docstring."
