@@ -50,6 +50,9 @@
 
 (use-package catppuccin-theme)
 
+(use-package os1-theme
+  :vc (:fetcher github :repo "sashimacs/os1-theme"))
+
 (use-package buffer-move)
 
 (use-package transpose-frame)
