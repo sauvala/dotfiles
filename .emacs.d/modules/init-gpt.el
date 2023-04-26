@@ -6,8 +6,10 @@
 
 (use-package gptai)
 
-(use-package chatgpt-shell
-  :load-path "~/.emacs.d/modules/chatgpt-shell/")
-(require 'chatgpt-shell)
+(defvar js/chatgpt-shell-install-dir "~/.emacs.d/modules/chatgpt-shell/")
+(when (file-exists-p js/chatgpt-shell-install-dir)
+  (use-package chatgpt-shell
+    :load-path js/chatgpt-shell-install-dir)
+  (require 'chatgpt-shell))
 
 (provide 'init-gpt)
