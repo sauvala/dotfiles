@@ -59,6 +59,8 @@
 
 (use-package protobuf-ts-mode)
 
+(use-package jenkinsfile-mode)
+
 ;; Snippets & placeholders
 (use-package yasnippet
   :after eglot
