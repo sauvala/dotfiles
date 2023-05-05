@@ -48,10 +48,31 @@
 (set-face-attribute 'mode-line nil :height 155)
 (set-face-attribute 'mode-line-inactive nil :height 155)
 
+(use-package mood-line
+  :config
+  (mood-line-mode))
+
+(use-package moody
+  :config
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+  (moody-replace-eldoc-minibuffer-message-function)
+  (let ((line (face-attribute 'mode-line :underline)))
+    (set-face-attribute 'mode-line          nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :underline  line)
+    (set-face-attribute 'mode-line          nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+
+(use-package minions)
+
 (use-package catppuccin-theme)
 
 (use-package os1-theme
-  :vc (:fetcher github :repo "sashimacs/os1-theme"))
+  :vc (:fetcher github :repo "sashimacs/os1-theme")
+  :defer 3)
 
 (use-package buffer-move)
 
