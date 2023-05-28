@@ -80,4 +80,7 @@
 
 (use-package transpose-frame)
 
+(use-package breadcrumb
+  :vc (:fetcher github :repo joaotavora/breadcrumb))
+
 (provide 'init-ui)
