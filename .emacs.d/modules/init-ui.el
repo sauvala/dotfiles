@@ -71,7 +71,7 @@
 (use-package catppuccin-theme)
 
 (use-package os1-theme
-  :vc (:fetcher github :repo "sashimacs/os1-theme")
+  :vc (:fetcher github :repo sashimacs/os1-theme)
   :defer 3)
 
 (use-package nerd-icons)
