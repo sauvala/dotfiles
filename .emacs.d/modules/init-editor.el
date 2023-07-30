@@ -79,6 +79,9 @@
         highlight-indent-guides-responsive 'top
         highlight-indent-guides-bitmap-function 'highlight-indent-guides--bitmap-line))
 
+(use-package indent-bars
+  :vc (:fetcher github :repo jdtsmith/indent-bars))
+
 ;; Backups
 (customize-set-variable 'create-lockfiles nil)
 (customize-set-variable 'make-backup-files t)
