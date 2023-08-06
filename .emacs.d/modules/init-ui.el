@@ -76,11 +76,32 @@
 
 (use-package nerd-icons)
 
+(use-package nerd-icons-completion
+  :hook (marginalia-mode . nerd-icons-completion-mode)
+  :config
+  (nerd-icons-completion-marginalia-setup))
+
+(use-package nerd-icons-dired
+  :hook (dired-mode . nerd-icons-dired-mode))
+
 (use-package buffer-move)
 
 (use-package transpose-frame)
 
 (use-package breadcrumb
   :vc (:fetcher github :repo joaotavora/breadcrumb))
+
+;;(use-package misterioso-theme
+;;  :custom
+;;  )
+
+;; Set fonts
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (custom-set-faces
+             `(default ((t (:font "Jetbrains Mono 16"))))
+             `(fixed-pitch ((t (:inherit (default)))))
+             `(fixed-pitch-serif ((t (:inherit (default)))))
+             `(variable-pitch ((t (:font "Iosevka Comfy 16")))))))
 
 (provide 'init-ui)
