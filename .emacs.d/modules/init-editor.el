@@ -5,12 +5,13 @@
 (customize-set-variable 'indent-tabs-mode nil)
 
 ;; Smooth scrolling
-(pixel-scroll-precision-mode)
+(when (not (featurep 'mac))
+  (pixel-scroll-precision-mode))
 
 ;; Truncate lines by default
 (set-default 'truncate-lines t)
 
-;; Hide truncated lines indicatr
+;; Hide truncated lines indication
 (setq-default fringe-indicator-alist (assq-delete-all 'truncation fringe-indicator-alist))
 
 ;; Hide line continuation indication
@@ -80,7 +81,17 @@
         highlight-indent-guides-bitmap-function 'highlight-indent-guides--bitmap-line))
 
 (use-package indent-bars
-  :vc (:fetcher github :repo jdtsmith/indent-bars))
+  :vc (:fetcher github :repo jdtsmith/indent-bars)
+  :config
+  (setq
+    indent-bars-color '(highlight :face-bg t :blend 0.3)
+    indent-bars-pattern "."
+    indent-bars-width-frac 0.25
+    indent-bars-pad-frac 0.1
+    indent-bars-zigzag nil
+    indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
+    indent-bars-highlight-current-depth '(pattern ".")
+    indent-bars-display-on-blank-lines t))
 
 ;; Backups
 (customize-set-variable 'create-lockfiles nil)
