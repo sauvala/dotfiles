@@ -3,7 +3,9 @@
 (customize-set-variable 'vc-follow-symlinks t)
 
 (use-package magit
-  :bind ("C-x g" . magit-status))
+  :bind ("C-x g" . magit-status)
+  :custom
+  (with-editor-emacsclient-executable "emacsclient"))
 
 (use-package diff-hl
   :config
