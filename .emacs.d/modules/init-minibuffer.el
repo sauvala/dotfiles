@@ -17,20 +17,14 @@
               ("M-h" . js/minibuffer-backward-kill))
   :custom
   (vertico-cycle nil)
-  :config
+  :init
   (vertico-mode))
 
 (use-package marginalia
-  :after (vertico)
+  :after vertico
   ;; :custom
   ;; (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
-  :hook (emacs-startup . marginalia-mode)
-  :init (marginalia-mode))
-
-(use-package all-the-icons
-  :if (display-graphic-p))
-
-(use-package all-the-icons-completion
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
+  :init
+  (marginalia-mode))
 
 (provide 'init-minibuffer)
