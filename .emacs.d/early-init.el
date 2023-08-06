@@ -45,27 +45,3 @@
 
 ;; Load theme
 (load-theme 'deeper-blue t)
-
-;; Set fonts
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (custom-set-faces
-             `(default ((t (:font "Jetbrains Mono 16"))))
-             `(fixed-pitch ((t (:inherit (default)))))
-             `(fixed-pitch-serif ((t (:inherit (default)))))
-             `(variable-pitch ((t (:font "Iosevka SS14 16")))))))
-
-;; Setup package management
-;(add-to-list 'load-path (expand-file-name "bootstrap" user-emacs-directory))
-;(require 'package-management)
-
-
-;; (add-hook 'after-init-hook (lambda () (load-theme 'doom-solarized-dark)))
-
-;; (customize-set-variable 'initial-major-mode 'fundamental-mode)
-
-
-;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-
