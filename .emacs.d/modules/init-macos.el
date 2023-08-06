@@ -6,4 +6,9 @@
   (customize-set-variable 'ns-option-modifier 'meta)
   (customize-set-variable 'ns-function-modifier 'hyper))
 
+(when (featurep 'mac)
+  (customize-set-variable 'mac-option-modifier 'meta)
+  (customize-set-variable 'mac-function-modifier 'hyper)
+  (mac-auto-operator-composition-mode +1))
+
 (provide 'init-macos)
