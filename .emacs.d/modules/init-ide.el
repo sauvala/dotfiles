@@ -45,13 +45,8 @@
                :constantValues t)))))
   (add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode))
 
-(use-package lsp-mode
-  :custom
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  :config
-  (lsp-rust-analyzer-inlay-hints-mode))
-
-(use-package lsp-ui)
+;; childframe doc for eglot and anything that uses eldoc
+(use-package eldoc-box)
 
 (use-package terraform-mode)
 
