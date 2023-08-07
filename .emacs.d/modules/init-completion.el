@@ -22,6 +22,10 @@
          ("C-c f r" . consult-recent-file)
          ("C-x b" . consult-buffer)
          ("C-c b" . consult-bookmark)
+         ("C-x p g" . consult-ripgrep)
+         ("C-x p b" . consult-project-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x p d" . consult-flymake)
 	       :map minibuffer-local-map
 	       ("C-r" . consult-history))
   :custom
