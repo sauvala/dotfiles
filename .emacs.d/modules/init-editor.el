@@ -93,6 +93,9 @@
     indent-bars-highlight-current-depth '(pattern ".")
     indent-bars-display-on-blank-lines t))
 
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 ;; Backups
 (customize-set-variable 'create-lockfiles nil)
 (customize-set-variable 'make-backup-files t)
