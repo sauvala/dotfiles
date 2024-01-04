@@ -3,6 +3,9 @@
 ;; Golang
 (use-package go-mode)
 (use-package gotest)
+(use-package go-ts-mode
+  :custom
+  (go-ts-mode-indent-offset 2))
 
 ;; Javascript
 (use-package js
@@ -100,5 +103,7 @@
           (stringp oneline)
           (not (string= "" oneline))
           (concat "  |  " (propertize oneline 'face 'italic)))))))
+
+(use-package eros)
 
 (provide 'init-ide)

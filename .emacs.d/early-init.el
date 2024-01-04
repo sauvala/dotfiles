@@ -44,4 +44,4 @@
       ns-use-proxy-icon nil)
 
 ;; Load theme
-(load-theme 'deeper-blue t)
+(load-theme 'modus-vivendi t)

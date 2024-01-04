@@ -91,17 +91,31 @@
 (use-package breadcrumb
   :vc (:fetcher github :repo joaotavora/breadcrumb))
 
-;;(use-package misterioso-theme
-;;  :custom
-;;  )
+;; Enable ligatures
+(use-package ligature
+  :hook (prog-mode . ligature-mode)
+  :config
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                     ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                     "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                     "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                     "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                     "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                     "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                     "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                     "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                     "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
 
 ;; Set fonts
 (add-hook 'emacs-startup-hook
           (lambda ()
             (custom-set-faces
-             `(default ((t (:font "Jetbrains Mono 16"))))
+             ;;`(default ((t (:font "Iosevka Comfy 18"))))
+             `(default ((t (:font "JetBrainsMono NF 18"))))
+             ;;`(default ((t (:font "Monaspace Neon" :foundry "nil" :slant normal :weight normal :height 150 :width normal))))
              `(fixed-pitch ((t (:inherit (default)))))
              `(fixed-pitch-serif ((t (:inherit (default)))))
+             ;; `(variable-pitch ((t (:font "Monaspace Neon Var 16"))))
              `(variable-pitch ((t (:font "Iosevka Comfy 16")))))))
 
 (provide 'init-ui)
