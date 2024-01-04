@@ -2,6 +2,10 @@
 
 (use-package markdown-mode)
 
+(use-package denote
+  :custom
+  (denote-directory "~/Library/CloudStorage/GoogleDrive-janne.sauvala@gmail.com/My Drive/denote"))
+
 (use-package org-roam
   :custom
   (org-roam-directory "/Users/jannesauvala/Sync/Org/org-roam/")

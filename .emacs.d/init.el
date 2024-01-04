@@ -25,3 +25,5 @@
 
 ;; Load customization after all packages have been loaded
 (load custom-file t)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)

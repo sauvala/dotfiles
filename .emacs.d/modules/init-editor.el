@@ -158,4 +158,8 @@
 
 (use-package rg)
 
+;; (use-package jinx
+;;   :bind (("M-$" . jinx-correct)
+;;          ("C-M-$" . jinx-languages)))
+
 (provide 'init-editor)

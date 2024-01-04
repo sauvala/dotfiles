@@ -8,7 +8,7 @@
 
 (when (featurep 'mac)
   (customize-set-variable 'mac-option-modifier 'meta)
-  (customize-set-variable 'mac-function-modifier 'hyper)
+  (customize-set-variable 'mac-function-modifier '(:button 2))
   (mac-auto-operator-composition-mode +1))
 
 (provide 'init-macos)

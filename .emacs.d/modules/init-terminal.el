@@ -4,4 +4,6 @@
 
 (use-package multi-vterm)
 
+(use-package eat)
+
 (provide 'init-terminal)
