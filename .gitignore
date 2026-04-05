@@ -12,6 +12,10 @@
 .netrc
 .aws/
 
+# ── Machine-specific git identity (never commit) ───────────────────────
+.gitconfig.local
+.gitconfig-work
+
 # ── Application state ─────────────────────────────────────────────────
 .cache/
 .local/

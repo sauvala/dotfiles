@@ -1,3 +1,6 @@
 [user]
 	email = janne.sauvala@gmail.com
 	name = Janne Sauvala
+
+[include]
+	path = ~/.gitconfig.local
