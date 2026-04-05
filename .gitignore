@@ -54,6 +54,7 @@
 .emacs.d/history
 .emacs.d/recentf
 .emacs.d/projects
+.emacs.d/local.el
 
 # ── Misc ───────────────────────────────────────────────────────────────
 *.log

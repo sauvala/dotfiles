@@ -30,3 +30,6 @@
 (load custom-file t)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+;; Load machine-local config if present (not tracked in dotfiles)
+(load (expand-file-name "local.el" user-emacs-directory) t)
