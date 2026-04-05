@@ -2,33 +2,54 @@
 
 ## What this repo is
 
-Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/) on CachyOS Linux.
-Files live in `~/dotfiles/` mirroring `$HOME` structure. Stow symlinks them back to their real locations.
+Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/) on CachyOS Linux, personal MacBook, and work MacBook.
+Files live in `~/dotfiles/` organized into stow packages and are symlinked into `$HOME`.
 
 ## Stack
 
-- **WM:** niri (Wayland, tiling) + Noctalia shell
+- **WM:** niri (Wayland, tiling) + Noctalia shell (Linux)
 - **Terminal:** Ghostty
 - **Shell:** fish
 - **Editor:** Emacs
 - **Browser:** zen-browser
-- **Keyboard layouts:** us, fi (toggle with Super+Shift+Space)
+- **Keyboard layouts:** us, fi (toggle with Super+Shift+Space) — Linux only
 
-## Tracked files
+## Package structure
 
-| Path in repo | Symlinked to |
-|---|---|
-| `.profile` | `~/.profile` |
-| `.gitconfig` | `~/.gitconfig` |
-| `.config/niri/config.kdl` | niri main config (includes cfg/*.kdl) |
-| `.config/niri/cfg/*.kdl` | animation, autostart, display, input, keybinds, layout, misc, rules |
-| `.config/ghostty/config` | Ghostty terminal config |
-| `.config/fish/config.fish` | Fish shell config |
-| `.config/fish/fish_variables` | Fish variables (Pure prompt theme) |
-| `.config/micro/settings.json` | Micro editor config |
-| `.config/git/ignore` | Global gitignore (applies to all repos) |
-| `.config/gtk-3.0/settings.ini` | GTK3 theme |
-| `.config/gtk-4.0/settings.ini` | GTK4 theme |
+| Package | Stowed on | Contents |
+|---------|-----------|----------|
+| `common/` | all machines | Emacs, fish, ghostty, git, micro, .profile, .claude |
+| `linux/` | CachyOS | niri, gtk-3.0, gtk-4.0 |
+| `macos/` | macOS | alacritty, iterm2, Terminal |
+
+## Install on a new machine
+
+```bash
+# 1. Install stow and git
+sudo pacman -S stow git   # CachyOS
+brew install stow git     # macOS
+
+# 2. Clone repo
+git clone git@github.com:sauvala/dotfiles.git ~/dotfiles
+
+# 3. Run install script (detects OS automatically)
+bash ~/dotfiles/install.sh
+```
+
+If stow reports conflicts, back up the conflicting files first:
+```bash
+mv ~/.config/someapp/config ~/.config/someapp/config.bak
+bash ~/dotfiles/install.sh
+```
+
+## Work machine git identity
+
+Create `~/.gitconfig.local` (not tracked) with your work email:
+
+```gitconfig
+[user]
+    email = janne@workcompany.com
+```
 
 ## What must never be committed
 
@@ -37,36 +58,44 @@ Files live in `~/dotfiles/` mirroring `$HOME` structure. Stow symlinks them back
 - `~/.config/Bitwarden/` — password manager vault
 - `~/.ssh/` — SSH keys
 - `~/.gnupg/` — GPG keys
+- `~/.gitconfig.local` — machine-specific git identity
 - Any file containing API keys, tokens, or passwords
 
 The `.gitignore` and gitleaks pre-commit hook enforce this.
 
-## How to add a new dotfile
+## Day-to-day usage
 
 ```bash
-mv ~/.config/someapp/config ~/dotfiles/.config/someapp/config
-cd ~/dotfiles && stow --target=$HOME .
-git add .config/someapp/config
+# Edit files directly — symlinks mean changes are live immediately
+# Example:
+micro ~/dotfiles/linux/.config/niri/cfg/keybinds.kdl
+
+# Commit and push
+cd ~/dotfiles
+git add linux/.config/niri/cfg/keybinds.kdl
+git commit -m "update keybinds"
+git push
+```
+
+## Add a new dotfile
+
+```bash
+# Decide which package it belongs to: common, linux, or macos
+mv ~/.config/someapp/config ~/dotfiles/common/.config/someapp/config
+cd ~/dotfiles && stow --target=$HOME --dir=. common
+git add common/.config/someapp/config
 git commit -m "track someapp config"
 git push
 ```
 
-## How to remove a dotfile
+## Remove a dotfile
 
 ```bash
 cd ~/dotfiles
-git rm .config/someapp/config
-stow --target=$HOME --restow .
+git rm common/.config/someapp/config
+stow --target=$HOME --dir=. --restow common
 git commit -m "untrack someapp config"
 git push
-```
-
-## Restore on a new machine
-
-```bash
-sudo pacman -S stow git
-git clone git@github.com:sauvala/dotfiles.git ~/dotfiles
-cd ~/dotfiles && stow --target=$HOME .
 ```
 
 ## Secret scanning
