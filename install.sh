@@ -25,11 +25,17 @@ stow --target="$HOME" --dir="$DOTFILES" common
 if [ "$OS" = "Darwin" ]; then
     echo "Stowing macos..."
     stow --target="$HOME" --dir="$DOTFILES" macos
+
+    echo "Installing Homebrew packages..."
+    brew bundle install --file="$DOTFILES/brew/Brewfile" --no-lock
 else
     echo "Stowing linux..."
     stow --target="$HOME" --dir="$DOTFILES" linux
 fi
 
-echo "Done. If this is a work machine, create ~/.gitconfig.local with your work email:"
-echo '  [user]'
-echo '      email = you@company.com'
+echo ""
+echo "Done."
+echo ""
+echo "Reminders:"
+echo "  - Work machine? Create ~/.gitconfig.local with your work email"
+echo "  - macOS? Run 'brew bundle dump --file=$DOTFILES/brew/Brewfile --force' to update Brewfile after installing new apps"
