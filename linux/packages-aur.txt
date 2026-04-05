@@ -1,0 +1,6 @@
+bazecor
+curseforge
+google-chrome
+mullvad-vpn-bin
+visual-studio-code-bin
+wowup-bin
