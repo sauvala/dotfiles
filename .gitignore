@@ -7,6 +7,7 @@
 .config/chromium/
 .ssh/id_*
 .ssh/known_hosts
+.ssh/config.local
 .gnupg/
 .pki/
 .netrc
