@@ -55,6 +55,46 @@ Create `~/.gitconfig.local` (not tracked) with your work email:
     email = janne@workcompany.com
 ```
 
+## Machine-specific Emacs config
+
+Create `~/.emacs.d/local.el` (not tracked) for machine-specific Emacs settings:
+
+```elisp
+;; Example: work proxy, local paths, extra packages
+(setq my-work-mode t)
+```
+
+## SSH config
+
+`~/.ssh/config` is tracked with global defaults. Machine-specific hosts go in `~/.ssh/config.local` (not tracked):
+
+```
+Host work-server
+    HostName 10.0.0.1
+    User janne
+    IdentityFile ~/.ssh/id_work
+```
+
+## Updating package lists (Linux)
+
+Run `update-packages` in fish to regenerate and commit the package lists:
+
+```bash
+update-packages
+```
+
+## Updating Brewfile (macOS)
+
+After installing new apps on macOS:
+
+```bash
+brew bundle dump --file=~/dotfiles/brew/Brewfile --force
+cd ~/dotfiles
+git add brew/Brewfile
+git commit -m "chore: update Brewfile"
+git push
+```
+
 ## What must never be committed
 
 - `~/.config/gh/` — GitHub OAuth token
