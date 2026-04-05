@@ -22,6 +22,13 @@ Files live in `~/dotfiles/` organized into stow packages and are symlinked into 
 | `linux/` | CachyOS | niri, gtk-3.0, gtk-4.0 |
 | `macos/` | macOS | alacritty, iterm2, Terminal |
 
+## Package management
+
+- Use `paru` for AUR packages and as the general pacman wrapper
+- Official repo: `paru -S <package>`
+- AUR: `paru -S <package>`
+- Never use `yay` or raw `sudo pacman` when `paru` can be used instead
+
 ## Install on a new machine
 
 ```bash
