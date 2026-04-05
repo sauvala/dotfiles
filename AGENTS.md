@@ -68,7 +68,7 @@ The `.gitignore` and gitleaks pre-commit hook enforce this.
 ```bash
 # Edit files directly — symlinks mean changes are live immediately
 # Example:
-micro ~/dotfiles/linux/.config/niri/cfg/keybinds.kdl
+emacs ~/dotfiles/linux/.config/niri/cfg/keybinds.kdl
 
 # Commit and push
 cd ~/dotfiles
