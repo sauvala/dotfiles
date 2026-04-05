@@ -4,7 +4,7 @@
 
 (use-package denote
   :custom
-  (denote-directory "~/Library/CloudStorage/GoogleDrive-janne.sauvala@gmail.com/My Drive/denote"))
+  (denote-directory "~/Documents/notes"))
 
 (use-package polymode
   :config
