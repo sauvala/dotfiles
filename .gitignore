@@ -1,3 +1,50 @@
-# macos
-.DS_Store
+# ── Credentials & secrets (NEVER commit) ──────────────────────────────
+.config/gh/
+.config/rclone/
+.config/Bitwarden/
+.config/mozilla/
+.config/google-chrome/
+.config/chromium/
+.ssh/id_*
+.ssh/known_hosts
+.gnupg/
+.pki/
+.netrc
+.aws/
 
+# ── Application state ─────────────────────────────────────────────────
+.cache/
+.local/
+.var/
+.vscode/
+.config/Code/
+.config/discord/
+.config/Slack/
+.config/spotify/
+.config/pulse/
+.config/pipewire/
+.config/dconf/
+.config/menus/
+.config/autostart/
+.config/systemd/
+.config/user-dirs.*
+.config/mimeapps.list
+
+# ── Shell history & state ──────────────────────────────────────────────
+.bash_history
+.zsh_history
+.python_history
+.lesshst
+.viminfo
+.local/share/fish/fish_history
+.zcompdump*
+
+# ── Claude Code ────────────────────────────────────────────────────────
+.claude.json
+.claude/settings.local.json
+
+# ── Misc ───────────────────────────────────────────────────────────────
+*.log
+*.swp
+*.bak
+.DS_Store
