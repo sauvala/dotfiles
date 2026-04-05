@@ -10,7 +10,7 @@ Files live in `~/dotfiles/` mirroring `$HOME` structure. Stow symlinks them back
 - **WM:** niri (Wayland, tiling) + Noctalia shell
 - **Terminal:** Ghostty
 - **Shell:** fish
-- **Editor:** micro
+- **Editor:** Emacs
 - **Browser:** zen-browser
 - **Keyboard layouts:** us, fi (toggle with Super+Shift+Space)
 
