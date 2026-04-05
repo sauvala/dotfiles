@@ -47,16 +47,15 @@
   (add-to-list 'consult-dir-sources 'consult-dir--source-tramp-ssh t))
 
 (use-package which-key
-  :custom
-  (which-key-idle-delay 0.75)
+  :ensure nil
   :hook (emacs-startup . which-key-mode))
 
 (use-package corfu
   :defer 2
   ;; :defer 1
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
+   :hook ((prog-mode . corfu-mode)
+          (shell-mode . corfu-mode)
+          (eshell-mode . corfu-mode))
   :bind
   (:map corfu-map
         ("C-j" . corfu-next)
@@ -79,7 +78,8 @@
   (corfu-echo-documentation '(1.0 . 0.2))
   (corfu-preselect-first t)
   :config
-  (global-corfu-mode))
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
 
 (use-package svg-lib)
 
@@ -152,10 +152,6 @@ targets."
          (remq #'embark-which-key-indicator embark-indicators)))
       (apply fn args)))
 
-(use-package embark-consult
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
-
 (use-package embark
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
@@ -199,9 +195,13 @@ targets."
                  nil
                  (window-parameters (mode-line-format . none)))))
 
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
 (use-package copilot
-  :vc (:fetcher github :repo zerolfx/copilot.el)
-  :hook (prog-mode . copilot-mode)
+  :custom
+  (copilot-max-char-warning-disable t)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)

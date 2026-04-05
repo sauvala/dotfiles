@@ -1,4 +1,4 @@
- ;;;; init-editor.el -*- lexical-binding: t; no-byte-compile: t; -*-
+;;;; init-editor.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 ;; Set tab behaviour
 (customize-set-variable 'tab-width 2)
@@ -8,9 +8,6 @@
 (when (not (featurep 'mac))
   (pixel-scroll-precision-mode))
 
-;; Truncate lines by default
-(set-default 'truncate-lines t)
-
 ;; Hide truncated lines indication
 (setq-default fringe-indicator-alist (assq-delete-all 'truncation fringe-indicator-alist))
 
@@ -19,6 +16,9 @@
 
 ;; Line numbers
 (column-number-mode)
+
+;; Reverts buffer associated with a file automatically
+(global-auto-revert-mode)
 
 ;; Enable line numbers for some modes
 (dolist (mode '(text-mode-hook
@@ -30,9 +30,13 @@
 (dolist (mode '(org-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(desktop-save-mode)
-(setq desktop-path '("~/.cache/emacs/desktop/"))
-(desktop-read)
+(use-package desktop
+  :ensure nil
+  :commands (desktop-save-mode desktop-save desktop-read)
+  :custom
+  (desktop-path '("~/.cache/emacs/desktop/"))
+  (desktop-restore-eager 5)
+  (desktop-auto-save-timeout 5))
 
 (use-package sudo-edit
   :commands sudo-edit)
@@ -81,17 +85,27 @@
         highlight-indent-guides-bitmap-function 'highlight-indent-guides--bitmap-line))
 
 (use-package indent-bars
-  :vc (:fetcher github :repo jdtsmith/indent-bars)
-  :config
-  (setq
-    indent-bars-color '(highlight :face-bg t :blend 0.3)
-    indent-bars-pattern "."
-    indent-bars-width-frac 0.25
-    indent-bars-pad-frac 0.1
-    indent-bars-zigzag nil
-    indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
-    indent-bars-highlight-current-depth '(pattern ".")
-    indent-bars-display-on-blank-lines t))
+  :hook ((python-base-mode yaml-mode) . indent-bars-mode)
+  :custom
+  (indent-bars-pattern ".")
+  (indent-bars-width-frac 0.1)
+  (indent-bars-pad-frac 0.1)
+  (indent-bars-zigzag nil)
+  (indent-bars-color-by-depth nil)
+  (indent-bars-highlight-current-depth nil)
+  (indent-bars-display-on-blank-lines nil)
+  (indent-bars-no-descend-lists t) ; no extra bars in continued func arg lists
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  ;; Add other languages as needed
+  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+	  if_statement with_statement while_statement)))
+  ;; Note: wrap may not be needed if no-descend-list is enough
+  ;;(indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
+  ;;				      list list_comprehension
+  ;;				      dictionary dictionary_comprehension
+  ;;				      parenthesized_expression subscript)))
+ )
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -161,5 +175,14 @@
 ;; (use-package jinx
 ;;   :bind (("M-$" . jinx-correct)
 ;;          ("C-M-$" . jinx-languages)))
+
+(use-package wgrep)
+
+(use-package casual-suite)
+
+(use-package eldoc-mouse
+  :vc (:url "https://github.com/huangfeiyu/eldoc-mouse"
+       :rev :newest
+       :branch "main"))
 
 (provide 'init-editor)

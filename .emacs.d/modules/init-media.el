@@ -1,6 +1,8 @@
 ;;;; init-media.el -*- lexical-binding: t; no-byte-compile: t; -*-
 
 (use-package empv
-  :vc (:fetcher github :repo "isamert/empv.el"))
+  :vc (:url "https://github.com/isamert/empv.el.git"
+       :rev :newest
+       :branch "main"))
 
 (provide 'init-media)

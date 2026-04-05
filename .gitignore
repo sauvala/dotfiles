@@ -43,6 +43,14 @@
 .claude.json
 .claude/settings.local.json
 
+# ── Emacs generated/cache ─────────────────────────────────────────────
+.emacs.d/elpa/
+.emacs.d/eln-cache/
+.emacs.d/auto-save-list/
+.emacs.d/history
+.emacs.d/recentf
+.emacs.d/projects
+
 # ── Misc ───────────────────────────────────────────────────────────────
 *.log
 *.swp

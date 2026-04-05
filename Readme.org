@@ -1,2 +1,0 @@
-# To create symlinks:
-stow -v --dotfiles .

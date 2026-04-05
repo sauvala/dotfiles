@@ -3,9 +3,14 @@
 (customize-set-variable 'vc-follow-symlinks t)
 
 (use-package magit
+  :after (git-commit)
   :bind ("C-x g" . magit-status)
   :custom
-  (with-editor-emacsclient-executable "emacsclient"))
+  (magit-process-connection-type nil)
+  (with-editor-emacsclient-executable "emacsclient")
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  (magit-diff-refine-hunk 'all)
+  (magit-log-auto-more t))
 
 (use-package diff-hl
   :config
@@ -28,5 +33,14 @@
 (setq remote-file-name-inhibit-locks t)
 
 (customize-set-variable 'tramp-use-ssh-controlmaster-options nil)
+
+(use-package ediff
+  :ensure nil
+  :custom
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-keep-variants nil)
+  (ediff-merge-revisions-with-ancestor t)
+  (ediff-show-clashes-only t))
 
 (provide 'init-vc)

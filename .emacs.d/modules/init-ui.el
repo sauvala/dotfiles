@@ -39,14 +39,9 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-(use-package doom-modeline
-  :custom
-  (doom-modeline-height 20)
-  :hook (after-init . doom-modeline-mode))
-
 ;; Make modeline a little narrower
-(set-face-attribute 'mode-line nil :height 155)
-(set-face-attribute 'mode-line-inactive nil :height 155)
+;(set-face-attribute 'mode-line nil :height 155)
+;(set-face-attribute 'mode-line-inactive nil :height 155)
 
 (use-package mood-line
   :config
@@ -70,10 +65,6 @@
 
 (use-package catppuccin-theme)
 
-(use-package os1-theme
-  :vc (:fetcher github :repo sashimacs/os1-theme)
-  :defer 3)
-
 (use-package nerd-icons)
 
 (use-package nerd-icons-completion
@@ -88,8 +79,33 @@
 
 (use-package transpose-frame)
 
-(use-package breadcrumb
-  :vc (:fetcher github :repo joaotavora/breadcrumb))
+(use-package breadcrumb)
+
+(use-package spacious-padding)
+
+;;(use-package window-stool
+;;  :vc (:url "https://github.com/JasZhe/window-stool.git"))
+
+(use-package mixed-pitch)
+
+;; Try out Monaspace font with textual healing
+;; https://github.com/mickeynp/ligature.el/issues/53#issuecomment-1828732077
+;; set safe composition table that works in all modes:
+(set-char-table-range composition-function-table t `(["[,-.;A-Z_a-z]+" 0 font-shape-gstring]))
+
+;; creates and sets a buffer local composition table to value
+(defun set-buffer-local-composition-table (value)
+  (let ((table (make-char-table nil)))
+    (set-char-table-range table t `([,value 0 font-shape-gstring]))
+    (set-char-table-parent table composition-function-table)
+    (setq-local composition-function-table table)))
+
+;; sets prog-mode composition table - includes programming ligatures
+(defun set-prog-mode-table ()
+  (set-buffer-local-composition-table "[-.,:;A-Z_a-z><=!&|+?/\\]+"))
+
+;; Turn on ligatures in all programming modes:
+(add-hook 'prog-mode-hook #'set-prog-mode-table)
 
 ;; Enable ligatures
 (use-package ligature
@@ -106,16 +122,58 @@
                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
 
+(use-package ultra-scroll
+  :vc (:url "https://github.com/jdtsmith/ultra-scroll.git"
+       :rev :newest)
+  :hook emacs-startup-hook
+  :init
+  (setq scroll-conservatively 101 ; important!
+        scroll-margin 0) 
+  :config
+  (ultra-scroll-mode 1))
+
 ;; Set fonts
 (add-hook 'emacs-startup-hook
           (lambda ()
             (custom-set-faces
              ;;`(default ((t (:font "Iosevka Comfy 18"))))
-             `(default ((t (:font "JetBrainsMono NF 18"))))
+             ;;`(default ((t (:font "JetBrainsMono Nerd Font 15"))))
+             ;;`(default ((t (:font "MonaspiceAr Nerd Font 18"))))
+             ;;`(default ((t (:font "MonaspaceAr Nerd Font Mono 18"))))
+             ;;`(default ((t (:font "Monaspace Neon Frozen 17"))))
+             ;;`(default ((t (:font "CommitMono Nerd Font 17"))))
+             ;;`(default ((t (:font "MonaspiceNe Nerd Font Mono 17"))))
+             ;;`(default ((t (:font "CommitMono Nerd Font 15"))))
+             ;;`(default ((t (:font "CommitMono 15"))))
              ;;`(default ((t (:font "Monaspace Neon" :foundry "nil" :slant normal :weight normal :height 150 :width normal))))
-             `(fixed-pitch ((t (:inherit (default)))))
-             `(fixed-pitch-serif ((t (:inherit (default)))))
-             ;; `(variable-pitch ((t (:font "Monaspace Neon Var 16"))))
-             `(variable-pitch ((t (:font "Iosevka Comfy 16")))))))
+             ;;`(fixed-pitch ((t (:inherit (default)))))
+             ;;`(fixed-pitch-serif ((t (:inherit (default)))))
+             ;;`(variable-pitch ((t (:font "Monaspace Neon Var 16"))))
+             ;;`(variable-pitch ((t (:font "Iosevka Aile 16"))))
+             ;;`(variable-pitch ((t (:font "Iosevka Etoile 15"))))
+             )))
+
+(use-package visual-fill-column
+  :custom
+  (visual-fill-column-width 70)
+  (visual-fill-column-center-text t)
+  (visual-fill-column-fringes-outside-margins t)
+  (visual-fill-column-enable-sensible-window-split t))
+
+(use-package tomorrow-night-deepblue-theme)
+
+(use-package vim-tab-bar
+  :commands vim-tab-bar-mode
+  :hook
+  (after-init . vim-tab-bar-mode))
+
+(use-package treemacs)
+
+(use-package treemacs-nerd-icons
+  :demand
+  :config
+  (treemacs-nerd-icons-config))
+
+(use-package dirvish)
 
 (provide 'init-ui)

@@ -23,6 +23,7 @@
 
 ;; LSP
 (use-package eglot
+  :ensure nil
   :preface
   (defun js-eglot-eldoc ()
     (setq eldoc-documentation-strategy
@@ -32,7 +33,16 @@
   :bind
   (("M-." . xref-find-definitions))
   :custom
-  (eglot-connect-timeout 10)
+  (eglot-connect-timeout nil)
+  (eglot-sync-connect nil)
+  (eglot-autoshutdown t)
+  (eglot-send-changes-idle-time 3)
+  (flymake-no-changes-timeout 5)
+  (eldoc-echo-area-use-multiline-p nil)
+  (fset #'jsonrpc--log-event #'ignore)
+  ;(eglot-events-buffer-size 0)
+  (eglot-events-buffer-config '(:size 0 :format full))
+  ;(eglot-ignored-server-capabilites '(:documentHighlightProvider))
   :config
   (setq eglot-workspace-configuration
         '((:gopls . (:usePlaceholders t))
@@ -46,7 +56,25 @@
                :compositeLiteralFields t
                :compositeLiteralTypes t
                :constantValues t)))))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) "basedpyright-langserver" "--stdio"))
+  (setq-default
+       eglot-workspace-configuration
+       '(:basedpyright (
+           :typeCheckingMode "recommended"
+         )
+         :basedpyright.analysis (
+           :diagnosticSeverityOverrides (:reportUnusedCallResult "none")
+           :inlayHints (:callArgumentNames t))))
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode) . ("uvx" "ty" "server")))
   (add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode))
+
+(use-package eglot-booster
+  :after eglot
+  :vc (:url "https://github.com/jdtsmith/eglot-booster.git"
+       :rev :newest)
+  :config
+  (eglot-booster-mode))
 
 ;; childframe doc for eglot and anything that uses eldoc
 (use-package eldoc-box)
@@ -72,14 +100,20 @@
   (dired-sidebar-width 40)
   (dired-sidebar-should-follow-file t))
 
-;; Icons for Dired and dired-sidebar
-(use-package all-the-icons-dired
-  :hook (dired-mode-hook . all-the-icons-dired-mode))
+(use-package dired-subtree
+  :after dired
+  :bind (:map dired-mode-map
+              ("TAB" . dired-subtree-toggle)))
 
 (use-package treesit-auto
+  ;;:hook emacs-startup-hook
+  :custom
+  (treesit-auto-install 'prompt)
   :config
-  (setq treesit-auto-install 'prompt)
+  (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (use-package dumb-jump
   :custom
@@ -104,6 +138,20 @@
           (not (string= "" oneline))
           (concat "  |  " (propertize oneline 'face 'italic)))))))
 
+(use-package swift-mode)
 (use-package eros)
+
+(use-package editorconfig
+  :ensure nil
+  :hook (prog-mode . editorconfig-mode))
+
+(use-package flymake-ruff
+  :hook (python-mode . flymake-ruff-load))
+
+(use-package leetcode
+  :custom
+  (leetcode-prefer-language "python3")
+  (leetcode-save-solutions t)
+  (leetcode-directory "~/Documents/leetcode"))
 
 (provide 'init-ide)

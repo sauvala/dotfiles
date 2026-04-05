@@ -2,7 +2,7 @@
 
 (when (featurep 'ns)
   (customize-set-variable 'ns-command-modifier 'super)
-  (customize-set-variable 'ns-right-option-modifier nil)
+  (customize-set-variable 'ns-right-option-modifier 'meta)
   (customize-set-variable 'ns-option-modifier 'meta)
   (customize-set-variable 'ns-function-modifier 'hyper))
 

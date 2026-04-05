@@ -42,6 +42,3 @@
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil
       ns-use-proxy-icon nil)
-
-;; Load theme
-(load-theme 'modus-vivendi t)
