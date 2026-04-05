@@ -24,10 +24,7 @@ Files live in `~/dotfiles/` organized into stow packages and are symlinked into 
 
 ## Package management
 
-- Use `paru` for AUR packages and as the general pacman wrapper
-- Official repo: `paru -S <package>`
-- AUR: `paru -S <package>`
-- Never use `yay` or raw `sudo pacman` when `paru` can be used instead
+- Use `paru` or `sudo pacman` for package installs — never `yay`
 
 ## Install on a new machine
 
